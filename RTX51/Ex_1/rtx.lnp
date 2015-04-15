@@ -1,0 +1,3 @@
+"rtx51.obj" 
+TO "rtx" Rtx51Tiny 
+RAMSIZE(256) 

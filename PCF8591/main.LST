@@ -1,0 +1,45 @@
+C51 COMPILER V9.52.0.0   MAIN                                                              09/22/2013 14:11:31 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: E:\C51Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include "PCF.h"
+   2          #include "1602.h"
+   3          #include "delay.h"
+   4          
+   5          uchar ge, shifen, baifen;
+   6          float volt;
+   7          
+   8          void main()
+   9          {
+  10   1              uchar temp;
+  11   1              initLCD();
+  12   1              while(1)
+  13   1              {
+  14   2                      temp = Read_AD(1);
+  15   2                      volt = (float)(temp*4.8/256);
+  16   2                      ge = (int)volt;
+  17   2                      shifen = (int)(volt*10)%10;
+  18   2                      baifen = (int)(volt*100)%10;
+  19   2                      show(ge, shifen, baifen);
+  20   2                      delay(100);
+  21   2              }               
+  22   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    128    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      7       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

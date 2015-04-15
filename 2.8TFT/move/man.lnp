@@ -1,0 +1,5 @@
+"STARTUP.obj",
+"man.obj",
+"initLCD.obj" 
+TO "man" 
+RAMSIZE(256) 

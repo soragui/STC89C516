@@ -1,0 +1,514 @@
+C51 COMPILER V9.52.0.0   NBCTFT                                                            11/01/2013 16:32:52 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE NBCTFT
+OBJECT MODULE PLACED IN NBCTFT.OBJ
+COMPILER INVOKED BY: E:\C51Keil\C51\BIN\C51.EXE NBCTFT.C BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*===================================================================================================  
+   2          ÎÄ¼þ¹¦ÄÜÃèÊö£º320x240TFTÇý¶¯³ÌÐò£¬¿ØÖÆTFTÊµÏÖºº×Ö,×Ö·ûÏÔÊ¾,»­µã¹¦ÄÜ¡£
+   3          ====================================================================================================*/
+   4          //******************°üº¬Í·ÎÄ¼þ***************************
+   5          #include"NBCTFT.h"
+   6          #include"reg52.h"
+   7          
+   8          //**************¿ØÖÆ¶Ë¿Ú¶¨Òå********************
+   9          #define DataPort P0     //Êý¾Ý¿ÚÊ¹ÓÃDataPort
+  10          
+  11          sbit RS    =P2^5;               //Êý¾Ý/ÃüÁîÑ¡Ôñ
+  12          sbit RW    =P2^4;       //Ð´Êý¾Ý/ÃüÁî
+  13          sbit nRD   =P2^3;       //¶Á¿ØÖÆ
+  14          sbit CS    =P2^2;               //Æ¬Ñ¡
+  15          sbit RES   =P2^1;               //¸´Î»
+  16          
+  17          sbit LE    =P2^0;       //74HC573Ëø´æ¿ØÖÆ
+  18          //**************ÉùÃ÷Íâ²¿º¯ÊýºÍ±äÁ¿**************
+  19          
+  20          extern unsigned int Device_code = 0x9328;
+  21          
+  22          //================================================================================================
+  23          //      ÊµÏÖ¹¦ÄÜ£º      ÑÓÊ±
+  24          //      ÊäÈë²ÎÊý£º      count ÉèÖÃÑÓÊ±Ê±¼ä
+  25          //================================================================================================
+  26          void delayms(unsigned int count)
+  27          {
+  28   1          int i,j;                                                                                
+  29   1          for(i=0;i<count;i++)                                                                    
+  30   1             {
+  31   2                   for(j=0;j<255;j++);
+  32   2             }                                                                                     
+  33   1      }
+  34          
+  35          //================================================================================================
+  36          //      ÊµÏÖ¹¦ÄÜ£º      Ð´ÃüÁî
+  37          //      ÊäÈë²ÎÊý£º  DH ÐèÒªÊäÈë16bitsÃüÁîµÄ¸ß8Î»
+  38          //              DL ÐèÒªÊäÈë16bitsÃüÁîµÄµÍ8Î»
+  39          //================================================================================================
+  40          void Write_Cmd(unsigned char DH,unsigned char DL)
+  41          {
+  42   1              CS=0;
+  43   1              RS=0;
+  44   1          nRD=1;
+  45   1          RW=0;
+  46   1      
+  47   1          //×¢Òâ£ºµ±Ê¹ÓÃ8Î»Êý¾Ý¿ÚÇý¶¯16Î»Êý¾ÝÄ£Ê½Ê±£¬Ê¹ÓÃ74HC573×÷ÎªIOÀ©Õ¹£¬³ÌÐòÈçÏÂ
+  48   1          DataPort=DL;            //ËÍµÍ8Î»ÃüÁî¸ø573´ýËø´æ
+  49   1          LE=1;                   //Ëø´æÎ»
+  50   1          LE=0;                   //¶Ï¿ªËø´æ,Î»Ñ¡573µÄQ7~Q0ÈÔ±£³Ö 
+  51   1      
+  52   1              DataPort=DH;            //ËÍ¸ß8Î»ÃüÁî¸øTFT
+  53   1      
+  54   1              /*
+  55   1          //Èç¹ûÊ¹ÓÃ16Î»Êý¾Ý¿ÚÇý¶¯16Î»Êý¾ÝÄ£Ê½£¬ÔòÎÞÐèIOÀ©Õ¹£¬Ö±½Ó½«Êý¾ÝËÍµ½Êý¾Ý¿Ú¼´¿É
+C51 COMPILER V9.52.0.0   NBCTFT                                                            11/01/2013 16:32:52 PAGE 2   
+
+  56   1          DataPort_L=DL; 
+  57   1          DataPort_H=DH;
+  58   1              */
+  59   1      
+  60   1              RW=1;
+  61   1              CS=1;
+  62   1      }
+  63          
+  64          //================================================================================================
+  65          //      ÊµÏÖ¹¦ÄÜ£º      Ð´Êý¾Ý(2*8bits)
+  66          //      ÊäÈë²ÎÊý£º  DH ÐèÒªÊäÈë16bitsÊý¾ÝµÄ¸ß8Î»
+  67          //              DL ÐèÒªÊäÈë16bitsÊý¾ÝµÄµÍ8Î»
+  68          //================================================================================================
+  69          void Write_Data(unsigned char DH,unsigned char DL)
+  70          {
+  71   1              
+  72   1              CS=0;
+  73   1              RS=1;
+  74   1      
+  75   1          //×¢Òâ£ºµ±Ê¹ÓÃ8Î»Êý¾Ý¿ÚÇý¶¯16Î»Êý¾ÝÄ£Ê½Ê±£¬Ê¹ÓÃ74HC573×÷ÎªIOÀ©Õ¹£¬³ÌÐòÈçÏÂ
+  76   1              DataPort=DL;            //ËÍµÍ8Î»Êý¾Ý¸ø573´ýËø´æ
+  77   1          LE=1;                   //Ëø´æÎ»
+  78   1          LE=0;                   //¶Ï¿ªËø´æ,Î»Ñ¡573µÄQ7~Q0ÈÔ±£³Ö 
+  79   1      
+  80   1              DataPort=DH;            //ËÍ¸ß8Î»Êý¾Ý¸øTFT
+  81   1      
+  82   1              /*
+  83   1          //Èç¹ûÊ¹ÓÃ16Î»Êý¾Ý¿ÚÇý¶¯16Î»Êý¾ÝÄ£Ê½£¬ÔòÎÞÐèIOÀ©Õ¹£¬Ö±½Ó½«Êý¾ÝËÍµ½Êý¾Ý¿Ú¼´¿É
+  84   1          DataPort_L=DL; 
+  85   1          DataPort_H=DH;
+  86   1              */
+  87   1      
+  88   1              RW=0;
+  89   1              RW=1;
+  90   1              CS=1;
+  91   1      }
+  92          
+  93          //================================================================================================
+  94          //      ÊµÏÖ¹¦ÄÜ£º      Ð´Êý¾Ý(16Î»)
+  95          //      ÊäÈë²ÎÊý£º  y ÐèÒªÊäÈë16bitsÊý¾Ý
+  96          //================================================================================================
+  97          void  Write_Data_U16(unsigned int y)
+  98          {
+  99   1              unsigned char m,n;
+ 100   1              m=y>>8;
+ 101   1              n=y;
+ 102   1              Write_Data(m,n);
+ 103   1      }
+ 104          
+ 105          //================================================================================================
+ 106          //      ÊµÏÖ¹¦ÄÜ£º      Ïòx¼Ä´æÆ÷Ð´ÈëyÊý¾Ý
+ 107          //      ÊäÈë²ÎÊý£º  x ÐèÒªÊäÈëµÄÃüÁî 16Î»
+ 108          //              y ÐèÒªÊäÈëµÄÊý¾Ý 16Î»
+ 109          //================================================================================================
+ 110          void  Write_Cmd_Data (unsigned char x,unsigned int y)
+ 111          {
+ 112   1              unsigned char m,n;
+ 113   1              m=y>>8;
+ 114   1              n=y;
+ 115   1              Write_Cmd(0x00,x);
+ 116   1              Write_Data(m,n);
+ 117   1      }
+C51 COMPILER V9.52.0.0   NBCTFT                                                            11/01/2013 16:32:52 PAGE 3   
+
+ 118          
+ 119          //================================================================================================
+ 120          //      ÊµÏÖ¹¦ÄÜ£º      TFTÇåÆÁ
+ 121          //      ÊäÈë²ÎÊý£º      bColor ÇåÆÁËùÊ¹ÓÃµÄ±³¾°É«
+ 122          //================================================================================================
+ 123          void CLR_Screen(unsigned int bColor)
+ 124          {
+ 125   1       unsigned int i,j;
+ 126   1       LCD_SetPos(0,240,0,320);//320x240
+ 127   1       for (i=0;i<320;i++)
+ 128   1              {
+ 129   2                 for (j=0;j<240;j++)
+ 130   2                     Write_Data_U16(bColor);
+ 131   2              }
+ 132   1      }
+ 133          
+ 134          //================================================================================================
+ 135          //      ÊµÏÖ¹¦ÄÜ£º      ÏÔÊ¾Ascii×Ö·û
+ 136          //  ÊäÈë²ÎÊý£º  x ºá×ø±ê
+ 137          //              y ×Ý×ø±ê
+ 138          //                      c ÐèÒªÏÔÊ¾µÄ×Ö·û
+ 139          //                      fColor ×Ö·ûÑÕÉ«
+ 140          //                      bColor ×Ö·û±³¾°ÑÕÉ«
+ 141          //================================================================================================
+ 142          
+ 143          
+ 144          //================================================================================================
+ 145          //      ÊµÏÖ¹¦ÄÜ£º      ÏÔÊ¾16x16ºº×Ö
+ 146          //  ÊäÈë²ÎÊý£º  x ºá×ø±ê
+ 147          //              y ×Ý×ø±ê
+ 148          //                      g ÐèÒªÏÔÊ¾µÄ×Ö·û±àÂë
+ 149          //                      fColor ×Ö·ûÑÕÉ«
+ 150          //                      bColor ×Ö·û±³¾°ÑÕÉ«
+ 151          //================================================================================================
+ 152           
+ 153          //================================================================================================
+ 154          //      ÊµÏÖ¹¦ÄÜ£º      ÏÔÊ¾ÖÐÓ¢ÎÄ×Ö·û´®
+ 155          //  ÊäÈë²ÎÊý£º  x ºá×ø±ê
+ 156          //              y ×Ý×ø±ê
+ 157          //                      *s ´ýÏÔÊ¾µÄ×Ö·û´®,ÀýÈçLCD_PutString(24,16,"123À¶Ð¾",White,Blue);¼´°Ñ"123À¶Ð¾"µÄµÚÒ»¸ö×Ö·ûµØÖ·¸
+             -³¸øÖ¸Õë±äÁ¿s.
+ 158          //                      bColor ×Ö·û±³¾°ÑÕÉ«
+ 159          //================================================================================================
+ 160          void LCD_PutString(unsigned short x, unsigned short y, unsigned char *s, unsigned int fColor, unsigned int
+             - bColor) 
+ 161          {
+ 162   1               unsigned char l=0;                            //ÏÔÊ¾ÆÁÎ»ÖÃÔöÁ¿
+ 163   1           while(*s) 
+ 164   1               {
+ 165   2                      if( *s < 0x80)                             //ÅÐ¶ÏsÖ¸ÏòµÄ×Ö·û´®ÖÐµÄÄ³×Ö·ûµÄ±àÂëÖµÊÇ·ñÐ¡ÓÚ128,Èç¹ûÐ¡ÓÚ,¼´Î
+             -ªASCII×Ö·û
+ 166   2                          {
+ 167   3                               LCD_PutChar(x+l*8,y,*s,fColor,bColor);//ÏÔÊ¾¸Ã×Ö·û
+ 168   3                           s++;l++;                              //Ö¸Õë¼Ó1,Î»ÖÃ¼Ó1
+ 169   3                              }
+ 170   2                      else
+ 171   2                          {
+ 172   3                               Put16x16(x+l*8,y,(unsigned char*)s,fColor,bColor);//ÏÔÊ¾¸Ãºº×Ö
+ 173   3                           s+=2;l+=2;                                        //ÒòÎªºº×ÖÎª±àÂëÎª2×Ö½Ú£¬Ö¸Õë¼Ó2,ÏÔÊ¾16x16ËùÒÔÎ»Ö
+             -Ã¼Ó2
+ 174   3                              }
+ 175   2               }
+C51 COMPILER V9.52.0.0   NBCTFT                                                            11/01/2013 16:32:52 PAGE 4   
+
+ 176   1      }
+ 177          
+ 178          //================================================================================================
+ 179          //      ÊµÏÖ¹¦ÄÜ£º      Ö¸¶¨Î»ÖÃÏÔÊ¾RGBÑÕÉ«
+ 180          //  ÊäÈë²ÎÊý£º  x0£¬y0 ÆðÊ¼×ø±ê
+ 181          //              x1£¬y1 ½áÊø×ø±ê
+ 182          //                      Color  ±³¾°ÑÕÉ«
+ 183          //================================================================================================
+ 184          
+ 185          void Show_RGB (unsigned int x0,unsigned int x1,unsigned int y0,unsigned int y1,unsigned int Color)
+ 186          {
+ 187   1              unsigned int i,j;
+ 188   1              LCD_SetPos(x0,x1,y0,y1);      //ÉèÖÃÏÔÊ¾Î»ÖÃ
+ 189   1              for (i=y0;i<=y1;i++)
+ 190   1              {
+ 191   2                 for (j=x0;j<=x1;j++)
+ 192   2                     Write_Data_U16(Color);
+ 193   2              }
+ 194   1      }
+ 195          
+ 196          //================================================================================================
+ 197          //      ÊµÏÖ¹¦ÄÜ£º      TFT³õÊ¼»¯
+ 198          //================================================================================================
+ 199          void TFT_Initial(void)
+ 200          {  
+ 201   1      
+ 202   1          RES = 1;    
+ 203   1              delayms(1);                    // Delay 1ms 
+ 204   1              RES = 0;  
+ 205   1              delayms(10);                   // Delay 10ms            
+ 206   1              RES = 1;  
+ 207   1              delayms(50);                   // Delay 50 ms  
+ 208   1        
+ 209   1              if(Device_code==0x9320)
+ 210   1           {
+ 211   2      
+ 212   2          //************* Start Initial Sequence **********//
+ 213   2              Write_Cmd_Data(0x00,0x0001);   //Set the OSC bit as ¡®1¡¯ to start the internal oscillator
+ 214   2          Write_Cmd_Data(0x01,0x0100);   // set SS and SM bit
+ 215   2              Write_Cmd_Data(0x02,0x0700);   // set 1 line inversion
+ 216   2              Write_Cmd_Data(0x03,0x1038);   //set GRAM Write direction and BGR=1
+ 217   2          Write_Cmd_Data(0x04,0x0000);   // Resize register
+ 218   2              Write_Cmd_Data(0x08,0x0202);   // set the back porch and front porch
+ 219   2          Write_Cmd_Data(0x09,0x0000);   // set non-display area refresh cycle ISC[3:0]
+ 220   2          Write_Cmd_Data(0x0A,0x0000);   // FMARK function
+ 221   2          Write_Cmd_Data(0x0C,0x0000);   // RGB interface setting
+ 222   2              Write_Cmd_Data(0x0D,0x0000);   // Frame marker Position
+ 223   2          Write_Cmd_Data(0x0F,0x0000);   // RGB interface polarity
+ 224   2          delayms(30);
+ 225   2              //*************Power On sequence ****************//
+ 226   2              Write_Cmd_Data(0x10, 0x16b0);   // SAP, BT[3:0], AP, DSTB, SLP, STB
+ 227   2              delayms(30);
+ 228   2              Write_Cmd_Data(0x11, 0x0007);   //Write final user¡¯s setting values to VC bit
+ 229   2              Write_Cmd_Data(0x12, 0x013a);   // set Internal reference voltage
+ 230   2              Write_Cmd_Data(0x13, 0x1a00);   // VDV[4:0] for VCOM amplitude
+ 231   2          delayms(30);
+ 232   2          Write_Cmd_Data(0x29, 0x000c);   // Set VCM[5:0] for VCOMH
+ 233   2              delayms(30); // Delay 50ms
+ 234   2      
+ 235   2              // ----------- Adjust the Gamma Curve ----------//
+ 236   2              Write_Cmd_Data(0x0030, 0x0000);
+ 237   2              Write_Cmd_Data(0x0031, 0x0505);
+C51 COMPILER V9.52.0.0   NBCTFT                                                            11/01/2013 16:32:52 PAGE 5   
+
+ 238   2              Write_Cmd_Data(0x0032, 0x0304);
+ 239   2              Write_Cmd_Data(0x0035, 0x0006);
+ 240   2              Write_Cmd_Data(0x0036, 0x0707);
+ 241   2              Write_Cmd_Data(0x0037, 0x0105);
+ 242   2              Write_Cmd_Data(0x0038, 0x0002);
+ 243   2              Write_Cmd_Data(0x0039, 0x0707);
+ 244   2              Write_Cmd_Data(0x003C, 0x0704);
+ 245   2              Write_Cmd_Data(0x003D, 0x0807);
+ 246   2      
+ 247   2              //------------------ Set GRAM area ---------------//
+ 248   2              Write_Cmd_Data(0x0050, 0x0000); // Horizontal GRAM Start Address
+ 249   2              Write_Cmd_Data(0x0051, 0x00EF); // Horizontal GRAM End Address
+ 250   2              Write_Cmd_Data(0x0052, 0x0000); // Vertical GRAM Start Address
+ 251   2              Write_Cmd_Data(0x0053, 0x013F); // Vertical GRAM Start Address
+ 252   2              Write_Cmd_Data(0x0060, 0x2700); // Gate Scan Line
+ 253   2              Write_Cmd_Data(0x0061, 0x0001); // NDL,VLE, REV
+ 254   2              Write_Cmd_Data(0x006A, 0x0000); // set scrolling line
+ 255   2          Write_Cmd_Data(0x20, 0x0000);   // GRAM horizontal Address
+ 256   2              Write_Cmd_Data(0x21, 0x0000);   // GRAM Vertical Address
+ 257   2      
+ 258   2              //-------------- Partial Display Control ---------//
+ 259   2              Write_Cmd_Data(0x0080, 0x0000);
+ 260   2              Write_Cmd_Data(0x0081, 0x0000);
+ 261   2              Write_Cmd_Data(0x0082, 0x0000);
+ 262   2              Write_Cmd_Data(0x0083, 0x0000);
+ 263   2              Write_Cmd_Data(0x0084, 0x0000);
+ 264   2              Write_Cmd_Data(0x0085, 0x0000);
+ 265   2      
+ 266   2              //-------------- Panel Control ---------//
+ 267   2          Write_Cmd_Data(0x90,0x0010);   //Frame Cycle Contral
+ 268   2              Write_Cmd_Data(0x92,0x0000);   //Panel Interface Contral
+ 269   2              Write_Cmd_Data(0x93,0x0003);   //Panel Interface Contral 3. 
+ 270   2              Write_Cmd_Data(0x95,0x0110);   //Frame Cycle Contral
+ 271   2              Write_Cmd_Data(0x97,0x0000);   // 
+ 272   2              Write_Cmd_Data(0x98,0x0000);   //Frame Cycle Contral.     
+ 273   2      
+ 274   2              //-------------- Display on ---------//
+ 275   2          Write_Cmd_Data(0x07,0x0173); 
+ 276   2      
+ 277   2              }
+ 278   1      
+ 279   1              else if(Device_code==0x1505 )
+ 280   1           {
+ 281   2      
+ 282   2          //************* Start Initial Sequence **********//
+ 283   2              Write_Cmd_Data(0x00,0x0001);   //Set the OSC bit as ¡®1¡¯ to start the internal oscillator
+ 284   2          Write_Cmd_Data(0x01,0x0100);   // set SS and SM bit
+ 285   2              Write_Cmd_Data(0x02,0x0700);   // set 1 line inversion
+ 286   2              Write_Cmd_Data(0x03,0x1030);   //set GRAM Write direction and BGR=1
+ 287   2          Write_Cmd_Data(0x04,0x0000);   // Resize register
+ 288   2              Write_Cmd_Data(0x08,0x0202);   // set the back porch and front porch
+ 289   2          Write_Cmd_Data(0x09,0x0000);   // set non-display area refresh cycle ISC[3:0]
+ 290   2          Write_Cmd_Data(0x0A,0x0000);   // FMARK function
+ 291   2          Write_Cmd_Data(0x0C,0x0000);   // RGB interface setting
+ 292   2              Write_Cmd_Data(0x0D,0x0000);   // Frame marker Position
+ 293   2          Write_Cmd_Data(0x0F,0x0000);   // RGB interface polarity
+ 294   2          delayms(30);
+ 295   2              //*************Power On sequence ****************//
+ 296   2              Write_Cmd_Data(0x10, 0x16b0);   // SAP, BT[3:0], AP, DSTB, SLP, STB
+ 297   2              delayms(30);
+ 298   2              Write_Cmd_Data(0x11, 0x0007);   //Write final user¡¯s setting values to VC bit
+ 299   2              Write_Cmd_Data(0x12, 0x013a);   // set Internal reference voltage
+C51 COMPILER V9.52.0.0   NBCTFT                                                            11/01/2013 16:32:52 PAGE 6   
+
+ 300   2              Write_Cmd_Data(0x13, 0x1a00);   // VDV[4:0] for VCOM amplitude
+ 301   2          delayms(30);
+ 302   2          Write_Cmd_Data(0x29, 0x000c);   // Set VCM[5:0] for VCOMH
+ 303   2              delayms(30); // Delay 50ms
+ 304   2      
+ 305   2              // ----------- Adjust the Gamma Curve ----------//
+ 306   2              Write_Cmd_Data(0x0030, 0x0000);
+ 307   2              Write_Cmd_Data(0x0031, 0x0505);
+ 308   2              Write_Cmd_Data(0x0032, 0x0304);
+ 309   2              Write_Cmd_Data(0x0035, 0x0006);
+ 310   2              Write_Cmd_Data(0x0036, 0x0707);
+ 311   2              Write_Cmd_Data(0x0037, 0x0105);
+ 312   2              Write_Cmd_Data(0x0038, 0x0002);
+ 313   2              Write_Cmd_Data(0x0039, 0x0707);
+ 314   2              Write_Cmd_Data(0x003C, 0x0704);
+ 315   2              Write_Cmd_Data(0x003D, 0x0807);
+ 316   2      
+ 317   2              //------------------ Set GRAM area ---------------//
+ 318   2              Write_Cmd_Data(0x0050, 0x0000); // Horizontal GRAM Start Address
+ 319   2              Write_Cmd_Data(0x0051, 0x00EF); // Horizontal GRAM End Address
+ 320   2              Write_Cmd_Data(0x0052, 0x0000); // Vertical GRAM Start Address
+ 321   2              Write_Cmd_Data(0x0053, 0x013F); // Vertical GRAM Start Address
+ 322   2              Write_Cmd_Data(0x0060, 0x2700); // Gate Scan Line
+ 323   2              Write_Cmd_Data(0x0061, 0x0001); // NDL,VLE, REV
+ 324   2              Write_Cmd_Data(0x006A, 0x2700); // set scrolling line
+ 325   2          Write_Cmd_Data(0x20, 0x0000);   // GRAM horizontal Address
+ 326   2              Write_Cmd_Data(0x21, 0x0000);   // GRAM Vertical Address
+ 327   2      
+ 328   2              //-------------- Partial Display Control ---------//
+ 329   2              Write_Cmd_Data(0x0080, 0x0000);
+ 330   2              Write_Cmd_Data(0x0081, 0x0000);
+ 331   2              Write_Cmd_Data(0x0082, 0x0000);
+ 332   2              Write_Cmd_Data(0x0083, 0x0000);
+ 333   2              Write_Cmd_Data(0x0084, 0x0000);
+ 334   2              Write_Cmd_Data(0x0085, 0x0000);
+ 335   2      
+ 336   2              //-------------- Panel Control ---------//
+ 337   2          Write_Cmd_Data(0x90,0x0010);   //Frame Cycle Contral
+ 338   2              Write_Cmd_Data(0x92,0x0000);   //Panel Interface Contral
+ 339   2              Write_Cmd_Data(0x93,0x0003);   //Panel Interface Contral 3. 
+ 340   2              Write_Cmd_Data(0x95,0x0110);   //Frame Cycle Contral
+ 341   2              Write_Cmd_Data(0x97,0x0000);   // 
+ 342   2              Write_Cmd_Data(0x98,0x0000);   //Frame Cycle Contral.     
+ 343   2      
+ 344   2              //-------------- Display on ---------//
+ 345   2          Write_Cmd_Data(0x07,0x0173); 
+ 346   2      
+ 347   2              }
+ 348   1      
+ 349   1          else if(Device_code==0x9328)
+ 350   1           {
+ 351   2      
+ 352   2          //************* Start Initial Sequence **********//
+ 353   2               Write_Cmd_Data(0x0001,0x0100);   //set SS and SM bit //ÉèÖÃÉ¨Ãè·½Ïò
+ 354   2          Write_Cmd_Data(0x0002,0x0700);   //EOR=1 and B/C=1 to set the line inversion  //ÉèÖÃÐÐ·´×ª
+ 355   2          Write_Cmd_Data(0x0003,0x1030);   //set Entry Mode  //ÉèÖÃ½øÈëÄ£Ê½   
+ 356   2          Write_Cmd_Data(0x0004,0x0000);   //
+ 357   2          Write_Cmd_Data(0x00A4,0x0001);
+ 358   2          Write_Cmd_Data(0x0008,0x0202); // set the back porch and front porch
+ 359   2          Write_Cmd_Data(0x0009,0x0000); // set non-display area refresh cycle ISC[3:0]
+ 360   2          Write_Cmd_Data(0x000A,0x0000); // FMARK function
+ 361   2          Write_Cmd_Data(0x000C,0x0000); // RGB interface setting
+C51 COMPILER V9.52.0.0   NBCTFT                                                            11/01/2013 16:32:52 PAGE 7   
+
+ 362   2          Write_Cmd_Data(0x000D, 0x0000); // Frame marker Position
+ 363   2          Write_Cmd_Data(0x000F, 0x0000); // RGB interface polarity
+ 364   2      
+ 365   2      
+ 366   2      
+ 367   2      //*************Power On sequence ****************//
+ 368   2          Write_Cmd_Data(0x0010, 0x0000); // SAP, BT[3:0], AP, DSTB, SLP, STB 
+ 369   2          Write_Cmd_Data(0x0011, 0x0007); // DC1[2:0], DC0[2:0], VC[2:0]
+ 370   2          Write_Cmd_Data(0x0012, 0x0000); // VREG1OUT voltage
+ 371   2          Write_Cmd_Data(0x0013, 0x0000); // VDV[4:0] for VCOM amplitude 
+ 372   2          delayms(30);
+ 373   2          Write_Cmd_Data(0x0010, 0x1690); // SAP, BT[3:0], AP, DSTB, SLP, STB 
+ 374   2          Write_Cmd_Data(0x0011, 0x0227); // R11h=0x0221 at VCI=3.3V, DC1[2:0], DC0[2:0], VC[2:0]
+ 375   2          delayms(30);
+ 376   2          Write_Cmd_Data(0x0012, 0x001C); // External reference voltage= Vci;
+ 377   2          delayms(30); 
+ 378   2          Write_Cmd_Data(0x0013, 0x1800); // R13=1200 when R12=009D;VDV[4:0] for VCOM amplitude
+ 379   2          Write_Cmd_Data(0x0029, 0x001C); // R29=000C when R12=009D;VCM[5:0] for VCOMH
+ 380   2          Write_Cmd_Data(0x002B, 0x000D); // Frame Rate = 91Hz
+ 381   2          delayms(30);    
+ 382   2          Write_Cmd_Data(0x0020, 0x0000); // GRAM horizontal Address
+ 383   2          Write_Cmd_Data(0x0021, 0x0000); // GRAM Vertical Address
+ 384   2      // ----------- Adjust the Gamma Curve ----------//               
+ 385   2              Write_Cmd_Data(0x0030, 0x0007);
+ 386   2              Write_Cmd_Data(0x0031, 0x0302);
+ 387   2          Write_Cmd_Data(0x0032, 0x0105);
+ 388   2              Write_Cmd_Data(0x0035, 0x0206);
+ 389   2          Write_Cmd_Data(0x0036, 0x0808);               
+ 390   2          Write_Cmd_Data(0x0037, 0x0206);
+ 391   2          Write_Cmd_Data(0x0038, 0x0504);
+ 392   2          Write_Cmd_Data(0x0039, 0x0007);
+ 393   2          Write_Cmd_Data(0x003C, 0x0105);
+ 394   2          Write_Cmd_Data(0x003D, 0x0808);
+ 395   2      //------------------ Set GRAM area ---------------//
+ 396   2          Write_Cmd_Data(0x0050, 0x0000); // Horizontal GRAM Start Address
+ 397   2          Write_Cmd_Data(0x0051, 0x00EF); // Horizontal GRAM End Address
+ 398   2          Write_Cmd_Data(0x0052, 0x0000); // Vertical GRAM Start Address
+ 399   2              delayms(30);
+ 400   2          Write_Cmd_Data(0x0053, 0x013F); // Vertical GRAM Start Address
+ 401   2              delayms(30);
+ 402   2          Write_Cmd_Data(0x0060, 0x2700); // Gate Scan Line
+ 403   2          Write_Cmd_Data(0x0061, 0x0001); // NDL,VLE, REV  
+ 404   2          Write_Cmd_Data(0x006A, 0x0000); // set scrolling line
+ 405   2      //-------------- Partial Display Control ---------//
+ 406   2          Write_Cmd_Data(0x0080, 0x0000);
+ 407   2          Write_Cmd_Data(0x0081, 0x0000);
+ 408   2          Write_Cmd_Data(0x0082,0x0000); 
+ 409   2          Write_Cmd_Data(0x0083,0x0000); 
+ 410   2          Write_Cmd_Data(0x0084,0x0000); 
+ 411   2          Write_Cmd_Data(0x0085,0x0000); 
+ 412   2      //-------------- Panel Control -------------------//        
+ 413   2          Write_Cmd_Data(0x0090, 0x0010);
+ 414   2          Write_Cmd_Data(0x0092, 0x0000);
+ 415   2          Write_Cmd_Data(0x0093, 0x0003);
+ 416   2          Write_Cmd_Data(0x0095, 0x0110);
+ 417   2          Write_Cmd_Data(0x0097, 0x0000);
+ 418   2          Write_Cmd_Data(0x0098, 0x0000);
+ 419   2          Write_Cmd_Data(0x0007, 0x0133); // 262K color and display ON
+ 420   2      
+ 421   2              }
+ 422   1      }
+ 423          
+C51 COMPILER V9.52.0.0   NBCTFT                                                            11/01/2013 16:32:52 PAGE 8   
+
+ 424          //================================================================================================
+ 425          //      ÊµÏÖ¹¦ÄÜ£º      ÉèÖÃ×ø±ê
+ 426          //  ÊäÈë²ÎÊý£º  x0£¬y0 ÆðÊ¼×ø±ê
+ 427          //              x1£¬y1 ½áÊø×ø±ê
+ 428          //================================================================================================
+ 429          void LCD_SetPos(unsigned int x0,unsigned int x1,unsigned int y0,unsigned int y1)
+ 430          {
+ 431   1      
+ 432   1        Write_Cmd_Data(0x50,x0);  // Horizontal GRAM Start Address
+ 433   1        Write_Cmd_Data(0x51,x1);  // Horizontal GRAM End Address
+ 434   1        Write_Cmd_Data(0x52,y0);  // Vertical GRAM Start Address
+ 435   1        Write_Cmd_Data(0x53,y1);  // Vertical GRAM Start Address
+ 436   1        Write_Cmd_Data(0x20,x0);  // GRAM horizontal Address
+ 437   1        Write_Cmd_Data(0x21,y0);  // GRAM Vertical Address
+ 438   1        Write_Cmd (0x00,0x22);    // 0x0022,Start to Write Data to GRAM 
+ 439   1      }
+ 440          
+ 441          //================================================================================================
+ 442          //      ÊµÏÖ¹¦ÄÜ£º      »­µã
+ 443          //  ÊäÈë²ÎÊý£º  x£¬y ÐèÒª»­µã×ø±ê
+ 444          //              color µãµÄÑÕÉ«
+ 445          //================================================================================================
+ 446          void Put_pixel(unsigned int y,unsigned int x,unsigned int color)
+ 447          {
+ 448   1              LCD_SetPos(x,x,y,y);        //ÉèÖÃ´ý»­µã×ø±ê
+ 449   1              Write_Data_U16(color);      //ÔÚÖ¸¶¨µãÐ´ÈëÑÕÉ«Êý¾Ý
+ 450   1      }
+ 451          
+ 452          void Put_mych(unsigned short x, unsigned short  y,unsigned int width, unsigned int height,  const char myc
+             -ode[], unsigned int fColor)
+ 453          {
+ 454   1              unsigned int i, j; 
+ 455   1              unsigned int k, l;
+ 456   1              k = width*height/8;
+ 457   1          l = width/8; 
+ 458   1              for(i = 0; i < k; i ++)
+ 459   1              {
+ 460   2                      unsigned short m = mycode[i];
+ 461   2                      for(j = 0; j < 8; j ++)
+ 462   2                      {
+ 463   3                                 if((m&0x80) == 0x80)
+ 464   3                                 { 
+ 465   4                                         LCD_SetPos(y+i/l, y+i/l, x+i%l*8+j, x+i%l*8+j);
+ 466   4                         Write_Data_U16(fColor);
+ 467   4                                 } 
+ 468   3                                 m <<= 1;
+ 469   3                      }
+ 470   2              }
+ 471   1      }
+ 472          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1699    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2      57
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

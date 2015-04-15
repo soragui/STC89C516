@@ -1,0 +1,52 @@
+C51 COMPILER V8.05a   MAIN                                                                 06/06/2013 15:06:43 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: D:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include <intrins.h>
+   3          #include "eeprom.h"
+   4          
+   5          void delay(uint);
+   6          
+   7          void main()
+   8          {
+   9   1              uchar temp;                   //定义中间变量
+  10   1         temp=read_word(0xa0,0);       //从I2C器件a0的第0个地址读出数据赋予temp
+  11   1         write_word(0xa0,0,temp+1);    //向I2C器件a0的第0个地址写temp+1
+  12   1         delay(100);                   //延时  
+  13   1         while(1)                      //死循环
+  14   1          {
+  15   2                temp=read_word(0xa0,0);    //从第0个地址读出一个数据
+  16   2                delay(100);                //延时
+  17   2            P1=~temp;                  //送数据到P1口显示
+  18   2              }
+  19   1      }
+  20          
+  21          void delay(uint time)
+  22          {
+  23   1              uint i = 110;
+  24   1              while(time --)
+  25   1              {
+  26   2                      while(i --);
+  27   2                      i = 110;
+  28   2              }
+  29   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     81    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

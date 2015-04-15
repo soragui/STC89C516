@@ -1,0 +1,177 @@
+C51 COMPILER V9.52.0.0   MAIN                                                              10/31/2013 14:22:32 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: E:\C51Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          
+   2          #include <reg52.h>
+   3          #include <math.h>    
+   4          #include "NBCTFT.h" 
+   5          #include "name.h"
+   6          
+   7          #define White          0xFFFF   //LCD color
+   8          #define Black          0x0000
+   9          #define Blue           0x001F
+  10          #define Blue2          0x051F
+  11          #define Red            0xF800
+  12          #define Magenta        0xF81F
+  13          #define Green          0x07E0
+  14          #define Cyan           0x7FFF
+  15          #define Yellow         0xFFE0
+  16          #define PI 3.14159
+  17          
+  18          unsigned int Device_code;      
+  19          
+  20          extern void delayms(unsigned int count);
+  21          //void circle(unsigned int x, unsigned int y, unsigned r);
+  22          
+  23          main()
+  24          {
+  25   1          unsigned int i, j, k;
+  26   1          Device_code=0x9328;                
+  27   1          TFT_Initial();
+  28   1         // Write_Cmd_Data(0x0003,0x1030);
+  29   1              //while(1)                                
+  30   1          //{
+  31   1                      //LCD_PutChar(123, 89, 'A', Blue, Cyan);
+  32   1                      //Show_RGB(0, 240, 0, 64, Cyan);
+  33   1                      //Put_mych(34, 34, my, Cyan, Red);
+  34   1                      CLR_Screen(Black);
+  35   1               //Write_Cmd_Data(0x0003,0x1030);
+  36   1              
+  37   1                      //Put_mych(100, 100, 32, 35, per_name[0], Yellow, Black);
+  38   1                      //Put_mych(180, 100, 32, 35, per_name[1], Yellow, Black);
+  39   1              for(k = 4; k < 40; k += 2) {
+  40   2                      for(i = 0, j = k; i < 6; i ++, j += 40) {
+  41   3                                      Put_mych(j, 4, 32, 35, AHUTC[i], Blue2, Black);
+  42   3                      }
+  43   2          }
+  44   1              
+  45   1      //              for(i = 0, j = 0; i < 30; i ++, j += 8) {
+  46   1      //                              Put_mych(j, 37, 8, 14, AHUTE[i], Blue, Black);
+  47   1      //              }
+  48   1                      
+  49   1      //          Put_mych(25, 135, 72, 76, team_name[0], Red, Black);
+  50   1      //              Put_mych(70, 66, 72, 76, team_name[1], Cyan, Black);
+  51   1      //              Put_mych(100, 135, 72, 76, team_name[2], Yellow, Black);
+  52   1      //              Put_mych(150, 66, 72, 76, team_name[3], Blue, Black);
+  53   1      //              
+  54   1      //              for(i = 0; i < 240; i += 2) {
+  55   1      //                              Put_pixel(i, 220, Magenta);
+C51 COMPILER V9.52.0.0   MAIN                                                              10/31/2013 14:22:32 PAGE 2   
+
+  56   1      //              }
+  57   1      //              
+  58   1      //              for(i = 40; i < 200; i += 4) {
+  59   1      //                              Put_pixel(i, 225, Blue);
+  60   1      //              }
+  61   1      //              
+  62   1      //              for(i = 0; i < 240; i += 2) {
+  63   1      //                              Put_pixel(i, 230, Magenta);
+  64   1      //              }
+  65   1      //              
+  66   1      //              Put_mych(100, 250, 32, 35, per_name[0], Yellow, Black);
+  67   1      //              Put_mych(140, 250, 32, 35, per_name[1], Yellow, Black);
+  68   1      //      
+  69   1      ////            for(i = 120; i < 188; i ++)                     
+  70   1      ////            {
+  71   1      ////                    Put_pixel(i, 170 - sqrt(10000 - pow(i - 120, 2)), White);
+  72   1      ////                    Put_pixel(i, sqrt(10000 - pow(i - 120, 2)) + 150, White);
+  73   1      ////                    Put_pixel(240 - i, 170 - sqrt(10000 - pow(i - 120, 2)), White);
+  74   1      ////                    Put_pixel(240 - i, sqrt(10000 - pow(i - 120, 2)) + 150, White);
+  75   1      ////            }
+  76   1      ////            for(i = 160; i < 228; i ++)
+  77   1      ////            {
+  78   1      ////                    Put_pixel(sqrt(10000 - pow(i - 160, 2)) + 110, i, White);
+  79   1      ////                    Put_pixel(130 - sqrt(10000 - pow(i - 160, 2)), i,White);
+  80   1      ////                    Put_pixel(sqrt(10000 - pow(i - 160, 2)) + 110, 320 - i,White);
+  81   1      ////                    Put_pixel(130 - sqrt(10000 - pow(i - 160, 2)), 320 - i,White);
+  82   1      ////            }
+  83   1      //              //circle(120, 160, 40);
+  84   1      //              //delayms(200000);               
+  85   1      //    //}
+  86   1      
+  87   1      //      //for(i = 0; i < 90; i ++)
+  88   1      //      //{
+  89   1      //      //      Put_pixel(cos(i*PI/180) + 120, sin(i*PI/180) + 160, White);     
+  90   1      //      //}
+  91   1      //      /*for(j = 90; j >= 0; j -= 5)
+  92   1      //      {
+  93   1      //              for(i = 0; i < 60; i ++)
+  94   1      //              {
+  95   1      //                      Put_pixel(cos(j*PI/180) * i + 120, sin(j*PI/180) * i, White);
+  96   1      //              }
+  97   1      //              delayms(120);
+  98   1      //              for(i = 0; i < 60; i ++)
+  99   1      //              {
+ 100   1      //                      Put_pixel(cos(240 - j*PI/180) * i, 320 - sin(j*PI/180) * i, Black);
+ 101   1      //              }       
+ 102   1      //      }*/
+ 103   1      
+ 104   1      ////    for(j = 0; j <= 360; j = j + 6)
+ 105   1      ////    {
+ 106   1      ////            for(i = 0; i < 60; i ++)
+ 107   1      ////            {
+ 108   1      ////                    Put_pixel(120 + cos((360-j)*PI/180) * i, 160 - sin((360 - j)*PI/180) * i, Yellow);
+ 109   1      ////            }
+ 110   1      ////            delayms(20);
+ 111   1      ////            for(i = 0; i < 60; i ++)
+ 112   1      ////            {
+ 113   1      ////                    Put_pixel(120 + cos((360 - j)*PI/180) * i, 160 - sin((360 - j)*PI/180) * i, Black);
+ 114   1      ////            }       
+ 115   1      ////    }
+ 116   1      
+ 117   1      ////    for(j = 0; j <= 360; j ++)
+C51 COMPILER V9.52.0.0   MAIN                                                              10/31/2013 14:22:32 PAGE 3   
+
+ 118   1      ////    {
+ 119   1      ////            Put_pixel(100 + cos((360-j)*PI/180) * 20, 200 + sin((360 - j)*PI/180) * 20, Yellow);
+ 120   1      ////    }
+ 121   1      //      while(1) {
+ 122   1      //                      for(i = 30; i < 100; i += 2) {
+ 123   1      //                                      H_Line(i, i+6, 250, Cyan);
+ 124   1      //                                      delayms(20);
+ 125   1      //                                      H_Line(i, i+6, 250, Black);
+ 126   1      //                      }
+ 127   1      //                      
+ 128   1      //                      for(i = 250; i < 280; i += 2) {
+ 129   1      //                                      V_Line(100, i, i+6, Cyan);
+ 130   1      //                                      delayms(20);
+ 131   1      //                                      V_Line(100, i, i+6, Black);
+ 132   1      //                      }
+ 133   1      //                      
+ 134   1      //                      for(i = 100; i > 30; i -= 1)  {
+ 135   1      //                                      Put_pixel(i, 280, Cyan);
+ 136   1      //                                      delayms(20);
+ 137   1      //                                      Put_pixel(i, 280, Black);
+ 138   1      //                      }
+ 139   1      //                      
+ 140   1      //                      for(i = 280; i > 250; i -= 2) {
+ 141   1      //                                      Put_pixel(30, i, Cyan);
+ 142   1      //                                      delayms(20);
+ 143   1      //                                      Put_pixel(30, i, Black);
+ 144   1      //                      }
+ 145   1      //      }
+ 146   1          while(1);
+ 147   1      }
+ 148          
+ 149          
+ 150          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    144    ----
+   CONSTANT SIZE    =   4276    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2       6
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

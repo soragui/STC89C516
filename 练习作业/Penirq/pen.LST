@@ -1,0 +1,109 @@
+C51 COMPILER V9.52.0.0   PEN                                                               11/08/2013 21:26:16 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE PEN
+OBJECT MODULE PLACED IN pen.OBJ
+COMPILER INVOKED BY: E:\C51Keil\C51\BIN\C51.EXE pen.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include "pen.h"
+   2          
+   3          void wait(unsigned int i)
+   4          {
+   5   1          while(i--);
+   6   1      }
+   7          
+   8          void start_ADS()
+   9          {
+  10   1          DCLK = 0;
+  11   1          CS   = 1;
+  12   1          DIN  = 1;
+  13   1          DCLK = 1;
+  14   1          CS   = 0;
+  15   1      }
+  16          
+  17          void write_ADS(unsigned char dat)
+  18          {
+  19   1          unsigned char i = 0;
+  20   1          
+  21   1          for(i = 0; i < 8; i ++) {
+  22   2              if(dat&0x80)
+  23   2                  DIN = 1;
+  24   2              else
+  25   2                  DIN = 0;
+  26   2              DCLK = 0; wait(1);
+  27   2              DCLK = 1; wait(1);
+  28   2              dat <<= 1;
+  29   2          }
+  30   1      }
+  31          
+  32          unsigned int read_ADS()
+  33          {
+  34   1          unsigned char i = 0;
+  35   1          unsigned int dat = 0;
+  36   1      
+  37   1          for(i = 0; i < 12; i ++) {
+  38   2              dat <<= 1;
+  39   2              DCLK = 1; wait(1);
+  40   2              DCLK = 0; wait(1);
+  41   2              if(DOUT)
+  42   2                  dat ++;
+  43   2          }
+  44   1          
+  45   1          return dat;
+  46   1      }
+  47          
+  48          unsigned int get_X()
+  49          {
+  50   1          unsigned int x;
+  51   1          unsigned int temp_x;
+  52   1          
+  53   1          CS = 0;
+  54   1          
+  55   1          write_ADS(0xD0);
+C51 COMPILER V9.52.0.0   PEN                                                               11/08/2013 21:26:16 PAGE 2   
+
+  56   1          DCLK = 1; wait(1);
+  57   1          DCLK = 0; wait(1);
+  58   1          
+  59   1          temp_x = read_ADS();
+  60   1          x = 240.0*(temp_x-Xmin)/(Xmax-Xmin);
+  61   1          
+  62   1          CS = 1;
+  63   1          
+  64   1          return x;
+  65   1      }
+  66          
+  67          unsigned int get_Y()
+  68          {
+  69   1          unsigned int y;
+  70   1          unsigned int temp_y;
+  71   1          
+  72   1          CS = 0;
+  73   1          
+  74   1          write_ADS(0x90);
+  75   1          DCLK = 1; wait(1);
+  76   1          DCLK = 0; wait(1);
+  77   1          
+  78   1          temp_y = read_ADS();
+  79   1          y = 320.0*(temp_y-Ymin)/(Ymax-Ymin);
+  80   1          
+  81   1          CS = 1;
+  82   1          
+  83   1          return y;
+  84   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    200    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

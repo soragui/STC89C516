@@ -1,0 +1,7 @@
+"STARTUP.obj",
+"PCF.obj",
+"delay.obj",
+"1602.obj",
+"main.obj" 
+TO "ADDA" 
+RAMSIZE(256) 

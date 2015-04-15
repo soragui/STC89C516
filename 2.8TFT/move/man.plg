@@ -1,0 +1,19 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+G:\MCU\STC89C516·ÂÕæ\2.8TFT\move\man.uvproj
+Project File Date:  05/27/2013
+
+<h2>Output:</h2>
+Rebuild target 'Target 1'
+assembling STARTUP.A51...
+compiling man.c...
+compiling initLCD.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_CIRCLE?INITLCD
+Program Size: data=53.1 xdata=0 code=3229
+creating hex file from "man"...
+"man" - 0 Error(s), 1 Warning(s).

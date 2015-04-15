@@ -1,0 +1,305 @@
+C51 COMPILER V9.52.0.0   INIT                                                              01/04/2014 09:14:10 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE INIT
+OBJECT MODULE PLACED IN init.OBJ
+COMPILER INVOKED BY: e:\51Keil\C51\BIN\C51.EXE init.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          
+   2          #include "init.h"
+   3          
+   4          #define WINDOW_XADDR_START      0x0050 // Horizontal Start Address Set
+   5          #define WINDOW_XADDR_END        0x0051 // Horizontal End Address Set
+   6          #define WINDOW_YADDR_START      0x0052 // Vertical Start Address Set
+   7          #define WINDOW_YADDR_END        0x0053 // Vertical End Address Set
+   8          #define GRAM_XADDR                  0x0020 // GRAM Horizontal Address Set
+   9          #define GRAM_YADDR                  0x0021 // GRAM Vertical Address Set
+  10          #define GRAMWR                      0x0022 // memory write
+  11          
+  12          //unsigned int TP_X,TP_Y;          //当前触控坐标
+  13          
+  14          void spistar()                                     //SPI开始
+  15          {
+  16   1              CS=1;
+  17   1              DCLK=1;
+  18   1              DIN=1;
+  19   1              DCLK=1;
+  20   1      }
+  21          //**********************************************************
+  22          void WriteCharTo7843(unsigned char num)          //SPI写数据
+  23          {
+  24   1              unsigned char count=0;
+  25   1              DCLK=0;
+  26   1              for(count=0;count<8;count++)
+  27   1              {
+  28   2                      num<<=1;
+  29   2                      DIN=CY;
+  30   2                      DCLK=0; _nop_();_nop_();_nop_();                //上升沿有效
+  31   2                      DCLK=1; _nop_();_nop_();_nop_();
+  32   2              }
+  33   1      }
+  34          //**********************************************************
+  35          unsigned int ReadFromCharFrom7843()             //SPI 读数据
+  36          {
+  37   1              unsigned char count=0;
+  38   1              unsigned int Num=0;
+  39   1              for(count=0;count<12;count++)
+  40   1              {
+  41   2                      Num<<=1;
+  42   2                      DCLK=1; _nop_();_nop_();_nop_();                //下降沿有效
+  43   2                      DCLK=0; _nop_();_nop_();_nop_();
+  44   2                      if(DOUT) Num++;
+  45   2              }
+  46   1              return(Num);
+  47   1      }
+  48          
+  49          void delayms(int count)  // /* X1ms */
+  50          {
+  51   1              int i,j;
+  52   1              for(i=0;i<count;i++)
+  53   1                      for(j=0;j<1000;j++);
+  54   1      }
+  55          
+C51 COMPILER V9.52.0.0   INIT                                                              01/04/2014 09:14:10 PAGE 2   
+
+  56          #ifdef  Bus_16    //条件编译-16位数据模式   
+              void LCD_Writ_Bus(char VH,char VL)   //并行数据写入函数
+              {
+                  LCD_DataPortH=VH;   
+                      LCD_DataPortL=VL;               
+                      LCD_WR=0;
+                      LCD_WR=1; 
+              }
+              #else                   //条件编译-8位数据模式 
+  65          void LCD_Writ_Bus(char VH,char VL)   //并行数据写入函数
+  66          {       
+  67   1          LCD_DataPortH=VH;   
+  68   1              LCD_WR=0;
+  69   1              LCD_WR=1;
+  70   1              LCD_DataPortH=VL;               
+  71   1              LCD_WR=0;
+  72   1              LCD_WR=1;
+  73   1      }
+  74          #endif
+  75          
+  76          void Lcd_Write_Com(char VH,char VL)      //发送命令
+  77          {       
+  78   1          LCD_RS=0;
+  79   1              LCD_Writ_Bus(VH,VL);
+  80   1      }
+  81          
+  82          
+  83          void Lcd_Write_Data(char VH,char VL)    //发送数据
+  84          {
+  85   1          LCD_RS=1;
+  86   1              LCD_Writ_Bus(VH,VL);
+  87   1      }
+  88          
+  89          void Address_set(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2)
+  90          {
+  91   1              Lcd_Write_Com(0x00,0x20);Lcd_Write_Data(x1>>8,x1);        //设置X坐标位置
+  92   1          Lcd_Write_Com(0x00,0x21);Lcd_Write_Data(y1>>8,y1);   //设置Y坐标位置
+  93   1          Lcd_Write_Com(0x00,0x50);Lcd_Write_Data(x1>>8,x1);   //开始X
+  94   1              Lcd_Write_Com(0x00,0x52);Lcd_Write_Data(y1>>8,y1);        //开始Y
+  95   1          Lcd_Write_Com(0x00,0x51);Lcd_Write_Data(x2>>8,x2);   //结束X
+  96   1              Lcd_Write_Com(0x00,0x53);Lcd_Write_Data(y2>>8,y2);   //结束Y
+  97   1          Lcd_Write_Com(0x00,0x22);                                                    
+  98   1      }
+  99          
+ 100          void Lcd_Init(void)
+ 101          {
+ 102   1      
+ 103   1              RD=1;
+ 104   1          LCD_REST=1;
+ 105   1          delayms(5); 
+ 106   1              LCD_REST=0;
+ 107   1              delayms(5);
+ 108   1              LCD_REST=1;
+ 109   1              LCD_CS=1;
+ 110   1              LCD_RD=1;
+ 111   1              LCD_WR=1;
+ 112   1              delayms(5);
+ 113   1         
+ 114   1              LCD_CS =0;  //打开片选使能
+ 115   1              //************* Start Initial Sequence **********//
+ 116   1              Lcd_Write_Com(0x00,0xE5); Lcd_Write_Data(0x78,0xF0); // set SRAM internal timing
+ 117   1              Lcd_Write_Com(0x00,0x01); Lcd_Write_Data(0x01,0x00); // set SS and SM bit
+C51 COMPILER V9.52.0.0   INIT                                                              01/04/2014 09:14:10 PAGE 3   
+
+ 118   1              Lcd_Write_Com(0x00,0x02); Lcd_Write_Data(0x07,0x00); // set 1 line inversion
+ 119   1              Lcd_Write_Com(0x00,0x03); Lcd_Write_Data(0x10,0x30); // set GRAM write direction and BGR=1.
+ 120   1              Lcd_Write_Com(0x00,0x04); Lcd_Write_Data(0x00,0x00); // Resize register
+ 121   1              Lcd_Write_Com(0x00,0x08); Lcd_Write_Data(0x02,0x07); // set the back porch and front porch
+ 122   1              Lcd_Write_Com(0x00,0x09); Lcd_Write_Data(0x00,0x00); // set non-display area refresh cycle ISC[3:0]
+ 123   1              Lcd_Write_Com(0x00,0x0A); Lcd_Write_Data(0x00,0x00); // FMARK function
+ 124   1              Lcd_Write_Com(0x00,0x0C); Lcd_Write_Data(0x00,0x00); // RGB interface setting
+ 125   1              Lcd_Write_Com(0x00,0x0D); Lcd_Write_Data(0x00,0x00); // Frame marker Position
+ 126   1              Lcd_Write_Com(0x00,0x0F); Lcd_Write_Data(0x00,0x00); // RGB interface polarity
+ 127   1              //*************Power On sequence ****************//
+ 128   1              Lcd_Write_Com(0x00,0x10); Lcd_Write_Data(0x00,0x00); // SAP, BT[3:0], AP, DSTB, SLP, STB
+ 129   1              Lcd_Write_Com(0x00,0x11); Lcd_Write_Data(0x00,0x07); // DC1[2:0], DC0[2:0], VC[2:0]
+ 130   1              Lcd_Write_Com(0x00,0x12); Lcd_Write_Data(0x00,0x00); // VREG1OUT voltage
+ 131   1              Lcd_Write_Com(0x00,0x13); Lcd_Write_Data(0x00,0x00); // VDV[4:0] for VCOM amplitude
+ 132   1              Lcd_Write_Com(0x00,0x07); Lcd_Write_Data(0x00,0x01);
+ 133   1              delayms(50); // Dis-charge capacitor power voltage
+ 134   1              Lcd_Write_Com(0x00,0x10); Lcd_Write_Data(0x10,0x90); // 1490//SAP, BT[3:0], AP, DSTB, SLP, STB
+ 135   1              Lcd_Write_Com(0x00,0x11); Lcd_Write_Data(0x02,0x27); // DC1[2:0], DC0[2:0], VC[2:0]
+ 136   1              delayms(50); // Delay 50ms
+ 137   1              Lcd_Write_Com(0x00,0x12); Lcd_Write_Data(0x00,0x1F); //001C// Internal reference voltage= Vci;
+ 138   1              delayms(50); // Delay 50ms
+ 139   1              Lcd_Write_Com(0x00,0x13); Lcd_Write_Data(0x15,0x00); //0x1000//1400   Set VDV[4:0] for VCOM amplitude  1A
+             -00
+ 140   1              Lcd_Write_Com(0x00,0x29); Lcd_Write_Data(0x00,0x27); //0x0012 //001a  Set VCM[5:0] for VCOMH  //0x0025  0
+             -034
+ 141   1              Lcd_Write_Com(0x00,0x2B); Lcd_Write_Data(0x00,0x0D); // Set Frame Rate   000C
+ 142   1              delayms(50); // Delay 50ms
+ 143   1              Lcd_Write_Com(0x00,0x20); Lcd_Write_Data(0x00,0x00); // GRAM horizontal Address
+ 144   1              Lcd_Write_Com(0x00,0x21); Lcd_Write_Data(0x00,0x00); // GRAM Vertical Address
+ 145   1              // ----------- Adjust the Gamma Curve ----------//
+ 146   1              Lcd_Write_Com(0x00,0x30); Lcd_Write_Data(0x00,0x00);
+ 147   1              Lcd_Write_Com(0x00,0x31); Lcd_Write_Data(0x07,0x07);
+ 148   1              Lcd_Write_Com(0x00,0x32); Lcd_Write_Data(0x03,0x07);
+ 149   1              Lcd_Write_Com(0x00,0x35); Lcd_Write_Data(0x02,0x00);
+ 150   1              Lcd_Write_Com(0x00,0x36); Lcd_Write_Data(0x00,0x08);//0207
+ 151   1              Lcd_Write_Com(0x00,0x37); Lcd_Write_Data(0x00,0x04);//0306
+ 152   1              Lcd_Write_Com(0x00,0x38); Lcd_Write_Data(0x00,0x00);//0102
+ 153   1              Lcd_Write_Com(0x00,0x39); Lcd_Write_Data(0x07,0x07);//0707
+ 154   1              Lcd_Write_Com(0x00,0x3C); Lcd_Write_Data(0x00,0x02);//0702
+ 155   1              Lcd_Write_Com(0x00,0x3D); Lcd_Write_Data(0x1D,0x04);//1604
+ 156   1              
+ 157   1              //------------------ Set GRAM area ---------------//
+ 158   1              Lcd_Write_Com(0x00,0x50); Lcd_Write_Data(0x00,0x00); // Horizontal GRAM Start Address
+ 159   1              Lcd_Write_Com(0x00,0x51); Lcd_Write_Data(0x00,0xEF); // Horizontal GRAM End Address
+ 160   1              Lcd_Write_Com(0x00,0x52); Lcd_Write_Data(0x00,0x00); // Vertical GRAM Start Address
+ 161   1              Lcd_Write_Com(0x00,0x53); Lcd_Write_Data(0x01,0x3F); // Vertical GRAM Start Address
+ 162   1              Lcd_Write_Com(0x00,0x60); Lcd_Write_Data(0xA7,0x00); // Gate Scan Line
+ 163   1              Lcd_Write_Com(0x00,0x61); Lcd_Write_Data(0x00,0x01); // NDL,VLE, REV
+ 164   1              Lcd_Write_Com(0x00,0x6A); Lcd_Write_Data(0x00,0x00); // set scrolling line
+ 165   1              //-------------- Partial Display Control ---------//
+ 166   1              Lcd_Write_Com(0x00,0x80); Lcd_Write_Data(0x00,0x00);
+ 167   1              Lcd_Write_Com(0x00,0x81); Lcd_Write_Data(0x00,0x00);
+ 168   1              Lcd_Write_Com(0x00,0x82); Lcd_Write_Data(0x00,0x00);
+ 169   1              Lcd_Write_Com(0x00,0x83); Lcd_Write_Data(0x00,0x00);
+ 170   1              Lcd_Write_Com(0x00,0x84); Lcd_Write_Data(0x00,0x00);
+ 171   1              Lcd_Write_Com(0x00,0x85); Lcd_Write_Data(0x00,0x00);
+ 172   1              //-------------- Panel Control -------------------//
+ 173   1              Lcd_Write_Com(0x00,0x90); Lcd_Write_Data(0x00,0x10);
+ 174   1              Lcd_Write_Com(0x00,0x92); Lcd_Write_Data(0x06,0x00);
+ 175   1              Lcd_Write_Com(0x00,0x07); Lcd_Write_Data(0x01,0x33); // 262K color and display ON
+ 176   1              LCD_CS =1;  //关闭片选使能
+ 177   1      
+C51 COMPILER V9.52.0.0   INIT                                                              01/04/2014 09:14:10 PAGE 4   
+
+ 178   1      }
+ 179          
+ 180          void Pant(int dcolor)
+ 181          {
+ 182   1              int i,j;
+ 183   1              Address_set(0,0,240,320);
+ 184   1          for(i=0;i<320;i++)
+ 185   1               {
+ 186   2                for (j=0;j<240;j++)
+ 187   2                      {
+ 188   3                       Lcd_Write_Data(dcolor>>8,dcolor);
+ 189   3                  }     
+ 190   2                }
+ 191   1      }
+ 192          
+ 193          void draw_rec(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2, int dcolor)
+ 194          {
+ 195   1              int i, j;
+ 196   1              Address_set(x1, y1, x2, y2);
+ 197   1              for (i = y1; i <= y2; i ++)
+ 198   1              {
+ 199   2                      for (j = x1; j <= x2; j ++)
+ 200   2                      {
+ 201   3                              Lcd_Write_Data(dcolor>>8,dcolor);
+ 202   3                      }
+ 203   2              }
+ 204   1      }
+ 205           
+ 206          void  Write_Data_U16(unsigned int y)
+ 207          {
+ 208   1              unsigned char m,n;
+ 209   1              m=y>>8;
+ 210   1              n=y;
+ 211   1              Write_Data(m,n);
+ 212   1      
+ 213   1      }
+ 214          
+ 215          void Write_Cmd(char YH,char YL)  
+ 216          {       
+ 217   1          LCD_CS=0;
+ 218   1              LCD_RS=0;
+ 219   1              LCD_Writ_Bus(YH,YL);
+ 220   1          LCD_CS=1;
+ 221   1      }
+ 222          ///////////////////////////////////////发送数据////////////////////////
+ 223          
+ 224          void Write_Data(char YH,char YL)        
+ 225          {
+ 226   1          LCD_CS=0;
+ 227   1              LCD_RS=1;
+ 228   1              LCD_Writ_Bus(YH,YL);
+ 229   1              LCD_CS=1;
+ 230   1      }
+ 231          /////////////////////////////////////////////////////////////
+ 232          void  Write_Cmd_Data (unsigned char x,unsigned int y)
+ 233          {
+ 234   1              unsigned char m,n;
+ 235   1              m=y>>8;
+ 236   1              n=y;
+ 237   1              Write_Cmd(0x00,x);
+ 238   1              Write_Data(m,n);
+ 239   1      }
+C51 COMPILER V9.52.0.0   INIT                                                              01/04/2014 09:14:10 PAGE 5   
+
+ 240          
+ 241          void Put_mych(unsigned short x, unsigned short y, unsigned int width, unsigned int height, const char myco
+             -de[], unsigned int fColor)
+ 242          {
+ 243   1          unsigned int i, j;
+ 244   1          unsigned int k, l;
+ 245   1          
+ 246   1          k = width*height/8;
+ 247   1          l = width/8;
+ 248   1          
+ 249   1          for(i = 0; i < k; i ++) {
+ 250   2              unsigned short m = mycode[i];
+ 251   2              for(j = 0; j < 8; j ++) {
+ 252   3                  if((m&0x80) == 0x80) {
+ 253   4                      LCD_SetPos(y+i/l, y+i/l, x+i%l*8+j, x+i%l*8+j);
+ 254   4                      Write_Data_U16(fColor);
+ 255   4                  }
+ 256   3                  m <<= 1;
+ 257   3              }
+ 258   2          }
+ 259   1      }
+ 260          
+ 261          
+ 262          void LCD_SetPos(unsigned int x0,unsigned int x1,unsigned int y0,unsigned int y1)
+ 263          {
+ 264   1              Write_Cmd_Data(WINDOW_XADDR_START,x0);
+ 265   1              Write_Cmd_Data(WINDOW_XADDR_END,x1);
+ 266   1              Write_Cmd_Data(WINDOW_YADDR_START,y0);
+ 267   1              Write_Cmd_Data(WINDOW_YADDR_END,y1);
+ 268   1              Write_Cmd_Data(GRAM_XADDR,x0);
+ 269   1              Write_Cmd_Data(GRAM_YADDR,y0);
+ 270   1              Write_Cmd (0x00,0x22);//LCD_WriteCMD(GRAMWR);
+ 271   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1213    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      55
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

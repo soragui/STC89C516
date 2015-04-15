@@ -1,0 +1,5 @@
+"STARTUP.obj",
+"initLCD.obj",
+"main.obj" 
+TO "srxx" 
+RAMSIZE(256) 

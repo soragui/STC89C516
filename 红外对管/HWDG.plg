@@ -1,0 +1,17 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+F:\单片机\STC89C516仿真\红外对管\HWDG.uvproj
+Project File Date:  06/03/2013
+
+<h2>Output:</h2>
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling 1602.c...
+compiling main.c...
+linking...
+Program Size: data=81.3 xdata=0 code=576
+creating hex file from "HWDG"...
+"HWDG" - 0 Error(s), 0 Warning(s).

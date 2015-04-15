@@ -1,0 +1,114 @@
+C51 COMPILER V8.05a   MAIN                                                                 05/27/2013 14:36:34 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: D:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          
+   2          #include <reg52.h>
+   3          #include <math.h>    
+   4          #include "NBCTFT.h"  
+   5          
+   6          #define White          0xFFFF   //LCD color
+   7          #define Black          0x0000
+   8          #define Blue           0x001F
+   9          #define Blue2          0x051F
+  10          #define Red            0xF800
+  11          #define Magenta        0xF81F
+  12          #define Green          0x07E0
+  13          #define Cyan           0x7FFF
+  14          #define Yellow         0xFFE0
+  15          #define PI 3.14159
+  16          
+  17          unsigned int Device_code;      
+  18          
+  19          extern void delayms(unsigned int count);
+  20          //void circle(unsigned int x, unsigned int y, unsigned r);
+  21          
+  22          main()
+  23          {
+  24   1          unsigned int i, j;
+  25   1          Device_code=0x9328;                
+  26   1          TFT_Initial();                       
+  27   1              //while(1)                                
+  28   1          //{
+  29   1                      //LCD_PutChar(123, 89, 'A', Blue, Cyan);
+  30   1                      //Show_RGB(0, 240, 0, 64, Cyan);
+  31   1                      //Put_mych(34, 34, my, Cyan, Red);
+  32   1                      CLR_Screen(Black);
+  33   1                      for(i = 120; i < 188; i ++)                     
+  34   1                      {
+  35   2                              Put_pixel(i, 170 - sqrt(10000 - pow(i - 120, 2)), White);
+  36   2                              Put_pixel(i, sqrt(10000 - pow(i - 120, 2)) + 150, White);
+  37   2                              Put_pixel(240 - i, 170 - sqrt(10000 - pow(i - 120, 2)), White);
+  38   2                              Put_pixel(240 - i, sqrt(10000 - pow(i - 120, 2)) + 150, White);
+  39   2                      }
+  40   1                      for(i = 160; i < 228; i ++)
+  41   1                      {
+  42   2                              Put_pixel(sqrt(10000 - pow(i - 160, 2)) + 110, i, White);
+  43   2                              Put_pixel(130 - sqrt(10000 - pow(i - 160, 2)), i,White);
+  44   2                              Put_pixel(sqrt(10000 - pow(i - 160, 2)) + 110, 320 - i,White);
+  45   2                              Put_pixel(130 - sqrt(10000 - pow(i - 160, 2)), 320 - i,White);
+  46   2                      }
+  47   1                      //circle(120, 160, 40);
+  48   1                      //delayms(200000);               
+  49   1          //}
+  50   1      
+  51   1              //for(i = 0; i < 90; i ++)
+  52   1              //{
+  53   1              //      Put_pixel(cos(i*PI/180) + 120, sin(i*PI/180) + 160, White);     
+  54   1              //}
+  55   1              /*for(j = 90; j >= 0; j -= 5)
+C51 COMPILER V8.05a   MAIN                                                                 05/27/2013 14:36:34 PAGE 2   
+
+  56   1              {
+  57   1                      for(i = 0; i < 60; i ++)
+  58   1                      {
+  59   1                              Put_pixel(cos(j*PI/180) * i + 120, sin(j*PI/180) * i, White);
+  60   1                      }
+  61   1                      delayms(120);
+  62   1                      for(i = 0; i < 60; i ++)
+  63   1                      {
+  64   1                              Put_pixel(cos(240 - j*PI/180) * i, 320 - sin(j*PI/180) * i, Black);
+  65   1                      }       
+  66   1              }*/
+  67   1      
+  68   1              for(j = 0; j <= 360; j = j + 6)
+  69   1              {
+  70   2                      for(i = 0; i < 60; i ++)
+  71   2                      {
+  72   3                              Put_pixel(120 + cos((360-j)*PI/180) * i, 160 - sin((360 - j)*PI/180) * i, Yellow);
+  73   3                      }
+  74   2                      delayms(20);
+  75   2                      for(i = 0; i < 60; i ++)
+  76   2                      {
+  77   3                              Put_pixel(120 + cos((360 - j)*PI/180) * i, 160 - sin((360 - j)*PI/180) * i, Black);
+  78   3                      }       
+  79   2              }
+  80   1      
+  81   1              for(j = 0; j <= 360; j ++)
+  82   1              {
+  83   2                      Put_pixel(100 + cos((360-j)*PI/180) * 20, 200 + sin((360 - j)*PI/180) * 20, Yellow);
+  84   2              }
+  85   1              while(1);
+  86   1      }
+  87          
+  88          
+  89          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1354    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

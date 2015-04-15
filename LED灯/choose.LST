@@ -1,0 +1,33 @@
+C51 COMPILER V8.02   CHOOSE                                                                03/03/2013 10:13:54 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE CHOOSE
+OBJECT MODULE PLACED IN choose.OBJ
+COMPILER INVOKED BY: F:\Keil\C51\BIN\C51.EXE choose.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg52.h>  //头文件
+   2          #include "choose.h"
+   3          
+   4          /***************选择程序 选择关闭共用IO口的模块*************************/
+   5          void choose(void)
+   6           {   P0=0X00; //关闭点阵
+   7   1           line=0;
+   8   1           P0=0XFF; //关闭数码管
+   9   1           wei=0;
+  10   1        }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     11    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

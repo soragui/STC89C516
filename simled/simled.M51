@@ -1,0 +1,99 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        10/06/2013  12:23:50  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+E:\C51KEIL\C51\BIN\BL51.EXE simled.obj TO simled RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  simled.obj (SIMLED)
+  E:\C51KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  simled (SIMLED)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     0011H     UNIT         ?PR?_DELAY?SIMLED
+            CODE    0811H     000EH     UNIT         ?PR?MAIN?SIMLED
+            CODE    081FH     000CH     UNIT         ?C_C51STARTUP
+            CODE    082BH     0008H     UNIT         ?PR?DISABLEDIGITAL?SIMLED
+
+
+
+OVERLAY MAP OF MODULE:   simled (SIMLED)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?SIMLED
+
+?PR?MAIN?SIMLED
+  +--> ?PR?DISABLEDIGITAL?SIMLED
+  +--> ?PR?_DELAY?SIMLED
+
+
+
+SYMBOL TABLE OF MODULE:  simled (SIMLED)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        SIMLED
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  C:0800H         PUBLIC        _delay
+  C:082BH         PUBLIC        disableDigital
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/06/2013  12:23:50  PAGE 2
+
+
+  C:0811H         PUBLIC        main
+  B:0080H.0       PUBLIC        P00
+  B:0090H.1       PUBLIC        P11
+  -------         PROC          MAIN
+  C:0811H         LINE#         14
+  C:0811H         LINE#         15
+  C:0811H         LINE#         16
+  C:0814H         LINE#         17
+  C:0814H         LINE#         18
+  C:0816H         LINE#         19
+  C:081DH         LINE#         20
+  -------         ENDPROC       MAIN
+  -------         PROC          DISABLEDIGITAL
+  C:082BH         LINE#         23
+  C:082BH         LINE#         24
+  C:082BH         LINE#         25
+  C:082DH         LINE#         26
+  C:0830H         LINE#         27
+  C:0832H         LINE#         28
+  -------         ENDPROC       DISABLEDIGITAL
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        time
+  C:0800H         LINE#         30
+  C:0800H         LINE#         31
+  C:0800H         LINE#         32
+  C:0810H         LINE#         33
+  -------         ENDPROC       _DELAY
+  -------         ENDMOD        SIMLED
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0027H BYTE ( 1%) *
+******************************************************************************
+
+Program Size: data=9.0 xdata=0 code=54
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

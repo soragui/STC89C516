@@ -1,0 +1,16 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+G:\MCU\STC89C516·ÂÕæ\LEDµÆ\led.uvproj
+Project File Date:  08/29/2013
+
+<h2>Output:</h2>
+Rebuild target 'Target 1'
+compiling main.c...
+main.c(1): warning C500: LICENSE ERROR (R207(3): REGISTRY READ ERROR)
+linking...
+Program Size: data=12.0 xdata=0 code=156
+creating hex file from "led"...
+"led" - 0 Error(s), 1 Warning(s).

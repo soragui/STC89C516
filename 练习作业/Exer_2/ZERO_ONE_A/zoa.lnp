@@ -1,0 +1,4 @@
+"initLCD.obj",
+"main.obj" 
+TO "zoa" Rtx51Tiny 
+RAMSIZE(256) 

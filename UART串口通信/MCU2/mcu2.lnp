@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"mcu2.obj",
+"initLCD.obj" 
+TO "mcu2" 

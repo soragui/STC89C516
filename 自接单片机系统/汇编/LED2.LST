@@ -1,0 +1,41 @@
+A51 MACRO ASSEMBLER  LED2                                                                 04/18/2013 19:20:20 PAGE     1
+
+
+MACRO ASSEMBLER A51 V7.07
+OBJECT MODULE PLACED IN LED2.OBJ
+ASSEMBLER INVOKED BY: F:\Keil\C51\BIN\A51.EXE LED2.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     
+0000 7590FF            2     MAIN:   MOV P1, #0FFH
+0003 12000F            3                     LCALL DELAY
+0006 759000            4                     MOV P1, #000H
+0009 12000F            5                     LCALL DELAY
+000C 020000            6                     LJMP  MAIN 
+                       7     
+000F 7FFA              8     DELAY:  MOV R7, #250
+0011 7EFA              9     D1:             MOV R6, #250
+0013 DEFE             10     D2:             DJNZ R6, D2
+0015 DFFA             11                     DJNZ R7, D1
+0017 22               12                     RET
+                      13                     END
+A51 MACRO ASSEMBLER  LED2                                                                 04/18/2013 19:20:20 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+D1 . . . . . . . .  C ADDR   0011H   A   
+D2 . . . . . . . .  C ADDR   0013H   A   
+DELAY. . . . . . .  C ADDR   000FH   A   
+MAIN . . . . . . .  C ADDR   0000H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

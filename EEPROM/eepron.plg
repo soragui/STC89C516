@@ -1,0 +1,658 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+F:\µ¥Æ¬»ú\STC89C516·ÂÕæ\EEPROM\eepron.uvproj
+Project File Date:  06/06/2013
+
+<h2>Output:</h2>
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(64): error C141: syntax error near ';'
+EEPROM.C(64): error C141: syntax error near ')'
+EEPROM.C(91): error C231: 'receive_byte': redefinition
+EEPROM.C(112): error C231: 'receive_byte': redefinition
+compiling main.c...
+EEPROM.H(4): error C202: 'P2': undefined identifier
+EEPROM.H(5): error C202: 'P2': undefined identifier
+Target not created
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(66): error C141: syntax error near ';'
+EEPROM.C(66): error C141: syntax error near ')'
+EEPROM.C(93): error C231: 'receive_byte': redefinition
+EEPROM.C(114): error C231: 'receive_byte': redefinition
+compiling main.c...
+Target not created
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(66): error C141: syntax error near ';'
+EEPROM.C(66): error C141: syntax error near ')'
+EEPROM.C(93): error C231: 'receive_byte': redefinition
+EEPROM.C(114): error C231: 'receive_byte': redefinition
+compiling main.c...
+Target not created
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(66): error C141: syntax error near ';'
+EEPROM.C(66): error C141: syntax error near ')'
+compiling main.c...
+Target not created
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(66): error C141: syntax error near ';'
+EEPROM.C(66): error C141: syntax error near ')'
+compiling main.c...
+Target not created
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(133): warning C206: 'recevice_byte': missing function-prototype
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?RECEIVE_BYTE?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_WRITE_BYTE?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_READ_WORD?EEPROM
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+    ADDRESS: 0060H
+Program Size: data=9.1 xdata=0 code=184
+"eepron" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(133): warning C206: 'recevice_byte': missing function-prototype
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?RECEIVE_BYTE?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_WRITE_BYTE?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_READ_WORD?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY?MAIN
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+    ADDRESS: 007FH
+Program Size: data=9.1 xdata=0 code=215
+"eepron" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(133): warning C206: 'recevice_byte': missing function-prototype
+compiling main.c...
+MAIN.C(15): error C202: 'P1': undefined identifier
+Target not created
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(133): warning C206: 'recevice_byte': missing function-prototype
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?RECEIVE_BYTE?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_WRITE_BYTE?EEPROM
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+    ADDRESS: 00B1H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0015H
+Program Size: data=10.1 xdata=0 code=264
+"eepron" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(133): warning C206: 'recevice_byte': missing function-prototype
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?RECEIVE_BYTE?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_WRITE_BYTE?EEPROM
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+    ADDRESS: 00B1H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0015H
+Program Size: data=10.1 xdata=0 code=264
+"eepron" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(133): warning C206: 'recevice_byte': missing function-prototype
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?RECEIVE_BYTE?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_WRITE_BYTE?EEPROM
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+    ADDRESS: 00B1H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0015H
+Program Size: data=10.1 xdata=0 code=264
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+compiling main.c...
+linking...
+Program Size: data=10.1 xdata=0 code=266
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(133): warning C206: 'recevice_byte': missing function-prototype
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?RECEIVE_BYTE?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_WRITE_BYTE?EEPROM
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+    ADDRESS: 00B1H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0015H
+Program Size: data=10.1 xdata=0 code=264
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(133): warning C206: 'recevice_byte': missing function-prototype
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?RECEIVE_BYTE?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_WRITE_BYTE?EEPROM
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+    ADDRESS: 00B1H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0015H
+Program Size: data=10.1 xdata=0 code=264
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(133): warning C206: 'recevice_byte': missing function-prototype
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?RECEIVE_BYTE?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_WRITE_BYTE?EEPROM
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+    ADDRESS: 00B1H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0015H
+Program Size: data=10.1 xdata=0 code=264
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(133): warning C206: 'recevice_byte': missing function-prototype
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?RECEIVE_BYTE?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_WRITE_BYTE?EEPROM
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+    ADDRESS: 00B1H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0015H
+Program Size: data=10.1 xdata=0 code=264
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(133): warning C206: 'recevice_byte': missing function-prototype
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?RECEIVE_BYTE?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_WRITE_BYTE?EEPROM
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+    ADDRESS: 00B1H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0015H
+Program Size: data=10.1 xdata=0 code=264
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+compiling main.c...
+linking...
+Program Size: data=10.1 xdata=0 code=266
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(133): warning C206: 'recevice_byte': missing function-prototype
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?RECEIVE_BYTE?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_WRITE_BYTE?EEPROM
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+    ADDRESS: 00B1H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0015H
+Program Size: data=10.1 xdata=0 code=264
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(133): warning C206: 'recevice_byte': missing function-prototype
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?RECEIVE_BYTE?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_WRITE_BYTE?EEPROM
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+    ADDRESS: 00B1H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0015H
+Program Size: data=10.1 xdata=0 code=264
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(133): warning C206: 'recevice_byte': missing function-prototype
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?RECEIVE_BYTE?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_WRITE_BYTE?EEPROM
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+    ADDRESS: 00B1H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0015H
+Program Size: data=10.1 xdata=0 code=264
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+compiling main.c...
+linking...
+Program Size: data=10.1 xdata=0 code=266
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+compiling main.c...
+linking...
+Program Size: data=10.1 xdata=0 code=266
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+compiling main.c...
+linking...
+Program Size: data=10.1 xdata=0 code=266
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(133): warning C206: 'recevice_byte': missing function-prototype
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?RECEIVE_BYTE?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_WRITE_BYTE?EEPROM
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+    ADDRESS: 00B1H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0015H
+Program Size: data=10.1 xdata=0 code=264
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(133): warning C206: 'recevice_byte': missing function-prototype
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?RECEIVE_BYTE?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_WRITE_BYTE?EEPROM
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+    ADDRESS: 00B1H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0015H
+Program Size: data=10.1 xdata=0 code=264
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+compiling main.c...
+linking...
+Program Size: data=10.1 xdata=0 code=266
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+compiling main.c...
+linking...
+Program Size: data=10.1 xdata=0 code=266
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(133): warning C206: 'recevice_byte': missing function-prototype
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?RECEIVE_BYTE?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_WRITE_BYTE?EEPROM
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  RECEVICE_BYTE
+    MODULE:  eeprom.obj (EEPROM)
+    ADDRESS: 00B1H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0015H
+Program Size: data=10.1 xdata=0 code=264
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+compiling main.c...
+linking...
+Program Size: data=10.1 xdata=0 code=266
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(41): error C202: 'ACK': undefined identifier
+compiling main.c...
+Target not created
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+EEPROM.C(55): warning C280: 'date': unreferenced local variable
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?START?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?STOP?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?CHECKACK?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SENDACK?EEPROM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SEND_BYTE?EEPROM
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _READ_WORD
+    MODULE:  main.obj (MAIN)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _READ_WORD
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0008H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _WRITE_WORD
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0015H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _READ_WORD
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0023H
+Program Size: data=11.1 xdata=0 code=148
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 11 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+compiling main.c...
+linking...
+Program Size: data=10.1 xdata=0 code=266
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+compiling main.c...
+linking...
+Program Size: data=10.1 xdata=0 code=266
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+compiling main.c...
+linking...
+Program Size: data=10.1 xdata=0 code=266
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+compiling main.c...
+linking...
+Program Size: data=10.1 xdata=0 code=263
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+compiling main.c...
+linking...
+Program Size: data=10.1 xdata=0 code=266
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+compiling main.c...
+linking...
+Program Size: data=10.1 xdata=0 code=275
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+compiling main.c...
+linking...
+Program Size: data=10.1 xdata=0 code=278
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+compiling main.c...
+linking...
+Program Size: data=10.1 xdata=0 code=270
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling eeprom.c...
+compiling main.c...
+linking...
+Program Size: data=10.1 xdata=0 code=276
+creating hex file from "eepron"...
+"eepron" - 0 Error(s), 0 Warning(s).

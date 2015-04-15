@@ -1,0 +1,6 @@
+"STARTUP.obj",
+"gettime.obj",
+"1602.obj",
+"main.obj" 
+TO "1302get" 
+RAMSIZE(256) 

@@ -1,0 +1,272 @@
+C51 COMPILER V9.52.0.0   MAIN                                                              11/01/2013 16:32:52 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: E:\C51Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          
+   2          #include <math.h>
+   3          #include "NBCTFT.h"
+   4          #include "ch_a.h"
+   5          #include "ad_c.h"
+   6          
+   7          #define PI  3.1415
+   8          
+   9          float voltage = 0;
+  10          unsigned char current_angle = 0, old_angle = 0;
+  11          unsigned int  color = Red, extra = 0;
+  12          unsigned short line_length;
+  13              
+  14          void main()
+  15          {
+  16   1      //    unsigned int i, j, k;
+  17   1      //    unsigned char band_x, band_y;
+  18   1      //    unsigned int color = Yellow+1200;
+  19   1          
+  20   1          unsigned int i = 0, j, x, y, r, k;
+  21   1          TFT_Initial(); 
+  22   1          CLR_Screen(Black);
+  23   1          //initADC();
+  24   1          
+  25   1      //    for(k = 0; k < 10; k ++) {
+  26   1      //        for(i = 0; i <= 360; i ++) {
+  27   1      //            Put_pixel(120 + cos(i*PI/180)*20, 160 + sin(i*PI/180)*20, color);
+  28   1      //            Put_pixel(120 + cos(i*PI/180)*19, 160 + sin(i*PI/180)*19, color);
+  29   1      //            color += 30;
+  30   1      //        }
+  31   1      //    }
+  32   1      //    
+  33   1      //    for(i = 0; i <= 360; i ++) {
+  34   1      //            Put_pixel(120 + cos(i*PI/180)*20, 160 + sin(i*PI/180)*20, Black);
+  35   1      //            Put_pixel(120 + cos(i*PI/180)*19, 160 + sin(i*PI/180)*19, Black);
+  36   1      //           // color += 30;
+  37   1      //        }
+  38   1              
+  39   1      //    for(k = 0; k < 40; k ++) {
+  40   1      //        for(i = 0; i < k; i ++) {
+  41   1      //            Put_pixel(200+k, 0+i, color);
+  42   1      //        }
+  43   1      //        color += 10;
+  44   1      //    }
+  45   1      //    
+  46   1      //    for(k = 0; k < 40; k ++) {
+  47   1      //        for(i = 0; i < k; i ++) {
+  48   1      //            Put_pixel(40-k, 240-i, color);
+  49   1      //        }
+  50   1      //        color += 10;
+  51   1      //    }
+  52   1          
+  53   1          for(k = 0; k < 6; k ++) { 
+  54   2              for(i = 20, j = 14; i > 14; i --, j--) {
+  55   3                  Put_mych(i+k*48, j, 48, 56, AHUTC[k], color);
+C51 COMPILER V9.52.0.0   MAIN                                                              11/01/2013 16:32:52 PAGE 2   
+
+  56   3                  color |= (extra&0x001F); 
+  57   3                  color |= ((extra<<5)&0x07E0);
+  58   3                  extra += 60;
+  59   3              }
+  60   2              Put_mych(i+k*48, j, 48, 56, AHUTC[k], Red);
+  61   2              color = Yellow;
+  62   2          }
+  63   1          
+  64   1          
+  65   1          for(k = 0; k < 30; k ++) { 
+  66   2              for(i = 40, j = 65; i > 30; i --, j--) {
+  67   3                  Put_mych(i+k*8, j, 8, 14, AHUTE[k], color);
+  68   3                  color += 40;
+  69   3              }
+  70   2              Put_mych(i+k*8, j, 8, 14, AHUTE[k], Green);
+  71   2              color = Yellow+1200;
+  72   2          }
+  73   1          
+  74   1          for(k = 0; k < 5; k ++) { 
+  75   2              for(i = 100, j = 90; i > 90; i --, j--) {
+  76   3                  if(k < 4)
+  77   3                      Put_mych(i+k*29, j, 32, 27, team_name[k], color);
+  78   3                  else
+  79   3                      Put_mych(i+k*25, j, 32, 27, team_name[k], color);
+  80   3                  color += 40;
+  81   3              }
+  82   2              if(k < 4)
+  83   2                      Put_mych(i+k*29, j, 32, 27, team_name[k], Green);
+  84   2                  else
+  85   2                      Put_mych(i+k*25, j, 32, 27, team_name[k], Green);
+  86   2              color = Yellow+1200;
+  87   2          }
+  88   1          
+  89   1          for(k = 0; k < 4; k ++) { 
+  90   2              for(i = 60, j = 120; i > 50; i --, j--) {
+  91   3                  if(k != 2)
+  92   3                      Put_mych(i+k*32, j, 32, 27, per_name[k], color);
+  93   3                  else if (k == 3)
+  94   3                      Put_mych(i+k*54, j, 32, 27, per_name[k], color);
+  95   3                  else
+  96   3                      Put_mych(i+k*37, j, 32, 27, per_name[k], color);
+  97   3                  color += 40;
+  98   3              }
+  99   2              if(k != 2)
+ 100   2                  Put_mych(i+k*32, j, 32, 27, per_name[k], Green);
+ 101   2              else if (k == 3)
+ 102   2                  Put_mych(i+k*54, j, 32, 27, per_name[k], Green);
+ 103   2              else
+ 104   2                  Put_mych(i+k*37, j, 32, 27, per_name[k], Green);
+ 105   2              color = Yellow+1200;
+ 106   2          }
+ 107   1      
+ 108   1      //    for(k = 0; k < 90; k ++) {
+ 109   1      //        band_x = cos(k*PI/180)*40;
+ 110   1      //        band_y = sin(k*PI/180)*40;
+ 111   1      //        for(i = 0; i < band_x; i ++) {
+ 112   1      //             Put_pixel(190+band_y, 140-i, color);
+ 113   1      //         }
+ 114   1      //         color += 10;
+ 115   1      //    }
+ 116   1          
+ 117   1          
+C51 COMPILER V9.52.0.0   MAIN                                                              11/01/2013 16:32:52 PAGE 3   
+
+ 118   1      //        for(i = 22, j = 50; i < 140; i++, j++) { 
+ 119   1      //            for(k = 0; k < 4; k ++) { 
+ 120   1      //                Put_mych(i+k*8, j, 8, 16, imcu[k], color);
+ 121   1      //            } 
+ 122   1      //            color += 40;
+ 123   1      //        }
+ 124   1      //        
+ 125   1      //        for(k = 0; k < 4; k ++) { 
+ 126   1      //            Put_mych(i+k*8, j, 8, 16, imcu[k], Green);
+ 127   1      //        }
+ 128   1          
+ 129   1      //    x = 130;
+ 130   1      //    y = 130;
+ 131   1      //    
+ 132   1      //    r = 110;
+ 133   1      //    
+ 134   1      //    for(i = 195; i < 345; i ++) {
+ 135   1      //        Put_pixel(x+cos(i*PI/180)*r, y+sin(i*PI/180)*r, Yellow);
+ 136   1      //    }
+ 137   1      //    
+ 138   1      //    //line_length = 10;
+ 139   1      //    
+ 140   1      //    for(i = 195; i <= 345; i += 30) {
+ 141   1      //        
+ 142   1      //        x = 130;
+ 143   1      //        y = 130;
+ 144   1      //              
+ 145   1      //              x += cos(i*PI/180)*r;
+ 146   1      //              y += sin(i*PI/180)*r;
+ 147   1      //        
+ 148   1      //        //Put_mych();
+ 149   1      //      
+ 150   1      //              for(line_length = 0; line_length < 12; line_length ++) {
+ 151   1      //                      Put_pixel(x + line_length*cos((i-180)*PI/180), y + line_length*sin((i-180)*PI/180), White);
+ 152   1      //              }
+ 153   1      //        
+ 154   1      //        if(i < 335) 
+ 155   1      //                      for(j = i; j < (i + 30); j += 6) {
+ 156   1      //                                      
+ 157   1      //                                      x = 130;
+ 158   1      //                                      y = 130;
+ 159   1      //                              
+ 160   1      //                                      x += cos(j*PI/180)*r;
+ 161   1      //                                      y += sin(j*PI/180)*r;
+ 162   1      //                              
+ 163   1      //                                      for(line_length = 0; line_length < 6; line_length ++) {
+ 164   1      //                                              Put_pixel(x + line_length*cos((j-180)*PI/180), y + line_length*sin((j-180)*PI/180), White);
+ 165   1      //                                      }
+ 166   1      //                      }
+ 167   1      //    }
+ 168   1      //    
+ 169   1      //    Put_mych(23, 90, 8, 16, num[1], Yellow);
+ 170   1          
+ 171   1      //    x = 130;
+ 172   1      //    y = 130;
+ 173   1          i = 2000;
+ 174   1          while(1) {
+ 175   2              line_length = 7;
+ 176   2              //for(i = 110; i < 210; i ++) {
+ 177   2                  for(x = 0; x < 320; x += 1) {
+ 178   3                          for(y = 233; y < 233+line_length; y ++)
+ 179   3                              Put_pixel(x, y, color);
+C51 COMPILER V9.52.0.0   MAIN                                                              11/01/2013 16:32:52 PAGE 4   
+
+ 180   3                      color += 2;
+ 181   3                      color += (2 << 5);
+ 182   3                      delayms(30);
+ 183   3                  }
+ 184   2              //}
+ 185   2              break;
+ 186   2              color = Blue + i;
+ 187   2              i -= 200;
+ 188   2              if(i == 0)
+ 189   2                  i = 2000;
+ 190   2              
+ 191   2              //voltage  ; 
+ 192   2                      //current_angle = (int)(voltage/4.8 * 150); 
+ 193   2              //current_angle = ADC_RESL*1.0/256*150;
+ 194   2                      //if(abs(old_angle - current_angle) > 0.005) {
+ 195   2      //        if((ADC_CONTR & ADC_FLAG) == ADC_FLAG) {
+ 196   2      //            current_angle = ADC_RESL*1.0/256*150;
+ 197   2      //            if(abs(old_angle - current_angle) > 0.5) {
+ 198   2      //                IE = 0x00;
+ 199   2      //                //i = voltage%10;
+ 200   2      //                Put_mych(140, 140, 8, 16, num[6], Yellow);
+ 201   2      //                              for(line_length = 0; line_length < 60; line_length ++) {
+ 202   2      //                                      Put_pixel(x + line_length*cos((old_angle+195)*PI/180), 
+ 203   2      //                                              y + line_length*sin((old_angle+195)*PI/180), Black);
+ 204   2      //                              //for(line_length = 0; line_length < 60; line_length ++)
+ 205   2      //                                      Put_pixel(x + line_length*cos((current_angle+195)*PI/180), 
+ 206   2      //                                              y + line_length*sin((current_angle+195)*PI/180), White);
+ 207   2      //                }
+ 208   2      //                old_angle = current_angle;
+ 209   2      //                IE = 0xA0;
+ 210   2      //           }
+ 211   2      //           
+ 212   2      ////            ADC_CONTR &= ~ADC_FLAG;
+ 213   2      ////            ADC_CONTR = ADC_POWER|ADC_START; 
+ 214   2      ////            } 
+ 215   2                      } 
+ 216   1                        
+ 217   1          //while(1);
+ 218   1      }
+*** WARNING C280 IN LINE 20 OF main.c: 'r': unreferenced local variable
+ 219          
+ 220          void adc_isr() interrupt 5 using 1
+ 221          {
+ 222   1      //    unsigned short line_length;
+ 223   1      //    unsigned short x = 130;
+ 224   1      //    unsigned short y = 130;
+ 225   1          ADC_CONTR &= ~ADC_FLAG; 
+ 226   1          //voltage = (ADC_RESH)/256*4.8;
+ 227   1          current_angle = ADC_RESL*1.0/256*150;
+ 228   1          voltage = ADC_RESL*1.0/256*4.8;
+ 229   1      //    for(line_length = 0; line_length < 60; line_length ++) {
+ 230   1      //                                      Put_pixel(x + line_length*cos((old_angle+195)*PI/180), 
+ 231   1      //                                              y + line_length*sin((old_angle+195)*PI/180), Black);
+ 232   1      //                              //for(line_length = 0; line_length < 60; line_length ++)
+ 233   1      //                                      Put_pixel(x + line_length*cos((current_angle+195)*PI/180), 
+ 234   1      //                                              y + line_length*sin((current_angle+195)*PI/180), White);
+ 235   1      //    }
+ 236   1      //    old_angle = current_angle;
+ 237   1          ADC_CONTR = ADC_POWER|ADC_START;
+ 238   1          //IE = 0x00;
+ 239   1      }
+*** WARNING C294 IN LINE 186 OF main.c: unreachable code
+C51 COMPILER V9.52.0.0   MAIN                                                              11/01/2013 16:32:52 PAGE 5   
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1350    ----
+   CONSTANT SIZE    =   4560    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     12      12
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)

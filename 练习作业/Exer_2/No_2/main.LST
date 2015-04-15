@@ -1,0 +1,135 @@
+C51 COMPILER V9.52.0.0   MAIN                                                              11/01/2013 14:06:37 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: E:\C51Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include <math.h>
+   3          #include "initLCD.h" 
+   4          #include "num.h"
+   5          #include "PCF.h"
+   6          
+   7          #define White          0xFFFF   //LCD color
+   8          #define Black          0x0000
+   9          #define Blue           0x001F
+  10          #define Blue2          0x051F
+  11          #define Red            0xF800
+  12          #define Magenta        0xF81F
+  13          #define Green          0x07E0
+  14          #define Cyan           0x7FFF
+  15          #define Yellow         0xFFE0
+  16          
+  17          #define PI 3.1415926
+  18          
+  19          
+  20          int main()
+  21          {
+  22   1              float old_angle;
+  23   1              float current_angle;
+  24   1              float voltage;
+  25   1              uint x, y, i, j, k;
+  26   1          uint r;
+  27   1              uint line_length; 
+  28   1              TFT_Initial();
+  29   1              CLR_Screen(White);
+  30   1              //circle(x1, y1, 100, Blue2);
+  31   1              
+  32   1              old_angle = current_angle = 0;
+  33   1              
+  34   1              x = 120;
+  35   1              y = 100;
+  36   1              
+  37   1              r = 30;
+  38   1              
+  39   1              for(i = 195; i <= 345; i ++)
+  40   1              {
+  41   2                      Put_pixel(x + 4*cos(i*PI/180)*r, y + 3*sin(i*PI/180)*r, Black);
+  42   2              }
+  43   1              
+  44   1              for(i = 0; i < 4; i ++) {
+  45   2                      circle(x, y, i, Black);
+  46   2              }
+  47   1              
+  48   1              for(i = 195, j = 0; i <= 345; i += 30, j++) {
+  49   2                      
+  50   2                      x += 4*cos(i*PI/180)*r;
+  51   2                      y += 3*sin(i*PI/180)*r;
+  52   2              
+  53   2                      for(line_length = 0; line_length < 12; line_length ++) {
+  54   3                              Put_pixel(x + line_length*cos((i-180)*PI/180), y + line_length*sin((i-180)*PI/180), Black);
+  55   3                      }
+C51 COMPILER V9.52.0.0   MAIN                                                              11/01/2013 14:06:37 PAGE 2   
+
+  56   2                      
+  57   2                      if(j < 3)
+  58   2                              Put_mych(x+5, y+5, 8, 15, num[j], Black, White); 
+  59   2                      else
+  60   2                              Put_mych(x-13, y+3, 8, 15, num[j], Black, White);
+  61   2                      
+  62   2                      if(j < 5)
+  63   2                              for(k = i; k < (i + 30); k += 6) {
+  64   3                                              
+  65   3                                              x = 120;
+  66   3                                              y = 100;
+  67   3                                      
+  68   3                                              x += 4*cos(k*PI/180)*r;
+  69   3                                              y += 3*sin(k*PI/180)*r;
+  70   3                                      
+  71   3                                              for(line_length = 0; line_length < 6; line_length ++) {
+  72   4                                                      Put_pixel(x + line_length*cos((k-180)*PI/180), y + line_length*sin((k-180)*PI/180), Black);
+  73   4                                              }
+  74   3                              }
+  75   2      
+  76   2                      x = 120;
+  77   2                      y = 100;
+  78   2              }
+  79   1              
+  80   1              //GUI_HLine(12, 34, 200, 0x09F0);
+  81   1              //Put_pixel(12, 34, 0x09F0);
+  82   1              //GUI_DisPicture(100, 180, 59, 60, pic);
+  83   1              while(1) {
+  84   2                      voltage = (Read_AD(1)*4.8/256); 
+  85   2                      current_angle = (int)(voltage/4.8 * 150);
+  86   2                      
+  87   2                      if(abs(old_angle - current_angle) > 0.5) {
+  88   3                                      for(line_length = 0; line_length < 60; line_length ++) {
+  89   4                                              Put_pixel(120 + line_length*cos((old_angle+195)*PI/180), 
+  90   4                                                      100 + line_length*sin((old_angle+195)*PI/180), White);
+  91   4                                      //for(line_length = 0; line_length < 60; line_length ++)
+  92   4                                              Put_pixel(120 + line_length*cos((current_angle+195)*PI/180), 
+  93   4                                                      100 + line_length*sin((current_angle+195)*PI/180), Black);
+  94   4                      }
+  95   3                      }
+  96   2                      
+  97   2                      old_angle = current_angle;
+  98   2              }
+  99   1      //      {
+ 100   1      //              for(x1 = 10, y1 = 20; x1 < 120; x1 ++, y1++)
+ 101   1      //              {
+ 102   1      //                              GUI_DisPicture(x1, y1, 80, 31, pic);
+ 103   1      //                              delayms(800);
+ 104   1      //                              Set_Color(x1, y1, 80, 33, Black);
+ 105   1      //                              //delayms(180);
+ 106   1      //              }       
+ 107   1      //      }
+ 108   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1964    ----
+   CONSTANT SIZE    =     90    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      22
+   IDATA SIZE       =   ----    ----
+C51 COMPILER V9.52.0.0   MAIN                                                              11/01/2013 14:06:37 PAGE 3   
+
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

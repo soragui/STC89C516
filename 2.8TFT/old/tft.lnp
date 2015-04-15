@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"NBCTFT.obj",
+"main.obj" 
+TO "tft" 

@@ -1,0 +1,4 @@
+"initLCD.obj",
+"main.obj" 
+TO "teamwelcome" 
+RAMSIZE(256) 

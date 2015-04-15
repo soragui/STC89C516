@@ -1,0 +1,5 @@
+"initLCD.obj",
+"main.obj",
+"pen.obj" 
+TO "penirq" 
+RAMSIZE(256) 

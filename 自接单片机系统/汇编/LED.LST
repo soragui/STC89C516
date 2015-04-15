@@ -1,0 +1,43 @@
+A51 MACRO ASSEMBLER  LED                                                                  04/18/2013 19:07:01 PAGE     1
+
+
+MACRO ASSEMBLER A51 V7.07
+OBJECT MODULE PLACED IN LED.OBJ
+ASSEMBLER INVOKED BY: F:\Keil\C51\BIN\A51.EXE LED.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000 D290              1     MAIN:   SETB  P1.0  ;  P1.0 = 1;
+0002 7530FF            2                     MOV   30H, #255 ;
+0005 120013            3                     LCALL DELAY     ;  delay();
+0008 C290              4                     CLR       P1.0  ;  P1.0 = 0;
+000A 7530C8            5                     MOV   30H, #200 ;
+000D 120013            6                     LCALL DELAY ;  delay();
+0010 020000            7                     LJMP  MAIN  ;  while (1);
+                       8     
+0013 AF30              9     DELAY:  MOV R7, 30H ;   delay()
+0015 7EFA             10     D1:     MOV R6, #250 ;  while (i --)
+0017 DEFE             11     D2:     DJNZ R6, D2  ;
+0019 DFFA             12                     DJNZ R7, D1  ;
+001B 22               13                     RET                      ;
+                      14                     END          ;    return
+                              
+A51 MACRO ASSEMBLER  LED                                                                  04/18/2013 19:07:01 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+D1 . . . . . . . .  C ADDR   0015H   A   
+D2 . . . . . . . .  C ADDR   0017H   A   
+DELAY. . . . . . .  C ADDR   0013H   A   
+MAIN . . . . . . .  C ADDR   0000H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

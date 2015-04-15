@@ -1,0 +1,114 @@
+C51 COMPILER V9.52.0.0   MAIN                                                              11/01/2013 09:43:50 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: E:\C51Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include <math.h>
+   3          #include "initLCD.h" 
+   4          #include "num.h"
+   5          
+   6          #define White          0xFFFF   //LCD color
+   7          #define Black          0x0000
+   8          #define Blue           0x001F
+   9          #define Blue2          0x051F
+  10          #define Red            0xF800
+  11          #define Magenta        0xF81F
+  12          #define Green          0x07E0
+  13          #define Cyan           0x7FFF
+  14          #define Yellow         0xFFE0
+  15          
+  16          #define PI 3.1415926
+  17          
+  18          
+  19          int main()
+  20          {
+  21   1              uint x, y, i, j, k;
+  22   1          uint r;
+  23   1              uint line_length;
+  24   1              TFT_Initial();
+  25   1              CLR_Screen(Blue);
+  26   1              //circle(x1, y1, 100, Blue2);
+  27   1              
+  28   1              x = 120;
+  29   1              y = 100;
+  30   1              
+  31   1              r = 30;
+  32   1              
+  33   1              for(i = 195; i <= 345; i ++)
+  34   1              {
+  35   2                      Put_pixel(y + 3*sin(i*PI/180)*r, x + 4*cos(i*PI/180)*r, Black);
+  36   2              }
+  37   1              
+  38   1              for(i = 0; i < 4; i ++) {
+  39   2                      circle(y, x, i, Black);
+  40   2              }
+  41   1              
+  42   1              for(i = 195, j = 0; i <= 345; i += 30, j++) {
+  43   2                      
+  44   2                      x += 4*cos(i*PI/180)*r;
+  45   2                      y += 3*sin(i*PI/180)*r;
+  46   2              
+  47   2                      for(line_length = 0; line_length < 12; line_length ++) {
+  48   3                              Put_pixel(y + line_length*sin((i-180)*PI/180), x + line_length*cos((i-180)*PI/180), Black);
+  49   3                      }
+  50   2                      
+  51   2                      if(j < 3)
+  52   2                              Put_mych(x+5,y+5, 8, 15, num[j], Black, Blue);
+  53   2                      //if(3 == j)
+  54   2                      //      Put_mych(x-5, y+3, 8, 15, num[j], Black, Blue);
+  55   2                      else
+C51 COMPILER V9.52.0.0   MAIN                                                              11/01/2013 09:43:50 PAGE 2   
+
+  56   2                              Put_mych(x-13, y+3, 8, 15, num[j], Black, Blue);
+  57   2                      
+  58   2                      if(j < 5)
+  59   2                              for(k = i; k < (i + 30); k += 6) {
+  60   3                                              
+  61   3                                              x = 120;
+  62   3                                              y = 100;
+  63   3                                      
+  64   3                                              x += 4*cos(k*PI/180)*r;
+  65   3                                              y += 3*sin(k*PI/180)*r;
+  66   3                                      
+  67   3                                              for(line_length = 0; line_length < 6; line_length ++) {
+  68   4                                                      Put_pixel(y + line_length*sin((k-180)*PI/180), x + line_length*cos((k-180)*PI/180), Black);
+  69   4                                              }
+  70   3                              }
+  71   2      
+  72   2                      x = 120;
+  73   2                      y = 100;
+  74   2              }
+  75   1              
+  76   1              //GUI_HLine(12, 34, 200, 0x09F0);
+  77   1              //Put_pixel(12, 34, 0x09F0);
+  78   1              //GUI_DisPicture(100, 180, 59, 60, pic);
+  79   1              while(1) ;
+  80   1      //      {
+  81   1      //              for(x1 = 10, y1 = 20; x1 < 120; x1 ++, y1++)
+  82   1      //              {
+  83   1      //                              GUI_DisPicture(x1, y1, 80, 31, pic);
+  84   1      //                              delayms(800);
+  85   1      //                              Set_Color(x1, y1, 80, 33, Black);
+  86   1      //                              //delayms(180);
+  87   1      //              }       
+  88   1      //      }
+  89   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1427    ----
+   CONSTANT SIZE    =     90    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      14
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,195 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        05/30/2013  15:35:07  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+D:\KEIL\C51\BIN\BL51.EXE STARTUP.obj, delay.obj, main.obj TO key2
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  STARTUP.obj (?C_STARTUP)
+  delay.obj (DELAY)
+  main.obj (MAIN)
+  D:\KEIL\C51\LIB\C51S.LIB (?C?CCASE)
+
+
+LINK MAP OF MODULE:  key2 (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0001H     UNIT         ?DT?MAIN
+            IDATA   0009H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0088H     UNIT         ?PR?KEYHANDLE?MAIN
+            CODE    008BH     002AH     UNIT         ?PR?KEYSCAN?MAIN
+            CODE    00B5H     0026H     UNIT         ?C?LIB_CODE
+            CODE    00DBH     0020H     UNIT         ?PR?_DELAY?DELAY
+            CODE    00FBH     000CH     UNIT         ?C_C51STARTUP
+            CODE    0107H     000CH     UNIT         ?PR?MAIN?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   key2 (?C_STARTUP)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?MAIN
+
+?PR?MAIN?MAIN
+  +--> ?PR?KEYSCAN?MAIN
+  +--> ?PR?KEYHANDLE?MAIN
+
+?PR?KEYSCAN?MAIN
+  +--> ?PR?_DELAY?DELAY
+
+
+
+SYMBOL TABLE OF MODULE:  key2 (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+BL51 BANKED LINKER/LOCATER V6.00                                                      05/30/2013  15:35:07  PAGE 2
+
+
+
+  -------         MODULE        ?C_STARTUP
+  C:00FBH         SEGMENT       ?C_C51STARTUP
+  I:0009H         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:00FEH         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:00FBH         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:00FBH         LINE#         133
+  C:00FDH         LINE#         134
+  C:00FEH         LINE#         135
+  C:00FFH         LINE#         136
+  C:0101H         LINE#         185
+  C:0104H         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        DELAY
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:00DBH         PUBLIC        _delay
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        time
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:00DBH         LINE#         3
+  C:00DBH         LINE#         4
+  C:00DBH         LINE#         6
+  C:00E5H         LINE#         7
+  C:00E5H         LINE#         8
+  C:00F3H         LINE#         9
+  C:00FAH         LINE#         10
+  -------         ENDPROC       _DELAY
+  -------         ENDMOD        DELAY
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+BL51 BANKED LINKER/LOCATER V6.00                                                      05/30/2013  15:35:07  PAGE 3
+
+
+  D:00B0H         PUBLIC        P3
+  C:0003H         PUBLIC        keyHandle
+  C:0107H         PUBLIC        main
+  D:0008H         PUBLIC        keyValue
+  C:008BH         PUBLIC        keyScan
+  -------         PROC          MAIN
+  C:0107H         LINE#         13
+  C:0107H         LINE#         14
+  C:0107H         LINE#         15
+  C:0107H         LINE#         16
+  C:0107H         LINE#         24
+  C:010AH         LINE#         25
+  C:0111H         LINE#         26
+  -------         ENDPROC       MAIN
+  -------         PROC          KEYSCAN
+  -------         DO            
+  D:0007H         SYMBOL        x
+  D:0006H         SYMBOL        y
+  -------         ENDDO         
+  C:008BH         LINE#         29
+  C:008BH         LINE#         30
+  C:008BH         LINE#         96
+  C:008EH         LINE#         97
+  C:0096H         LINE#         99
+  C:0096H         LINE#         100
+  C:009DH         LINE#         102
+  C:00A5H         LINE#         103
+  C:00A5H         LINE#         104
+  C:00AAH         LINE#         105
+  C:00ADH         LINE#         106
+  C:00B1H         LINE#         107
+  C:00B4H         LINE#         108
+  C:00B4H         LINE#         109
+  C:00B4H         LINE#         110
+  -------         ENDPROC       KEYSCAN
+  -------         PROC          KEYHANDLE
+  C:0003H         LINE#         160
+  C:0003H         LINE#         161
+  C:0003H         LINE#         162
+  C:003CH         LINE#         163
+  C:003CH         LINE#         164
+  C:0040H         LINE#         165
+  C:0045H         LINE#         166
+  C:004AH         LINE#         167
+  C:004FH         LINE#         168
+  C:0054H         LINE#         169
+  C:0059H         LINE#         170
+  C:005EH         LINE#         171
+  C:0063H         LINE#         172
+  C:0068H         LINE#         173
+  C:006DH         LINE#         174
+  C:0072H         LINE#         175
+  C:0077H         LINE#         176
+  C:007CH         LINE#         177
+  C:0081H         LINE#         178
+  C:0086H         LINE#         179
+  C:008AH         LINE#         180
+BL51 BANKED LINKER/LOCATER V6.00                                                      05/30/2013  15:35:07  PAGE 4
+
+
+  C:008AH         LINE#         181
+  C:008AH         LINE#         182
+  -------         ENDPROC       KEYHANDLE
+  -------         ENDMOD        MAIN
+
+  -------         MODULE        ?C?CCASE
+  C:00B5H         PUBLIC        ?C?CCASE
+  -------         ENDMOD        ?C?CCASE
+
+Program Size: data=10.0 xdata=0 code=275
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

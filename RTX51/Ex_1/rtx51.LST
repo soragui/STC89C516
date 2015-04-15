@@ -1,0 +1,62 @@
+C51 COMPILER V9.52.0.0   RTX51                                                             10/13/2013 08:16:34 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE RTX51
+OBJECT MODULE PLACED IN rtx51.OBJ
+COMPILER INVOKED BY: E:\C51Keil\C51\BIN\C51.EXE rtx51.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <rtx51tny.h>
+   2          #include <reg51.h>
+   3          #include "rtx51.h"
+   4          
+   5          void delay(uint time)
+   6          {
+   7   1          uint i, j;
+   8   1          for(i = 0; i < time; i ++)
+   9   1              for(j = 0; j < 50; j ++);
+  10   1      }
+  11          
+  12          void set_one(void) _task_ 1
+  13          {
+  14   1          while(1) {
+  15   2              //P1 = 0x6F; 
+  16   2          }
+  17   1      }
+  18          
+  19          void set_two(void) _task_ 2
+  20          {
+  21   1          uchar i, j;
+  22   1          while(1) {
+  23   2              //P1 = 0xF6; 
+  24   2              j = 0x01;
+  25   2              for(i = 0; i < 8; i ++) {
+  26   3                  P1 = ~j;
+  27   3                  delay(500);
+  28   3                  j <<= 1;
+  29   3              }
+  30   2          }
+  31   1      }
+  32          
+  33          void task_start_up(void) _task_ 0
+  34          {
+  35   1          os_create_task(1);
+  36   1          os_create_task(2);
+  37   1          
+  38   1          os_delete_task(0);
+  39   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     78    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

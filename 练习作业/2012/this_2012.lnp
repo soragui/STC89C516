@@ -1,0 +1,6 @@
+"STARTUP.obj",
+"main.obj",
+"NBCTFT.obj",
+"ad_c.obj" 
+TO "this_2012" 
+RAMSIZE(256) 

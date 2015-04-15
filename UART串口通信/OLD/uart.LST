@@ -1,0 +1,64 @@
+C51 COMPILER V9.52.0.0   UART                                                              11/22/2013 17:43:05 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE UART
+OBJECT MODULE PLACED IN uart.OBJ
+COMPILER INVOKED BY: E:\C51Keil\C51\BIN\C51.EXE uart.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg51.h>
+   2          
+   3          typedef unsigned char uchar;
+   4          typedef unsigned int  uint;
+   5          
+   6          //uint num = 0;
+   7          uchar buf [] = "wifimod:RSTOR";
+   8          
+   9          //void delay (uint time);
+  10          void uart_init ();
+  11          void uart_send_byte (uchar dat);
+  12          void uart_send_string (uchar *dat);
+  13          
+  14          void main () {
+  15   1              uart_init();
+  16   1              uart_send_string (buf);
+  17   1          while(1);
+  18   1      }
+  19          
+  20          void uart_init () {
+  21   1              SCON = 0x50;
+  22   1              TMOD = 0x20;
+  23   1              TH1 = 0xFD;
+  24   1              TL1 = 0xFD;                       
+  25   1              TR1 = 1;
+  26   1      }
+  27          
+  28          void uart_send_byte (uchar dat)
+  29          {
+  30   1              SBUF = dat;
+  31   1              while (TI == 0);
+  32   1              TI = 0; 
+  33   1      }
+  34          
+  35          void uart_send_string (uchar *dat)
+  36          {
+  37   1              while (*dat)
+  38   1              {
+  39   2                      uart_send_byte(*dat++);
+  40   2              }
+  41   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     74    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     14       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

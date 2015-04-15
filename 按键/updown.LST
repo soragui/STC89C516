@@ -1,0 +1,220 @@
+C51 COMPILER V7.06   UPDOWN                                                                04/18/2013 18:26:38 PAGE 1   
+
+
+C51 COMPILER V7.06, COMPILATION OF MODULE UPDOWN
+OBJECT MODULE PLACED IN updown.OBJ
+COMPILER INVOKED BY: F:\Keil\C51\BIN\C51.EXE updown.c BROWSE DEBUG OBJECTEXTEND
+
+stmt level    source
+
+   1          #include <reg51.h>
+   2          #include <intrins.h>
+   3          #include "init.h"
+   4          
+   5          uchar code dis[]={0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07,0x7F,0x6F};
+   6          
+   7          long dis_num, num, res;
+   8          uchar disw, temp;
+   9          uint k, i, op = 0;
+  10          
+  11          void main ()
+  12          {
+  13   1              init_digit();
+  14   1      
+  15   1              while (1)
+  16   1              {
+  17   2                      dis_num = num;
+  18   2                      disw = 0xFE;
+  19   2                      k = wei(num), i;
+  20   2                      //显示一个数 从个位到最高位
+  21   2                      for (i = 0; i < k; i ++)
+  22   2                      {       
+  23   3                              P0 = _cror_(disw, 1);
+  24   3                              Digit_wei = 1;
+  25   3                              Digit_wei = 0;
+  26   3                              
+  27   3                              P0 = 0x00; Digit_duan = 1; Digit_duan = 0;      //消影
+  28   3                              
+  29   3                              P0 = dis[dis_num%10];
+  30   3                              Digit_duan = 1;
+  31   3                              Digit_duan = 0;
+  32   3                              delay(15);
+  33   3                              
+  34   3                              disw = _cror_(disw, 1);
+  35   3                              dis_num /= 10;
+  36   3                      }
+  37   2                      keyscan();
+  38   2              }
+  39   1      }
+  40          
+  41          void keyscan()
+  42          {
+  43   1          P2=0xfe;
+  44   1          temp=P2;
+  45   1          temp=temp&0xf0;
+  46   1          while(temp!=0xf0)
+  47   1          {
+  48   2            delay(5);
+  49   2            temp=P2;
+  50   2            temp=temp&0xf0;
+  51   2            while(temp!=0xf0)
+  52   2            {
+  53   3              temp=P2;
+  54   3              switch(temp)
+  55   3             {
+C51 COMPILER V7.06   UPDOWN                                                                04/18/2013 18:26:38 PAGE 2   
+
+  56   4              case 0xee: num= num/10;
+  57   4               break;
+  58   4              case 0xde: num = 0; res = 0;
+  59   4               break;
+  60   4              case 0xbe: {
+  61   5                                                      switch (op)
+  62   5                                                      {
+  63   6                                                              case 1: num = num + res; break;
+  64   6                                                              case 2: num = res - num; break;
+  65   6                                                              case 3: num = res * num; break;
+  66   6                                                              case 4: num = res / num; break;
+  67   6                                                              default : break;
+  68   6                                                      }
+  69   5                                              }
+  70   4               break;
+  71   4              case 0x7e: {
+  72   5                                                      op = 4;
+  73   5                                                      if (!res) res = num;
+  74   5                                                      num = 0;
+  75   5                                              }
+  76   4               break;
+  77   4             }
+  78   3            while(temp!=0xf0)
+  79   3             {
+  80   4              temp=P2;
+  81   4              temp=temp&0xf0;
+  82   4             }
+  83   3            }
+  84   2           }
+  85   1      
+  86   1          P2=0xfd;
+  87   1          temp=P2;
+  88   1          temp=temp&0xf0;
+  89   1          while(temp!=0xf0)
+  90   1           {
+  91   2            delay(5);
+  92   2            temp=P2;
+  93   2            temp=temp&0xf0;
+  94   2            while(temp!=0xf0)
+  95   2            {
+  96   3             temp=P2;
+  97   3            switch(temp)
+  98   3             {
+  99   4              case 0xed:num = num * 10 + 7;
+ 100   4               break;
+ 101   4              case 0xdd:num = num * 10 + 8;
+ 102   4               break;
+ 103   4              case 0xbd:num = num * 10 + 9;
+ 104   4               break;
+ 105   4              case 0x7d:{
+ 106   5                                                      op = 3;
+ 107   5                                                      if (!res) res = num;
+ 108   5                                                      num = 0;
+ 109   5                                              }
+ 110   4               break;
+ 111   4             }
+ 112   3            while(temp!=0xf0)
+ 113   3             {
+ 114   4              temp=P2;
+ 115   4              temp=temp&0xf0;
+ 116   4             }
+ 117   3            }
+C51 COMPILER V7.06   UPDOWN                                                                04/18/2013 18:26:38 PAGE 3   
+
+ 118   2           }
+ 119   1      
+ 120   1      
+ 121   1          P2=0xfb;
+ 122   1          temp=P2;
+ 123   1          temp=temp&0xf0;
+ 124   1          while(temp!=0xf0)
+ 125   1           {
+ 126   2            delay(5);
+ 127   2            temp=P2;
+ 128   2            temp=temp&0xf0;
+ 129   2            while(temp!=0xf0)
+ 130   2            {
+ 131   3             temp=P2;
+ 132   3            switch(temp)
+ 133   3             {
+ 134   4              case 0xeb:num = num * 10 + 4;
+ 135   4               break;
+ 136   4              case 0xdb:num = num * 10 + 5;
+ 137   4               break;
+ 138   4              case 0xbb:num = num * 10 + 6;
+ 139   4               break;
+ 140   4              case 0x7b:{
+ 141   5                                                      op = 2;
+ 142   5                                                      if (!res) res = num;
+ 143   5                                                      num = 0;
+ 144   5                                              }
+ 145   4               break;
+ 146   4             }
+ 147   3            while(temp!=0xf0)
+ 148   3             {
+ 149   4              temp=P2;
+ 150   4              temp=temp&0xf0;
+ 151   4             }
+ 152   3            }
+ 153   2           }
+ 154   1      
+ 155   1      
+ 156   1          P2=0xf7;
+ 157   1          temp=P2;
+ 158   1          temp=temp&0xf0;
+ 159   1          while(temp!=0xf0)
+ 160   1           {
+ 161   2            delay(5);
+ 162   2            temp=P2;
+ 163   2            temp=temp&0xf0;
+ 164   2            while(temp!=0xf0)
+ 165   2            {
+ 166   3             temp=P2;
+ 167   3            switch(temp)
+ 168   3             {
+ 169   4              case 0xe7: num = num * 10 + 1;
+ 170   4               break;
+ 171   4              case 0xd7: num = num * 10 + 2;
+ 172   4               break;
+ 173   4              case 0xb7: num = num * 10 + 3;
+ 174   4               break;
+ 175   4              case 0x77: {
+ 176   5                                                      op = 1;
+ 177   5                                                      if (!res) res = num;
+ 178   5                                                      num = 0;
+ 179   5                                              }
+C51 COMPILER V7.06   UPDOWN                                                                04/18/2013 18:26:38 PAGE 4   
+
+ 180   4               break;
+ 181   4             }
+ 182   3            while(temp!=0xf0)
+ 183   3             {
+ 184   4              temp=P2;
+ 185   4              temp=temp&0xf0;
+ 186   4             }
+ 187   3            }
+ 188   2           }
+ 189   1      }
+ 190          
+ 191           
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1045    ----
+   CONSTANT SIZE    =     10    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     20    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

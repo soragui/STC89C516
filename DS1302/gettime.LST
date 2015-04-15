@@ -1,0 +1,107 @@
+C51 COMPILER V8.05a   GETTIME                                                              06/06/2013 16:51:07 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE GETTIME
+OBJECT MODULE PLACED IN gettime.OBJ
+COMPILER INVOKED BY: D:\Keil\C51\BIN\C51.EXE gettime.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include <intrins.h>
+   3          #include "gettime.h"
+   4          
+   5          sbit DS1302_SCLK = P1^0;
+   6          sbit DS1302_IO   = P1^1;
+   7          sbit DS1302_RST  = P1^2;
+   8          
+   9          void DS1302_WByte(uchar ndata)
+*** ERROR C141 IN LINE 9 OF GETTIME.C: syntax error near 'ndata', expected ')'
+  10          {
+  11   1              uchar i;
+  12   1              for(i = 0; i < 8; i ++)
+  13   1              {
+  14   2                      DS1302_IO   = (bit)(ndata&0x01);
+  15   2                      DS1302_SCLK = 1;
+  16   2                      _nop_();
+  17   2                      DS1302_SCLK = 0;
+  18   2                      ndata >>= 1;
+  19   2              }
+  20   1      }
+  21          
+  22          uchar DS1302_RByte()
+  23          {
+  24                  uchar i, ndata;
+  25                  for(i = 0; i < 8; i ++)
+  26                  {
+  27                          DS1302_IO = 1;
+  28                          ndata >>= 1;
+  29                          if(DS1302_IO)
+  30                          {
+  31                                  ndata |= 0x80;
+  32                          }
+  33                          DS1302_SCLK = 1;
+  34                          _nop_();
+  35                          DS1302_SCLK = 0;
+  36                  }
+  37                  return ndata;
+  38          }
+  39          
+  40          void DS1302_WData(uchar nAddr, uchar ndata)
+  41          {
+  42                  DS1302_RST  = 0;
+  43                  DS1302_SCLK = 0;
+  44                  DS1302_RST  = 1;
+  45                  DS1302_WByte(nAddr);
+  46                  DS1302_WByte(ndata);
+  47                  DS1302_SCLK = 1;
+  48                  DS1302_RST  = 0;
+  49          }
+  50          
+  51          uchar DS1302_RData(uchar nAddr)
+  52          {
+  53              uchar ndata;
+  54                  DS1302_RST=0;
+C51 COMPILER V8.05a   GETTIME                                                              06/06/2013 16:51:07 PAGE 2   
+
+  55                  DS1302_SCLK=0;
+  56                  DS1302_RST=1;
+  57              DS1302_WByte(nAddr);       /* 地址，命令 */
+  58              ndata = DS1302_RByte();    /* 读1Byte数据 */
+  59              DS1302_SCLK=1;
+  60                  DS1302_RST=0;
+  61              return(ndata);
+  62          }
+  63          
+  64          void GetTime()
+  65          {
+  66                          TIME.SEC        = DS1302_RData(0x81);    //从DS1302读取秒数据
+  67                  dtime[0][0]=(TIME.SEC>>4)+0x30;      //十位
+  68                          dtime[0][1]=(TIME.SEC&0x0F)+0x30;    //个位   
+  69          
+  70                          TIME.MIN        = DS1302_RData(0x83);    //从DS1302读取分数据
+  71                  dtime[1][0]=(TIME.MIN>>4)+0x30;      //十位  
+  72                          dtime[1][1]=(TIME.MIN&0x0F)+0x30;    //个位
+  73          
+  74                          TIME.HR         = DS1302_RData(0x85);    //从DS1302读取时数据
+  75                  dtime[2][0]=(TIME.HR>>4)+0x30;       //十位  
+  76                          dtime[2][1]=(TIME.HR&0x0F)+0x30;     //个位
+  77          
+  78                          TIME.DATE       = DS1302_RData(0x87);    //从DS1302读取日数据
+  79                  dtime[3][0]=(TIME.DATE>>4)+0x30;     //十位  
+  80                          dtime[3][1]=(TIME.DATE&0x0F)+0x30;   //个位
+  81          
+  82                          TIME.MONTH      = DS1302_RData(0x89);    //从DS1302读取月数据
+  83                  dtime[4][0]=(TIME.MONTH>>4)+0x30;    //十位  
+  84                          dtime[4][1]=(TIME.MONTH&0x0F)+0x30;  //个位
+  85          
+  86                          TIME.DAY        = DS1302_RData(0x8b);    //从DS1302读取星期数据
+  87                  dtime[5][0]=(TIME.DAY>>4)+0x30;      //十位  
+  88                          dtime[5][1]=(TIME.DAY&0x0F)+0x30;    //个位
+  89          
+  90                          TIME.YEAR       = DS1302_RData(0x8d);    //从DS1302读取年数据
+  91                  dtime[6][0]=(TIME.YEAR>>4)+0x30;     //十位  
+  92                          dtime[6][1]=(TIME.YEAR&0x0F)+0x30; 
+  93          }
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  1 ERROR(S)

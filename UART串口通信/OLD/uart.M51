@@ -1,0 +1,161 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        11/22/2013  17:43:06  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+E:\C51KEIL\C51\BIN\BL51.EXE STARTUP.obj, uart.obj TO uart
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  STARTUP.obj (?C_STARTUP)
+  uart.obj (UART)
+  E:\C51KEIL\C51\LIB\C51S.LIB (?C_INIT)
+  E:\C51KEIL\C51\LIB\C51S.LIB (?C?CLDPTR)
+
+
+LINK MAP OF MODULE:  uart (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     000EH     UNIT         ?DT?UART
+            DATA    0016H     0003H     UNIT         _DATA_GROUP_
+            IDATA   0019H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     008CH     UNIT         ?C_C51STARTUP
+            CODE    008FH     0025H     UNIT         ?PR?_UART_SEND_STRING?UART
+            CODE    00B4H     0019H     UNIT         ?C?LIB_CODE
+            CODE    00CDH     0011H     UNIT         ?C_INITSEG
+            CODE    00DEH     000FH     UNIT         ?PR?UART_INIT?UART
+            CODE    00EDH     000EH     UNIT         ?PR?MAIN?UART
+            CODE    00FBH     0008H     UNIT         ?PR?_UART_SEND_BYTE?UART
+
+
+
+OVERLAY MAP OF MODULE:   uart (?C_STARTUP)
+
+
+SEGMENT                              DATA_GROUP 
+  +--> CALLED SEGMENT              START    LENGTH
+--------------------------------------------------
+?C_C51STARTUP                      -----    -----
+  +--> ?PR?MAIN?UART
+  +--> ?C_INITSEG
+
+?PR?MAIN?UART                      -----    -----
+  +--> ?PR?UART_INIT?UART
+  +--> ?PR?_UART_SEND_STRING?UART
+
+?PR?_UART_SEND_STRING?UART         0016H    0003H
+  +--> ?PR?_UART_SEND_BYTE?UART
+
+
+
+SYMBOL TABLE OF MODULE:  uart (?C_STARTUP)
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/22/2013  17:43:06  PAGE 2
+
+
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:0003H         SEGMENT       ?C_C51STARTUP
+  I:0019H         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:0006H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:0003H         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:0003H         LINE#         133
+  C:0005H         LINE#         134
+  C:0006H         LINE#         135
+  C:0007H         LINE#         136
+  C:0009H         LINE#         185
+  C:000CH         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        UART
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  B:0098H.1       PUBLIC        TI
+  C:00EDH         PUBLIC        main
+  D:0099H         PUBLIC        SBUF
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0008H         PUBLIC        buf
+  C:008FH         PUBLIC        _uart_send_string
+  D:008DH         PUBLIC        TH1
+  D:008BH         PUBLIC        TL1
+  C:00DEH         PUBLIC        uart_init
+  B:0088H.6       PUBLIC        TR1
+  C:00FBH         PUBLIC        _uart_send_byte
+  -------         PROC          MAIN
+  C:00EDH         LINE#         14
+  C:00EDH         LINE#         15
+  C:00F0H         LINE#         16
+  C:00F9H         LINE#         17
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/22/2013  17:43:06  PAGE 3
+
+
+  -------         ENDPROC       MAIN
+  -------         PROC          UART_INIT
+  C:00DEH         LINE#         20
+  C:00DEH         LINE#         21
+  C:00E1H         LINE#         22
+  C:00E4H         LINE#         23
+  C:00E7H         LINE#         24
+  C:00EAH         LINE#         25
+  C:00ECH         LINE#         26
+  -------         ENDPROC       UART_INIT
+  -------         PROC          _UART_SEND_BYTE
+  D:0007H         SYMBOL        dat
+  C:00FBH         LINE#         28
+  C:00FBH         LINE#         29
+  C:00FBH         LINE#         30
+  C:00FDH         LINE#         31
+  C:0100H         LINE#         32
+  C:0102H         LINE#         33
+  -------         ENDPROC       _UART_SEND_BYTE
+  -------         PROC          _UART_SEND_STRING
+  D:0016H         SYMBOL        dat
+  C:008FH         LINE#         35
+  C:0095H         LINE#         36
+  C:0095H         LINE#         37
+  C:00A0H         LINE#         38
+  C:00A0H         LINE#         39
+  C:00B1H         LINE#         40
+  C:00B3H         LINE#         41
+  -------         ENDPROC       _UART_SEND_STRING
+  -------         ENDMOD        UART
+
+  -------         MODULE        ?C?CLDPTR
+  C:00B4H         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+Program Size: data=26.0 xdata=0 code=259
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

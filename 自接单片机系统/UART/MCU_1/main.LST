@@ -1,0 +1,92 @@
+C51 COMPILER V8.05a   MAIN                                                                 05/07/2013 10:56:37 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: F:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg52.h>
+   2          
+   3          typedef unsigned char  uchar;
+   4          typedef unsigned short uint;
+   5          
+   6          void delay(uint time);
+   7          void uart_init();
+   8          void uart_send_byte(uint dat);
+   9          
+  10          sbit add = P1^7;
+  11          sbit cut = P1^6;
+  12          uint num = 0;
+  13          
+  14          void main()
+  15          {
+  16   1              uart_init();
+  17   1              while(1)
+  18   1              {
+  19   2                      if(!add)
+  20   2                      {
+  21   3                              delay(5);
+  22   3                              while(!add);
+  23   3                              if(num < 255)
+  24   3                              {
+  25   4                                      num ++;
+  26   4                              }
+  27   3                              uart_send_byte(num);    
+  28   3                      }
+  29   2                      
+  30   2                      if(!cut)
+  31   2                      {
+  32   3                              delay(5);
+  33   3                              while(!cut);
+  34   3                              if(num > 0)
+  35   3                              {
+  36   4                                      num --;
+  37   4                              }
+  38   3                              uart_send_byte(num);    
+  39   3                      }       
+  40   2              }
+  41   1      }
+  42          
+  43          void uart_init()
+  44          {
+  45   1              SCON = 0x50;   //串口的工作方式设置
+  46   1              TMOD = 0x20;   //定时器 1 工作方式设置
+  47   1              TH1 = 0xFD;        //设置寄存器初值 确定波特率
+  48   1              TL1 = 0xFD;                       
+  49   1              TR1 = 1;
+  50   1      }
+  51          
+  52          void uart_send_byte (uint dat)
+  53          {
+  54   1              SBUF = dat;
+  55   1              while (TI == 0);
+C51 COMPILER V8.05a   MAIN                                                                 05/07/2013 10:56:37 PAGE 2   
+
+  56   1              TI = 0; 
+  57   1      }
+  58          
+  59          void delay(uint time)
+  60          {
+  61   1              uint i = 110;
+  62   1              while(time --)
+  63   1              {
+  64   2                      while(i --);
+  65   2                      i = 110;
+  66   2              }
+  67   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    137    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

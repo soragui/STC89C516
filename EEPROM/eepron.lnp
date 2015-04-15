@@ -1,0 +1,5 @@
+"STARTUP.obj",
+"eeprom.obj",
+"main.obj" 
+TO "eepron" 
+RAMSIZE(256) 

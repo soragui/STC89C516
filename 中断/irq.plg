@@ -1,0 +1,16 @@
+<html>
+<body>
+<pre>
+<h1>礦ision3 Build Log</h1>
+<h2>Project:</h2>
+P:\单片机\STC89C516仿真\中断\irq.uv2
+Project File Date:  04/06/2013
+
+<h2>Output:</h2>
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling main.c...
+linking...
+Program Size: data=30.0 xdata=0 code=841
+creating hex file from "irq"...
+"irq" - 0 Error(s), 0 Warning(s).

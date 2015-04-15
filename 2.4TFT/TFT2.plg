@@ -1,0 +1,26 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+G:\MCU\STC89C516·ÂÕæ\2.4TFT\TFT2.4.uvproj
+Project File Date:  <unknown>
+
+<h2>Output:</h2>
+Rebuild target 'Target 1'
+assembling STARTUP.A51...
+compiling init.c...
+compiling main.c...
+main.c(20): warning C280: 'm': unreferenced local variable
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_WRITECHARTO7843?INIT
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?READFROMCHARFROM7843?INIT
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DRAW_REC?INIT
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_PUTSTRING?INIT
+Program Size: data=88.0 xdata=0 code=3614
+creating hex file from "TFT2.4"...
+"TFT2.4" - 0 Error(s), 5 Warning(s).

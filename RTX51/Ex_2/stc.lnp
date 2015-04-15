@@ -1,0 +1,3 @@
+"stc_startup.obj" 
+TO "stc" Rtx51Tiny 
+RAMSIZE(256) 

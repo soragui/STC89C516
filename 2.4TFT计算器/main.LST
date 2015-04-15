@@ -1,0 +1,354 @@
+C51 COMPILER V9.52.0.0   MAIN                                                              01/04/2014 09:14:11 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: e:\51Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include <intrins.h>
+   3          #include "init.h"
+   4          
+   5          unsigned int TP_X,TP_Y;    //当前触控坐标
+   6          long op_num, op_old, res; 
+   7          unsigned int op;
+   8          
+   9          
+  10          void AD7843(void);
+  11          void disnum(long num);
+  12          unsigned int wei(long num);
+  13          
+  14          void main()
+  15          {
+  16   1              unsigned int lx, ly;
+  17   1              shiliu=1;
+  18   1              spistar();  //模拟spi初始化
+  19   1              Lcd_Init();   //tft初始化
+  20   1              LCD_CS =0;  //打开LCD片选使能   
+  21   1              Pant(Cyan);     //清屏
+  22   1      
+  23   1              //画框
+  24   1              draw_rec(8, 3, 232, 73, Blue);
+  25   1              draw_rec(10, 5, 230, 71, Cyan);
+  26   1      
+  27   1              //画 + - * /
+  28   1              draw_rec(8, 76, 58, 116, Blue2);
+  29   1              draw_rec(66, 76, 116, 116, Blue2);
+  30   1              draw_rec(124, 76, 174, 116, Blue2);
+  31   1              draw_rec(182, 76, 232, 116, Blue2);
+  32   1      
+  33   1              //画 1 2 3
+  34   1              draw_rec(8, 124, 58, 164, Blue2);
+  35   1              draw_rec(66, 124, 116, 164, Blue2);
+  36   1              draw_rec(124, 124, 174, 164, Blue2);
+  37   1      
+  38   1              //画 4 5 6
+  39   1              draw_rec(8, 172, 58, 212, Blue2);
+  40   1              draw_rec(66, 172, 116, 212, Blue2);
+  41   1              draw_rec(124, 172, 174, 212, Blue2);
+  42   1      
+  43   1              //画 7 8 9
+  44   1              draw_rec(8, 220, 58, 260, Blue2);
+  45   1              draw_rec(66, 220, 116, 260, Blue2);
+  46   1              draw_rec(124, 220, 174, 260, Blue2);
+  47   1      
+  48   1              //画 0 C = .
+  49   1              draw_rec(8, 268, 58, 308, Blue2);
+  50   1              draw_rec(66, 268, 174, 308, Blue2);
+  51   1              draw_rec(182, 124, 232, 212, Blue2);
+  52   1              draw_rec(182, 220, 232, 308, Blue2);
+  53   1      
+  54   1              //贴标签
+  55   1              /*
+C51 COMPILER V9.52.0.0   MAIN                                                              01/04/2014 09:14:11 PAGE 2   
+
+  56   1              LCD_PutString(29, 92, "+", Red, Blue2);
+  57   1              LCD_PutString(87, 92, "-", Red, Blue2);
+  58   1              LCD_PutString(145, 92, "*", Red, Blue2);
+  59   1              LCD_PutString(203, 92, "/", Red, Blue2);
+  60   1      
+  61   1              LCD_PutString(29, 140, "1", Red, Blue2);
+  62   1              LCD_PutString(87, 140, "2", Red, Blue2);
+  63   1              LCD_PutString(145, 140, "3", Red, Blue2);
+  64   1      
+  65   1              LCD_PutString(29, 188, "4", Red, Blue2);
+  66   1              LCD_PutString(87, 188, "5", Red, Blue2);
+  67   1              LCD_PutString(145, 188, "6", Red, Blue2);
+  68   1      
+  69   1              LCD_PutString(29, 236, "7", Red, Blue2);
+  70   1              LCD_PutString(87, 236, "8", Red, Blue2);
+  71   1              LCD_PutString(145, 236, "9", Red, Blue2);
+  72   1      
+  73   1              LCD_PutString(29, 282, "0", Red, Blue2);
+  74   1              LCD_PutString(116, 282, "C", Red, Blue2);
+  75   1              LCD_PutString(203, 160, ".", Red, Blue2);
+  76   1              LCD_PutString(203, 256, "=", Red, Blue2);
+  77   1              */
+  78   1      
+  79   1              while (1)
+  80   1              {
+  81   2                      if (Penirq == 0)
+  82   2                      {
+  83   3                              AD7843();
+  84   3                              lx=240-((TP_X-400)/13);
+  85   3                              ly=320-((TP_Y-400)/10);
+  86   3      
+  87   3      
+  88   3                              //运算符扫描
+  89   3                              if (lx >= 8 && lx <= 58 && ly >= 76 && ly <= 116)
+  90   3                              {
+  91   4                                              op = 0;
+  92   4                                              op_old = op_num;
+  93   4                                              op_num = 0;
+  94   4                                              //LCD_PutString(18, 50, "+", Magenta, Cyan);
+  95   4                                              while (Penirq == 0 && lx >= 8 && lx <= 58 && ly >= 76 && ly <= 116);
+  96   4                              }
+  97   3      
+  98   3                              if (lx >= 66 && lx <= 116 && ly >= 76 && ly <= 116)
+  99   3                              {
+ 100   4                                              op = 1;
+ 101   4                                              op_old = op_num;
+ 102   4                                              op_num = 0;
+ 103   4                                              //LCD_PutString(18, 50, "-", Magenta, Cyan);
+ 104   4                                              while (Penirq == 0 && lx >= 66 && lx <= 116 && ly >= 76 && ly <= 116);
+ 105   4                              }
+ 106   3      
+ 107   3                              if (lx >= 124 && lx <= 174 && ly >= 76 && ly <= 116)
+ 108   3                              {
+ 109   4                                              op = 2;
+ 110   4                                              op_old = op_num;
+ 111   4                                              op_num = 0;
+ 112   4                                              //LCD_PutString(18, 50, "*", Magenta, Cyan);
+ 113   4                                              while (Penirq == 0 && lx >= 124 && lx <= 174 && ly >= 76 && ly <= 116);
+ 114   4                              }
+ 115   3      
+ 116   3                              if (lx >= 182 && lx <= 232 && ly >= 76 && ly <= 116)
+ 117   3                              {
+C51 COMPILER V9.52.0.0   MAIN                                                              01/04/2014 09:14:11 PAGE 3   
+
+ 118   4                                              op = 3;
+ 119   4                                              op_old = op_num;
+ 120   4                                              op_num = 0;
+ 121   4                                              //LCD_PutString(18, 50, "/", Magenta, Cyan);
+ 122   4                                              while (Penirq == 0 && lx >= 182 && lx <= 232 && ly >= 76 && ly <= 116);
+ 123   4                              }
+ 124   3      
+ 125   3      
+ 126   3                              //数字按键扫描
+ 127   3                              // 1
+ 128   3                              if (lx >= 8 && lx <= 58 && ly >= 124 && ly <= 164)
+ 129   3                              {
+ 130   4                                              if (wei(op_num) < 10)
+ 131   4                                              {
+ 132   5                                                      op_num = op_num * 10 + 1;
+ 133   5                                              }
+ 134   4                                              while (Penirq == 0 && lx >= 8 && lx <= 58 && ly >= 124 && ly <= 164);
+ 135   4                              }
+ 136   3      
+ 137   3                              //2
+ 138   3                              if (lx >= 66 && lx <= 116 && ly >= 124 && ly <= 164)
+ 139   3                              {
+ 140   4                                              if (wei(op_num) < 10)
+ 141   4                                              {
+ 142   5                                                      op_num = op_num * 10 + 2; 
+ 143   5                                                      while (Penirq == 0 && lx >= 66 && lx <= 116 && ly >= 124 && ly <= 164);
+ 144   5                                              }
+ 145   4                                              
+ 146   4                              }
+ 147   3      
+ 148   3                              //3
+ 149   3                              if (lx >= 124 && lx <= 174 && ly >= 124 && ly <= 164)
+ 150   3                              {
+ 151   4                                              
+ 152   4                                              if (wei(op_num) < 10)
+ 153   4                                              {
+ 154   5                                                      op_num = op_num * 10 + 3;
+ 155   5                                                      while (Penirq == 0 && lx >= 124 && lx <= 174 && ly >= 124 && ly <= 164);        
+ 156   5                                              }
+ 157   4                                              
+ 158   4                              }
+ 159   3      
+ 160   3                              //4
+ 161   3                              if (lx >= 8 && lx <= 58 && ly >= 172 && ly <= 212)
+ 162   3                              {
+ 163   4                                              if (wei(op_num) < 10)
+ 164   4                                              {
+ 165   5                                                      op_num = op_num * 10 + 4;
+ 166   5                                              }
+ 167   4                                              while (Penirq == 0 && lx >= 8 && lx <= 58 && ly >= 172 && ly <= 212);
+ 168   4                              }
+ 169   3      
+ 170   3                              //5
+ 171   3                              if (lx >= 66 && lx <= 116 && ly >= 172 && ly <= 212)
+ 172   3                              {
+ 173   4                                              if (wei(op_num) < 10)
+ 174   4                                              {
+ 175   5                                                         op_num = op_num * 10 + 5;
+ 176   5                                              }
+ 177   4                                              while (Penirq == 0 && lx >= 66 && lx <= 116 && ly >= 172 && ly <= 212);
+ 178   4                              }
+ 179   3      
+C51 COMPILER V9.52.0.0   MAIN                                                              01/04/2014 09:14:11 PAGE 4   
+
+ 180   3                              //6
+ 181   3                              if (lx >= 124 && lx <= 174 && ly >= 172 && ly <= 212)
+ 182   3                              {
+ 183   4                                              if (wei(op_num) < 10)
+ 184   4                                              {
+ 185   5                                                      op_num = op_num * 10 + 6;
+ 186   5                                              }
+ 187   4                                              while (Penirq == 0 && lx >= 124 && lx <= 174 && ly >= 172 && ly <= 212);
+ 188   4                              }
+ 189   3      
+ 190   3                              //7
+ 191   3                              if (lx >= 8 && lx <= 58 && ly >= 220 && ly <= 260)
+ 192   3                              {
+ 193   4                                              if (wei(op_num) < 10)
+ 194   4                                              {
+ 195   5                                                      op_num = op_num * 10 + 7;
+ 196   5                                              }
+ 197   4                                              while (Penirq == 0 && lx >= 8 && lx <= 58 && ly >= 220 && ly <= 260);
+ 198   4                              }
+ 199   3      
+ 200   3                              //8
+ 201   3                              if (lx >= 66 && lx <= 116 && ly >= 220 && ly <= 260)
+ 202   3                              {
+ 203   4                                              if (wei(op_num) < 10)
+ 204   4                                              {
+ 205   5                                                      op_num = op_num * 10 + 8;
+ 206   5                                              }
+ 207   4                                              while (Penirq == 0 && lx >= 66 && lx <= 116 && ly >= 220 && ly <= 260);
+ 208   4                              }
+ 209   3      
+ 210   3                              //9
+ 211   3                              if (lx >= 124 && lx <= 174 && ly >= 220 && ly <= 260)
+ 212   3                              {
+ 213   4                                              if (wei(op_num) < 10)
+ 214   4                                              {
+ 215   5                                                      op_num = op_num * 10 + 9;
+ 216   5                                              }
+ 217   4                                              while (Penirq == 0 && lx >= 124 && lx <= 174 && ly >= 220 && ly <= 260);
+ 218   4                              }
+ 219   3      
+ 220   3                              //0
+ 221   3                              if (lx >= 8 && lx <= 58 && ly >= 268 && ly <= 308)
+ 222   3                              {
+ 223   4                                              if (wei(op_num) < 10)
+ 224   4                                              {
+ 225   5                                                      op_num = op_num * 10;
+ 226   5                                              }
+ 227   4                                              while (Penirq == 0 && lx >= 8 && lx <= 58 && ly >= 268 && ly <= 308);
+ 228   4                              }
+ 229   3      
+ 230   3                              disnum(op_num);
+ 231   3                              
+ 232   3                              // = 
+ 233   3                              //draw_rec(182, 124, 232, 212, Blue2);
+ 234   3                              if (lx >= 182 && lx <= 124 && ly >= 232 && ly <= 212) {
+ 235   4                                      
+ 236   4                                              switch (op) {
+ 237   5                                                      case 0:
+ 238   5                                                              res = op_old + op_num; 
+ 239   5                                                              break;
+ 240   5                                                      case 1:
+ 241   5                                                              res = op_old - op_num; 
+C51 COMPILER V9.52.0.0   MAIN                                                              01/04/2014 09:14:11 PAGE 5   
+
+ 242   5                                                              break;
+ 243   5                                                      case 2:
+ 244   5                                                              res = op_old * op_num; 
+ 245   5                                                              break;
+ 246   5                                                      case 3:
+ 247   5                                                              res = op_old / op_num;
+ 248   5                                                              break;
+ 249   5                                                      default: 
+ 250   5                                                              res = 0;
+ 251   5                                                              break;
+ 252   5                                              }
+ 253   4                                              
+ 254   4                                              disnum(res);
+ 255   4                              }
+ 256   3                      }
+ 257   2              }
+ 258   1              
+ 259   1      }
+ 260          
+ 261          void AD7843(void)              //外部中断0 用来接受键盘发来的数据
+ 262          {
+ 263   1               CS=0;
+ 264   1              //delayms(1);                     //中断后延时以消除抖动，使得采样数据更准确
+ 265   1              //while(BUSY);                //如果BUSY信号不好使可以删除不用
+ 266   1              //delayms(1);
+ 267   1              WriteCharTo7843(0x90);        //送控制字 10010000 即用差分方式读X坐标 详细请见有关资料
+ 268   1              //while(BUSY);               //如果BUSY信号不好使可以删除不用
+ 269   1              //delayms(1);
+ 270   1              DCLK=1;
+ 271   1              _nop_();
+ 272   1              _nop_();
+ 273   1              _nop_();
+ 274   1              _nop_();
+ 275   1              DCLK=0; 
+ 276   1              _nop_();
+ 277   1              _nop_();
+ 278   1              _nop_();
+ 279   1              _nop_();
+ 280   1              TP_Y=ReadFromCharFrom7843();
+ 281   1              WriteCharTo7843(0xD0);       //送控制字 11010000 即用差分方式读Y坐标 详细请见有关资料
+ 282   1              DCLK=1; 
+ 283   1              _nop_();
+ 284   1              _nop_();
+ 285   1              _nop_();
+ 286   1              _nop_();
+ 287   1              DCLK=0;
+ 288   1              _nop_();
+ 289   1              _nop_();
+ 290   1              _nop_();
+ 291   1              _nop_();
+ 292   1              TP_X=ReadFromCharFrom7843();
+ 293   1              CS=1;
+ 294   1      }
+ 295          
+ 296          unsigned int wei(long num)
+ 297          {
+ 298   1              long temp = 9;
+ 299   1              unsigned int numw = 1;
+ 300   1              while (num > temp)
+ 301   1              {
+ 302   2                      numw ++;
+ 303   2                      temp = temp * 10 + 9;                           
+C51 COMPILER V9.52.0.0   MAIN                                                              01/04/2014 09:14:11 PAGE 6   
+
+ 304   2              }
+ 305   1              return numw;
+ 306   1      }
+ 307          
+ 308          void disnum(long num)
+ 309          {
+ 310   1              unsigned int count;
+ 311   1              unsigned int i, x = 220;
+ 312   1              unsigned char temp_num;
+ 313   1              count = wei(num);
+ 314   1              for (i = 0; i < count; i ++)
+ 315   1              {
+ 316   2                      temp_num = num % 10 + '0';
+ 317   2                      num = num / 10;
+ 318   2                      //LCD_PutString(x, 50, &temp_num, Black, Cyan);
+ 319   2                      x = x - 8;
+ 320   2              }
+ 321   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   2914    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     18      23
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

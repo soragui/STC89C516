@@ -1,0 +1,170 @@
+C51 COMPILER V9.52.0.0   INITLCD                                                           10/13/2013 11:24:42 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE INITLCD
+OBJECT MODULE PLACED IN initLCD.OBJ
+COMPILER INVOKED BY: E:\C51Keil\C51\BIN\C51.EXE initLCD.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include "initLCD.h"
+   2          
+   3          void delayms(int time)
+   4          {
+   5   1          int i, j;
+   6   1          for(i = 0; i < time; i ++)
+   7   1              for(j = 0; j < 1000; j ++);
+   8   1      }
+   9          
+  10          void Lcd_Write_Com(unsigned char DH, unsigned char DL)
+  11          {
+  12   1          LCD_RS = 0;
+  13   1          LCD_DataPortH=DH;   
+  14   1              LCD_WR = 0;
+  15   1              LCD_WR = 1;
+  16   1              LCD_DataPortH=DL;               
+  17   1              LCD_WR = 0;
+  18   1              LCD_WR = 1;
+  19   1      }
+  20          
+  21          void Lcd_Write_Data(unsigned char DH, unsigned char DL)
+  22          {
+  23   1          LCD_RS = 1;
+  24   1          LCD_DataPortH=DH;   
+  25   1              LCD_WR = 0;
+  26   1              LCD_WR = 1;
+  27   1              LCD_DataPortH=DL;               
+  28   1              LCD_WR = 0;
+  29   1              LCD_WR = 1;
+  30   1      }
+  31          
+  32          void Lcd_Write_Data_U16(unsigned int dat)
+  33          {
+  34   1          Lcd_Write_Data(dat>>8, dat);
+  35   1      }
+  36          
+  37          void Lcd_Write_Com_Data(unsigned char cmd, unsigned int dat)
+  38          {
+  39   1          Lcd_Write_Com(0x00, cmd);
+  40   1          Lcd_Write_Data(dat>>8, dat);
+  41   1      }
+  42          
+  43          void TFT_Initial(void)
+  44          {
+  45   1      
+  46   1              RD=1;
+  47   1          LCD_RESET=1;
+  48   1          delayms(5); 
+  49   1              LCD_RESET=0;
+  50   1              delayms(5);
+  51   1              LCD_RESET=1;
+  52   1              LCD_CS=1;
+  53   1              LCD_RD=1;
+  54   1              LCD_WR=1;
+  55   1              delayms(5);
+C51 COMPILER V9.52.0.0   INITLCD                                                           10/13/2013 11:24:42 PAGE 2   
+
+  56   1         
+  57   1              LCD_CS =0;  //ղߪƬѡʹŜ
+  58   1              //************* Start Initial Sequence **********//
+  59   1              Lcd_Write_Com(0x00,0xE5); Lcd_Write_Data(0x78,0xF0); // set SRAM internal timing
+  60   1              Lcd_Write_Com(0x00,0x01); Lcd_Write_Data(0x01,0x00); // set SS and SM bit
+  61   1              Lcd_Write_Com(0x00,0x02); Lcd_Write_Data(0x07,0x00); // set 1 line inversion
+  62   1              Lcd_Write_Com(0x00,0x03); Lcd_Write_Data(0x10,0x30); // set GRAM write direction and BGR=1.
+  63   1              Lcd_Write_Com(0x00,0x04); Lcd_Write_Data(0x00,0x00); // Resize register
+  64   1              Lcd_Write_Com(0x00,0x08); Lcd_Write_Data(0x02,0x07); // set the back porch and front porch
+  65   1              Lcd_Write_Com(0x00,0x09); Lcd_Write_Data(0x00,0x00); // set non-display area refresh cycle ISC[3:0]
+  66   1              Lcd_Write_Com(0x00,0x0A); Lcd_Write_Data(0x00,0x00); // FMARK function
+  67   1              Lcd_Write_Com(0x00,0x0C); Lcd_Write_Data(0x00,0x00); // RGB interface setting
+  68   1              Lcd_Write_Com(0x00,0x0D); Lcd_Write_Data(0x00,0x00); // Frame marker Position
+  69   1              Lcd_Write_Com(0x00,0x0F); Lcd_Write_Data(0x00,0x00); // RGB interface polarity
+  70   1              //*************Power On sequence ****************//
+  71   1              Lcd_Write_Com(0x00,0x10); Lcd_Write_Data(0x00,0x00); // SAP, BT[3:0], AP, DSTB, SLP, STB
+  72   1              Lcd_Write_Com(0x00,0x11); Lcd_Write_Data(0x00,0x07); // DC1[2:0], DC0[2:0], VC[2:0]
+  73   1              Lcd_Write_Com(0x00,0x12); Lcd_Write_Data(0x00,0x00); // VREG1OUT voltage
+  74   1              Lcd_Write_Com(0x00,0x13); Lcd_Write_Data(0x00,0x00); // VDV[4:0] for VCOM amplitude
+  75   1              Lcd_Write_Com(0x00,0x07); Lcd_Write_Data(0x00,0x01);
+  76   1              delayms(50); // Dis-charge capacitor power voltage
+  77   1              Lcd_Write_Com(0x00,0x10); Lcd_Write_Data(0x10,0x90); // 1490//SAP, BT[3:0], AP, DSTB, SLP, STB
+  78   1              Lcd_Write_Com(0x00,0x11); Lcd_Write_Data(0x02,0x27); // DC1[2:0], DC0[2:0], VC[2:0]
+  79   1              delayms(50); // Delay 50ms
+  80   1              Lcd_Write_Com(0x00,0x12); Lcd_Write_Data(0x00,0x1F); //001C// Internal reference voltage= Vci;
+  81   1              delayms(50); // Delay 50ms
+  82   1              Lcd_Write_Com(0x00,0x13); Lcd_Write_Data(0x15,0x00); //0x1000//1400   Set VDV[4:0] for VCOM amplitude  1A
+             -00
+  83   1              Lcd_Write_Com(0x00,0x29); Lcd_Write_Data(0x00,0x27); //0x0012 //001a  Set VCM[5:0] for VCOMH  //0x0025  0
+             -034
+  84   1              Lcd_Write_Com(0x00,0x2B); Lcd_Write_Data(0x00,0x0D); // Set Frame Rate   000C
+  85   1              delayms(50); // Delay 50ms
+  86   1              Lcd_Write_Com(0x00,0x20); Lcd_Write_Data(0x00,0x00); // GRAM horizontal Address
+  87   1              Lcd_Write_Com(0x00,0x21); Lcd_Write_Data(0x00,0x00); // GRAM Vertical Address
+  88   1              // ----------- Adjust the Gamma Curve ----------//
+  89   1              Lcd_Write_Com(0x00,0x30); Lcd_Write_Data(0x00,0x00);
+  90   1              Lcd_Write_Com(0x00,0x31); Lcd_Write_Data(0x07,0x07);
+  91   1              Lcd_Write_Com(0x00,0x32); Lcd_Write_Data(0x03,0x07);
+  92   1              Lcd_Write_Com(0x00,0x35); Lcd_Write_Data(0x02,0x00);
+  93   1              Lcd_Write_Com(0x00,0x36); Lcd_Write_Data(0x00,0x08);//0207
+  94   1              Lcd_Write_Com(0x00,0x37); Lcd_Write_Data(0x00,0x04);//0306
+  95   1              Lcd_Write_Com(0x00,0x38); Lcd_Write_Data(0x00,0x00);//0102
+  96   1              Lcd_Write_Com(0x00,0x39); Lcd_Write_Data(0x07,0x07);//0707
+  97   1              Lcd_Write_Com(0x00,0x3C); Lcd_Write_Data(0x00,0x02);//0702
+  98   1              Lcd_Write_Com(0x00,0x3D); Lcd_Write_Data(0x1D,0x04);//1604
+  99   1              
+ 100   1              //------------------ Set GRAM area ---------------//
+ 101   1              Lcd_Write_Com(0x00,0x50); Lcd_Write_Data(0x00,0x00); // Horizontal GRAM Start Address
+ 102   1              Lcd_Write_Com(0x00,0x51); Lcd_Write_Data(0x00,0xEF); // Horizontal GRAM End Address
+ 103   1              Lcd_Write_Com(0x00,0x52); Lcd_Write_Data(0x00,0x00); // Vertical GRAM Start Address
+ 104   1              Lcd_Write_Com(0x00,0x53); Lcd_Write_Data(0x01,0x3F); // Vertical GRAM Start Address
+ 105   1              Lcd_Write_Com(0x00,0x60); Lcd_Write_Data(0xA7,0x00); // Gate Scan Line
+ 106   1              Lcd_Write_Com(0x00,0x61); Lcd_Write_Data(0x00,0x01); // NDL,VLE, REV
+ 107   1              Lcd_Write_Com(0x00,0x6A); Lcd_Write_Data(0x00,0x00); // set scrolling line
+ 108   1              //-------------- Partial Display Control ---------//
+ 109   1              Lcd_Write_Com(0x00,0x80); Lcd_Write_Data(0x00,0x00);
+ 110   1              Lcd_Write_Com(0x00,0x81); Lcd_Write_Data(0x00,0x00);
+ 111   1              Lcd_Write_Com(0x00,0x82); Lcd_Write_Data(0x00,0x00);
+ 112   1              Lcd_Write_Com(0x00,0x83); Lcd_Write_Data(0x00,0x00);
+ 113   1              Lcd_Write_Com(0x00,0x84); Lcd_Write_Data(0x00,0x00);
+ 114   1              Lcd_Write_Com(0x00,0x85); Lcd_Write_Data(0x00,0x00);
+ 115   1              //-------------- Panel Control -------------------//
+C51 COMPILER V9.52.0.0   INITLCD                                                           10/13/2013 11:24:42 PAGE 3   
+
+ 116   1              Lcd_Write_Com(0x00,0x90); Lcd_Write_Data(0x00,0x10);
+ 117   1              Lcd_Write_Com(0x00,0x92); Lcd_Write_Data(0x06,0x00);
+ 118   1              Lcd_Write_Com(0x00,0x07); Lcd_Write_Data(0x01,0x33); // 262K color and display ON
+ 119   1              LCD_CS =1;   
+ 120   1      
+ 121   1      }
+ 122          
+ 123          void Lcd_SetPos(unsigned int x0, unsigned int x1, unsigned int y0, unsigned int y1)
+ 124          {
+ 125   1          Lcd_Write_Com_Data(WINDOW_XADDR_START,x0);
+ 126   1              Lcd_Write_Com_Data(WINDOW_XADDR_END,x1);
+ 127   1              Lcd_Write_Com_Data(WINDOW_YADDR_START,y0);
+ 128   1              Lcd_Write_Com_Data(WINDOW_YADDR_END,y1);
+ 129   1              Lcd_Write_Com_Data(GRAM_XADDR,x0);
+ 130   1              Lcd_Write_Com_Data(GRAM_YADDR,y0);
+ 131   1              Lcd_Write_Com (0x00,0x22);
+ 132   1      }
+ 133          
+ 134          void CLR_Screen(unsigned int bColor)
+ 135          {
+ 136   1          int i, j;
+ 137   1          Lcd_SetPos(0, 240, 0, 320);
+ 138   1          for(i = 0; i < 320; i ++) 
+ 139   1              for(j = 0; j < 240; j ++)
+ 140   1                  Lcd_Write_Data_U16(bColor);
+ 141   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    700    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      10
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

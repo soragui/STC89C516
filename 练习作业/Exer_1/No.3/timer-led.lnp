@@ -1,0 +1,5 @@
+"STARTUP.obj",
+"timer.obj",
+"main.obj" 
+TO "timer-led" 
+RAMSIZE(256) 

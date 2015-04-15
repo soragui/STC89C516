@@ -1,0 +1,4 @@
+"main.obj",
+"interrupt.obj" 
+TO "inte" 
+RAMSIZE(256) 

@@ -1,0 +1,100 @@
+C51 COMPILER V8.05a   MCU1                                                                 05/07/2013 14:59:41 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE MCU1
+OBJECT MODULE PLACED IN mcu1.OBJ
+COMPILER INVOKED BY: F:\Keil\C51\BIN\C51.EXE mcu1.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg51.h>
+   2          
+   3          typedef unsigned char uchar;
+   4          typedef unsigned int  uint;
+   5          
+   6          void delay(uint);
+   7          void uart_init();
+   8          void uart_send(uint);
+   9          void keyscan();
+  10          
+  11          uint temp;
+  12          
+  13          void main()
+  14          {
+  15   1              uart_init();
+  16   1              while(1)
+  17   1              {
+  18   2                      keyscan();
+  19   2              }
+  20   1      }
+  21          
+  22          void uart_init()
+  23          {
+  24   1              SCON = 0x50;   //串口的工作方式设置
+  25   1              TMOD = 0x20;   //定时器 1 工作方式设置
+  26   1              TH1 = 0xFD;        //设置寄存器初值 确定波特率
+  27   1              TL1 = 0xFD;                       
+  28   1              TR1 = 1;
+  29   1      }
+  30          
+  31          void keyscan()
+  32          {
+  33   1          P2=0xfe;
+  34   1          temp=P2;
+  35   1          temp=temp&0xf0;
+  36   1          while(temp!=0xf0)
+  37   1          {
+  38   2            delay(5);
+  39   2            temp=P2;
+  40   2            temp=temp&0xf0;
+  41   2            while(temp!=0xf0)
+  42   2            {
+  43   3              temp=P2;
+  44   3              switch(temp)
+  45   3             {
+  46   4              case 0xee: uart_send(4);
+  47   4               break;
+  48   4              case 0xde: uart_send(4);
+  49   4               break;
+  50   4              case 0xbe: uart_send(4);
+  51   4               break;
+  52   4              case 0x7e: uart_send(4);
+  53   4               break;
+  54   4             }
+  55   3            while(temp!=0xf0)
+C51 COMPILER V8.05a   MCU1                                                                 05/07/2013 14:59:41 PAGE 2   
+
+  56   3             {
+  57   4              temp=P2;
+  58   4              temp=temp&0xf0;
+  59   4             }
+  60   3            }
+  61   2           }
+  62   1      }
+  63          
+  64          
+  65          void uart_send(uint ch)
+  66          {
+  67   1              SBUF = ch;
+  68   1              while(!TI);
+  69   1              TI = 0;
+  70   1      }
+  71          
+  72          void delay(uint time)
+  73          {
+  74   1              while(time--);
+  75   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    156    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

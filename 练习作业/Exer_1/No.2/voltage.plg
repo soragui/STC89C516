@@ -1,0 +1,73 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+G:\MCU\Á·Ï°×÷Òµ\Exer_1\No.2\voltage.uvproj
+Project File Date:  09/21/2013
+
+<h2>Output:</h2>
+Rebuild target 'VOLTAGE'
+assembling STARTUP.A51...
+compiling initLCD.c...
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SET_COLOR?INITLCD
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_GUI_DISPICTURE?INITLCD
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_GUI_HLINE?INITLCD
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_GUI_VLINE?INITLCD
+Program Size: data=91.1 xdata=0 code=5032
+creating hex file from "voltage"...
+"voltage" - 0 Error(s), 4 Warning(s).
+Rebuild target 'VOLTAGE'
+assembling STARTUP.A51...
+compiling initLCD.c...
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SET_COLOR?INITLCD
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_GUI_DISPICTURE?INITLCD
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_GUI_HLINE?INITLCD
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_GUI_VLINE?INITLCD
+Program Size: data=91.1 xdata=0 code=5036
+creating hex file from "voltage"...
+"voltage" - 0 Error(s), 4 Warning(s).
+Rebuild target 'VOLTAGE'
+assembling STARTUP.A51...
+compiling initLCD.c...
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SET_COLOR?INITLCD
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_GUI_DISPICTURE?INITLCD
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_GUI_HLINE?INITLCD
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_GUI_VLINE?INITLCD
+Program Size: data=91.1 xdata=0 code=5035
+creating hex file from "voltage"...
+"voltage" - 0 Error(s), 4 Warning(s).
+Rebuild target 'VOLTAGE'
+assembling STARTUP.A51...
+compiling initLCD.c...
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SET_COLOR?INITLCD
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_GUI_DISPICTURE?INITLCD
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_GUI_HLINE?INITLCD
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_GUI_VLINE?INITLCD
+Program Size: data=91.1 xdata=0 code=5031
+creating hex file from "voltage"...
+"voltage" - 0 Error(s), 4 Warning(s).

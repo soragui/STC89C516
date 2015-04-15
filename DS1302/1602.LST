@@ -1,0 +1,154 @@
+C51 COMPILER V8.05a   1602                                                                 06/06/2013 16:52:54 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE 1602
+OBJECT MODULE PLACED IN 1602.OBJ
+COMPILER INVOKED BY: D:\Keil\C51\BIN\C51.EXE 1602.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include "reg51.h"          //包含头文件
+   2          #include "1602.h"
+   3          #include "gettime.h"
+*** ERROR C132 IN LINE 12 OF GETTIME.H: '_wdata': not in formal parameter list
+*** ERROR C141 IN LINE 12 OF GETTIME.H: syntax error near 'unsigned'
+*** ERROR C244 IN LINE 12 OF GETTIME.H: 'dtime': can't initialize, bad type or class
+*** ERROR C132 IN LINE 20 OF GETTIME.H: 'dtime': not in formal parameter list
+*** ERROR C132 IN LINE 31 OF GETTIME.H: 'TIME': not in formal parameter list
+*** ERROR C132 IN LINE 34 OF GETTIME.H: 'GetTime': not in formal parameter list
+*** ERROR C132 IN LINE 35 OF GETTIME.H: '_DS1302_WByte': not in formal parameter list
+*** ERROR C132 IN LINE 36 OF GETTIME.H: '_DS1302_WData': not in formal parameter list
+*** ERROR C132 IN LINE 37 OF GETTIME.H: 'DS1302_RByte': not in formal parameter list
+*** ERROR C132 IN LINE 38 OF GETTIME.H: '_DS1302_RData': not in formal parameter list
+   4          
+   5          sbit rs=P2^5;    //命令/数据选择
+*** ERROR C141 IN LINE 5 OF 1602.C: syntax error near 'sbit'
+   6          sbit rw=P2^4;    //读写口
+   7          sbit  e=P2^3;    //锁存控制
+   8          
+   9          unsigned char alaflag = 1;
+  10          //**************************************************************************************************
+  11          //延时函数
+  12          //**************************************************************************************************
+  13          void delay(uint time)         //int型数据为16位,所以最大值为65535            
+  14           {
+  15   1        uint  i,j;             //定义变量i,j,用于循环语句 
+  16   1        for(i=0;i<time;i++)    //for循环,循环50*time次
+  17   1           for(j=0;j<100;j++); //for循环,循环50次
+  18   1       }
+  19          //**************************************************************************************************
+  20          //向LCD写一命令
+  21          //**************************************************************************************************
+  22          void wcode(unsigned char t)
+  23          {
+  24   1        rs=0;           // 写的是命令
+  25   1        rw=0;           // 写状态
+  26   1        e=1;            //使能
+  27   1        P0=t;           //写入命令 
+  28   1        delay(20);      //等待写入,如果时间太短，会导致液晶无法显示
+  29   1        e=0;            //数据的锁定
+  30   1      }
+  31          //**************************************************************************************************
+  32          //向LCD写一数据
+  33          //**************************************************************************************************
+  34          void wdata(unsigned char t)
+  35          {
+  36   1        rs=1;          // 写的是数据
+  37   1        rw=0;          // 写状态
+  38   1        e=1;           //使能
+  39   1        P0=t;          //写入数据
+  40   1        delay(20);     //等待写入,如果时间太短，会导致液晶无法显示
+  41   1        e=0;           //数据的锁定
+  42   1      }
+  43          //************************************************************************************
+  44          //功能：LCD显示第一行
+C51 COMPILER V8.05a   1602                                                                 06/06/2013 16:52:54 PAGE 2   
+
+  45          //************************************************************************************
+  46          void xian1()
+  47          {
+  48   1        unsigned char i;
+  49   1      
+  50   1        wcode(0x80);              //设置第一行显示地址
+  51   1        wdata('2');                
+  52   1        wdata('0');               //显示20
+  53   1         for(i=0;i<2;i++)
+  54   1           {
+  55   2            wdata(dtime[6][i]);   //显示年        
+*** ERROR C202 IN LINE 55 OF 1602.C: 'dtime': undefined identifier
+  56   2           }
+  57   1        wdata('-');               //显示"-"
+  58   1      
+  59   1         for(i=0;i<2;i++)
+  60   1           {
+  61   2            wdata(dtime[4][i]);   //显示月   
+*** ERROR C202 IN LINE 61 OF 1602.C: 'dtime': undefined identifier
+  62   2           }
+  63   1         wdata('-'); 
+  64   1       
+  65   1         for(i=0;i<2;i++)
+  66   1           {
+  67   2            wdata(dtime[3][i]);   //显示日 
+*** ERROR C202 IN LINE 67 OF 1602.C: 'dtime': undefined identifier
+  68   2           }
+  69   1        wcode(0x8d);              //设置第一行显示地址
+  70   1        switch(dtime[5][1])       //显示星期
+*** ERROR C202 IN LINE 70 OF 1602.C: 'dtime': undefined identifier
+  71   1         {
+  72   2          case 0x31:wdata('M'); wdata('o');wdata('n'); break; 
+  73   2          case 0x32:wdata('T'); wdata('u');wdata('e'); break; 
+  74   2          case 0x33:wdata('W'); wdata('e');wdata('d'); break; 
+  75   2              case 0x34:wdata('T'); wdata('h');wdata('u'); break; 
+  76   2              case 0x35:wdata('F'); wdata('r');wdata('i'); break; 
+  77   2              case 0x36:wdata('S'); wdata('a');wdata('t'); break; 
+  78   2              case 0x37:wdata('S'); wdata('u');wdata('n'); break;  
+  79   2          default:break;
+  80   2         }
+  81   1      }
+  82          //************************************************************************************
+  83          //功能：LCD显示第二行
+  84          //************************************************************************************
+  85          void xian2()
+  86          {
+  87   1         unsigned char i; 
+  88   1         wcode(0xc0);                                     //设置第二行显示地址
+  89   1         wdata('A'); wdata('l');wdata('a');wdata(':');    //显示闹钟标志Ala:    
+  90   1       switch(alaflag)                                    //显示闹钟开关状态
+  91   1         {
+  92   2          case 1:wdata('O'); wdata('n');break;            //显示ON
+  93   2          case 0:wdata('O'); wdata('f');wdata('f'); break;//显示OFF
+  94   2          default:break;
+  95   2         }
+  96   1          wcode(0xc8);                                   //设置第二行显示地址
+  97   1            for(i=0;i<2;i++)
+  98   1             {
+  99   2              wdata(dtime[2][i]);                        //显示小时
+*** ERROR C202 IN LINE 99 OF 1602.C: 'dtime': undefined identifier
+ 100   2             }
+ 101   1           wdata(':');                                   //显示":"
+C51 COMPILER V8.05a   1602                                                                 06/06/2013 16:52:54 PAGE 3   
+
+ 102   1            for(i=0;i<2;i++)
+ 103   1             {
+ 104   2              wdata(dtime[1][i]);                        //显示分钟
+*** ERROR C202 IN LINE 104 OF 1602.C: 'dtime': undefined identifier
+ 105   2             }
+ 106   1           wdata(':');                                   //显示":"
+ 107   1            for(i=0;i<2;i++)
+ 108   1             {
+ 109   2              wdata(dtime[0][i]);                        //显示秒
+*** ERROR C202 IN LINE 109 OF 1602.C: 'dtime': undefined identifier
+ 110   2             }
+ 111   1      }
+ 112          //**************************************************************************************************
+ 113          //LCD 初始化
+ 114          //**************************************************************************************************
+ 115          void InitLCD()
+ 116             {             
+ 117   1         wcode(0x01);   //清屏
+ 118   1         wcode(0x06);   //输入方式控制,增量光标不移位
+ 119   1         wcode(0x0e);   //显示开关控制
+ 120   1         wcode(0x38);   //功能设定:设置16x2显示，5x7显示,8位数据接口          
+ 121   1         }  
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  18 ERROR(S)

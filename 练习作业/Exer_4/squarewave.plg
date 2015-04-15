@@ -1,0 +1,42 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+G:\MCU\Á·Ï°×÷Òµ\Exer_4\squarewave.uvproj
+Project File Date:  10/13/2013
+
+<h2>Output:</h2>
+Rebuild target 'SQUARE'
+compiling initLCD.c...
+compiling start_task.c...
+linking...
+*** WARNING L15: MULTIPLE CALL TO SEGMENT
+    SEGMENT: ?PR?_LCD_SETPOS?INITLCD
+    CALLER1: ?PR?SQUATE_GO?START_TASK
+    CALLER2: ?C_C51STARTUP
+Program Size: data=39.0 xdata=0 code=2145
+creating hex file from "squarewave"...
+"squarewave" - 0 Error(s), 1 Warning(s).
+Rebuild target 'SQUARE'
+compiling initLCD.c...
+compiling start_task.c...
+linking...
+*** WARNING L15: MULTIPLE CALL TO SEGMENT
+    SEGMENT: ?PR?_LCD_SETPOS?INITLCD
+    CALLER1: ?PR?SQUATE_GO?START_TASK
+    CALLER2: ?C_C51STARTUP
+Program Size: data=39.0 xdata=0 code=2145
+creating hex file from "squarewave"...
+"squarewave" - 0 Error(s), 1 Warning(s).
+Rebuild target 'SQUARE'
+compiling initLCD.c...
+compiling start_task.c...
+linking...
+*** WARNING L15: MULTIPLE CALL TO SEGMENT
+    SEGMENT: ?PR?_LCD_SETPOS?INITLCD
+    CALLER1: ?PR?SQUATE_GO?START_TASK
+    CALLER2: ?C_C51STARTUP
+Program Size: data=39.0 xdata=0 code=2195
+creating hex file from "squarewave"...
+"squarewave" - 0 Error(s), 1 Warning(s).

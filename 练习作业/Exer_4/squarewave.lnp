@@ -1,0 +1,4 @@
+"initLCD.obj",
+"start_task.obj" 
+TO "squarewave" 
+RAMSIZE(256) 

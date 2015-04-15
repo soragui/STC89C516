@@ -1,0 +1,170 @@
+C51 COMPILER V9.52.0.0   MAIN                                                              10/31/2013 14:16:32 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: E:\C51Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <rtx51tny.h>
+   2          #include <reg52.h>
+   3          #include "character.h"
+   4          #include "initLCD.h"
+   5          #include "PCF.h"
+   6          
+   7          code unsigned int  vt_table[]=  //电压与实际温度对照表
+   8          {
+   9                          4132,4098,4063,4026,3988,3949,3908,3866,3823,3779, //-9-0
+  10                          3733,3686,3639,3590,3540,3489,3437,3385,3331,3277, //1-10
+  11                          3222,3166,3110,3054,2997,2940,2882,2824,2767,2709, //11-20
+  12                          2651,2593,2536,2478,2421,2365,2309,2253,2198,2143, //21-30
+  13                          2089,2036,1984,1932,1881,1831,1782,1734,1686,1640, //31-40
+  14                          1594,1550,1506,1464,1422,1381,1341,1303,1265,1228, //41-50
+  15          };
+  16          
+  17          #define White          0xFFFF   //LCD color
+  18          #define Black          0x0000
+  19          #define Blue           0x001F
+  20          #define Blue2          0x051F
+  21          #define Red            0xF800
+  22          #define Magenta        0xF81F
+  23          #define Green          0x07E0
+  24          #define Cyan           0x7FFF
+  25          #define Yellow         0xFFE0
+  26          #define Yellow2            0x3E20
+  27          
+  28          void startup(void) _task_ 0
+  29          {
+  30   1          TFT_Initial();
+  31   1              CLR_Screen(Blue);
+  32   1          
+  33   1          os_create_task(1);
+  34   1          //os_create_task(2);
+  35   1          
+  36   1          os_delete_task(0);
+  37   1      }
+  38          
+  39          void float_chinese_task(void) _task_ 1 
+  40          {
+  41   1              unsigned char i, x;
+  42   1              //unsigned int  temp;
+  43   1          unsigned short cb; 
+  44   1          
+  45   1      //      for(x = 190; x > 10; x -= 2) {
+  46   1      //              
+  47   1      //              for(i = 0; i < 3; i ++) {
+  48   1      //                      Put_mych(x+i*16, 120, 16, 15, -8, computer[i],Cyan, Blue);
+  49   1      //              }
+  50   1      //              
+  51   1      //              delayms(100);
+  52   1      //              Put_mych(x+i*16, 120, 16, 15, -8, space, Blue, Blue);
+  53   1      //      }
+  54   1          
+  55   1      //    for(x = 0; x < 48; x += 1) {
+C51 COMPILER V9.52.0.0   MAIN                                                              10/31/2013 14:16:32 PAGE 2   
+
+  56   1      //        cb = x/16;
+  57   1      //        for(i = cb; i < 3; i ++) {
+  58   1      //            if(i == cb) 
+  59   1      //                Put_mych(-(x%16), 100, 16, 15, x%16, computer[i], Magenta, Blue);
+  60   1      //            else
+  61   1      //                Put_mych(16-(x%16)+(i-1-cb)*16, 100, 16, 15, 0, computer[i], Magenta, Blue);
+  62   1      //        }
+  63   1      //        delayms(200);
+  64   1      //              Put_mych(16-(x%16)+(i-1-cb)*16, 120, 16, 15, 0, space, Blue, Blue);
+  65   1      //    }
+  66   1          
+  67   1      //     for(x = 0; x < 176; x += 1) {
+  68   1      //        cb = x/16;
+  69   1      //        for(i = cb; i < 11; i ++) {
+  70   1      //            if(i == cb) 
+  71   1      //                Put_mych(-(x%16), 100, 16, 20, x%16, num[i], Magenta, Blue);
+  72   1      //            else
+  73   1      //                Put_mych(16-(x%16)+(i-1-cb)*16, 100, 16, 20, 0, num[i], Magenta, Blue);
+  74   1      //        }
+  75   1      //        delayms(200);
+  76   1      //              //Put_mych(16-(x%16)+(i-1-cb)*16, 120, 16, 15, 0, space, Blue, Blue);
+  77   1      //    }
+  78   1          while(1) {
+  79   2              for(x = 0; x < 144; x += 2) {
+  80   3                  cb = x/16;
+  81   3                  for(i = cb; i < 9; i ++) {
+  82   4                      if(i == cb) 
+  83   4                          Put_mych(-(x%16), 100, 16, 15, x%16, MCU_C[i], Magenta, Blue);
+  84   4                      else
+  85   4                          Put_mych(16-(x%16)+(i-1-cb)*16, 100, 16, 15, 0, MCU_C[i], Magenta, Blue);
+  86   4                  }
+  87   3                  delayms(5);
+  88   3                  //Put_mych(16-(x%16)+(i-1-cb)*16, 120, 16, 15, 0, space, Blue, Blue);
+  89   3              }
+  90   2              
+  91   2              for(x = 240; x > 96; x -=2) {
+  92   3                  cb = (240-x)/16 + 1;
+  93   3                  for(i = 0; i < cb; i ++) {
+  94   4                      if(i == (cb-1)) 
+  95   4                          Put_mych(240-(240-x)%16, 100, 16, 15, (240-x)%16-16, MCU_C[i], Cyan, Blue);
+  96   4                      else
+  97   4                          Put_mych(x+i*16, 100, 16, 15, 0, MCU_C[i], Cyan, Blue);
+  98   4                  }
+  99   3                  delayms(5);
+ 100   3              }
+ 101   2              
+ 102   2              for(x = 96; x > 0; x -=1) {
+ 103   3                  for(i = 0; i < 9; i ++)  
+ 104   3                          Put_mych(x+i*16, 100, 16, 15, 0, MCU_C[i], Yellow, Blue); 
+ 105   3                  delayms(5);
+ 106   3              }
+ 107   2          }
+ 108   1      }
+ 109          
+ 110          //        for(i = 0; i < 16; i ++) {
+ 111          //            Put_mych(-i, 100, 16, 15, i, computer[0], Magenta, Blue);
+ 112          //            delayms(100);
+ 113          //            Put_mych(-i, 100, 16, 15, i, space, Magenta, Blue);
+ 114          //        }
+ 115          
+ 116          
+ 117          void temp_light_task(void) _task_ 2
+C51 COMPILER V9.52.0.0   MAIN                                                              10/31/2013 14:16:32 PAGE 3   
+
+ 118          {
+ 119   1         // unsigned int temp ; 
+ 120   1          //unsigned short j = 0;
+ 121   1      //    unsigned char i, x;
+ 122   1      //    
+ 123   1      //      while(1) {
+ 124   1      //        
+ 125   1      //        for(x = 96; x > 0; x -=1) {
+ 126   1      //            for(i = 0; i < 9; i ++)  
+ 127   1      //                    Put_mych(x+i*16, 200, 16, 15, 0, MCU_C[i], Yellow, Blue); 
+ 128   1      //            delayms(50);
+ 129   1      //        }
+ 130   1      //    }
+ 131   1              //Put_mych(-j, 100, 16, 15, j, computer[0], Magenta, Blue);
+ 132   1      //    while(1) {
+ 133   1      //              temp = Read_AD(0);
+ 134   1      ////       for(j = 0; j < 16; j ++) {
+ 135   1      ////            Put_mych(-j, 100, 16, 15, j, computer[0], Magenta, Blue);
+ 136   1      ////            delayms(100);
+ 137   1      ////            Put_mych(-j, 100, 16, 15, j, space, Magenta, Blue);
+ 138   1      ////        }
+ 139   1      //              Put_mych(114,    130, 16, 20, 0, num[temp%10],     Cyan, Blue);
+ 140   1      //              Put_mych(114-14, 130, 16, 20, 0, num[temp/10%10],  Cyan, Blue);
+ 141   1      //              Put_mych(114-28, 130, 16, 20, 0, num[temp/100%10], Cyan, Blue);
+ 142   1      //    }
+ 143   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    611    ----
+   CONSTANT SIZE    =    950    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,209 @@
+C51 COMPILER V9.52.0.0   MAIN                                                              01/03/2014 16:41:56 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: e:\51Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include <intrins.h>
+   3          #include "init.h"
+   4          
+   5          unsigned int TP_X,TP_Y;    //当前触控坐标
+   6          
+   7          //LED 状态标签
+   8          unsigned char tag1 = 0;
+   9          unsigned char tag2 = 0;
+  10          unsigned char tag3 = 0;
+  11          unsigned char tag4 = 0;
+  12          unsigned char tag5 = 0;
+  13          unsigned char tag6 = 0;
+  14          unsigned char tag7 = 0;
+  15          unsigned char tag8 = 0;
+  16          
+  17          int code color[] = {0xFFE0, 0xF81F};
+  18          
+  19          sbit led1 = P0^0;
+  20          sbit led2 = P0^1;
+  21          sbit led3 = P0^2;
+  22          sbit led4 = P0^3;
+  23          sbit led5 = P0^4;
+  24          sbit led6 = P0^5;
+  25          sbit led7 = P0^6;
+  26          sbit led8 = P0^7;
+  27          
+  28          void AD7843(void);
+  29          
+  30          void main()
+  31          {
+  32   1        unsigned int lx, ly;
+  33   1        shiliu=1;
+  34   1        spistar();  //模拟spi初始化
+  35   1        Lcd_Init();   //tft初始化
+  36   1        LCD_CS =0;  //打开LCD片选使能 
+  37   1        Pant(Cyan); //清屏
+  38   1      
+  39   1        
+  40   1        //画键盘：
+  41   1        draw_rec(16, 96, 112, 136, Blue);
+  42   1        draw_rec(16, 152, 112, 192, Blue);
+  43   1        draw_rec(16, 208, 112, 248, Blue);
+  44   1        draw_rec(16, 264, 112, 304, Blue);
+  45   1      
+  46   1        draw_rec(128, 96, 224, 136, Blue);
+  47   1        draw_rec(128, 152, 224, 192, Blue);
+  48   1        draw_rec(128, 208, 224, 248, Blue);
+  49   1        draw_rec(128, 264, 224, 304, Blue);
+  50   1      
+  51   1        //标签
+  52   1        LCD_PutString(81, 40, "LED Control", Red, Cyan);
+  53   1      
+  54   1        LCD_PutString(44, 108, "LED 1", Yellow, Blue);
+  55   1        LCD_PutString(44, 164, "LED 2", Yellow, Blue);
+C51 COMPILER V9.52.0.0   MAIN                                                              01/03/2014 16:41:56 PAGE 2   
+
+  56   1        LCD_PutString(44, 220, "LED 3", Yellow, Blue);
+  57   1        LCD_PutString(44, 276, "LED 4", Yellow, Blue);
+  58   1      
+  59   1        LCD_PutString(156, 108, "LED 5", Yellow, Blue);
+  60   1        LCD_PutString(156, 164, "LED 6", Yellow, Blue);
+  61   1        LCD_PutString(156, 220, "LED 7", Yellow, Blue);
+  62   1        LCD_PutString(156, 276, "LED 8", Yellow, Blue);
+  63   1      
+  64   1        while (1)
+  65   1        {
+  66   2          if (Penirq == 0)
+  67   2          {
+  68   3            AD7843();
+  69   3            lx=240-((TP_X-400)/13);
+  70   3            ly=320-((TP_Y-400)/10);
+  71   3            
+  72   3            //LED 1
+  73   3            if (lx >= 16 && lx <= 112 && ly >= 96 && ly <= 136)
+  74   3            {
+  75   4                led1 = ~led1;
+  76   4                tag1 = (tag1 +1)%2;
+  77   4                LCD_PutString(44, 108, "LED 1", color[tag1], Blue);
+  78   4                while (Penirq == 0 && lx >= 16 && lx <= 112 && ly >= 96 && ly <= 136);
+  79   4            }
+  80   3      
+  81   3            //LED 2
+  82   3            if (lx >= 16 && lx <= 112 && ly >= 152 && ly <= 192)
+  83   3            {
+  84   4              led2 = ~led2;
+  85   4              tag2 = (tag2 +1)%2;
+  86   4              LCD_PutString(44, 164, "LED 2", color[tag2], Blue);
+  87   4              while (Penirq == 0 && lx >= 16 && lx <= 112 && ly >= 152 && ly <= 192);
+  88   4            }
+  89   3      
+  90   3            //LED 3
+  91   3            if (lx >= 16 && lx <= 112 && ly >= 208 && ly <= 248)
+  92   3            {
+  93   4              led3 = ~led3;
+  94   4              tag3 = (tag3 +1)%2;
+  95   4              LCD_PutString(44, 220, "LED 3", color[tag3], Blue);
+  96   4              while (Penirq == 0 && lx >= 16 && lx <= 112 && ly >= 208 && ly <= 248);
+  97   4            }
+  98   3      
+  99   3            //LED 4
+ 100   3            if (lx >= 16 && lx <= 112 && ly >= 264 && ly <= 304)
+ 101   3            {
+ 102   4              led4 = ~led4;
+ 103   4              tag4 = (tag4 +1)%2;
+ 104   4              LCD_PutString(44, 276, "LED 4", color[tag4], Blue);
+ 105   4              while (Penirq == 0 && lx >= 16 && lx <= 112 && ly >= 264 && ly <= 304);
+ 106   4            }
+ 107   3      
+ 108   3            //LED 5
+ 109   3            if (lx >= 128 && lx <= 224 && ly >= 96 && ly <= 136)
+ 110   3            {
+ 111   4              led5 = ~led5;
+ 112   4              tag5 = (tag5 +1)%2;
+ 113   4              LCD_PutString(156, 108, "LED 5", color[tag5], Blue);
+ 114   4              while (Penirq == 0 && lx >= 128 && lx <= 224 && ly >= 96 && ly <= 136);
+ 115   4            }
+ 116   3      
+ 117   3            //LED 6
+C51 COMPILER V9.52.0.0   MAIN                                                              01/03/2014 16:41:56 PAGE 3   
+
+ 118   3            if (lx >= 128 && lx <= 224 && ly >= 152 && ly <= 192)
+ 119   3            {
+ 120   4              led6 = ~led6;
+ 121   4              tag6 = (tag6 +1)%2;
+ 122   4              LCD_PutString(156, 164, "LED 6", color[tag6], Blue);
+ 123   4              while (Penirq == 0 && lx >= 128 && lx <= 224 && ly >= 152 && ly <= 192);
+ 124   4            }
+ 125   3      
+ 126   3            //LED 7
+ 127   3            if (lx >= 128 && lx <= 224 && ly >= 208 && ly <= 248)
+ 128   3            {
+ 129   4              led7 = ~led7;
+ 130   4              tag7 = (tag7 +1)%2;
+ 131   4              LCD_PutString(156, 220, "LED 7", color[tag7], Blue);
+ 132   4              while (Penirq == 0 && lx >= 128 && lx <= 224 && ly >= 208 && ly <= 248);
+ 133   4            }
+ 134   3      
+ 135   3            //LED 8
+ 136   3            if (lx >= 128 && lx <= 224 && ly >= 264 && ly <= 304)
+ 137   3            {
+ 138   4              led8 = ~led8;
+ 139   4              tag8 = (tag8 +1)%2;
+ 140   4              LCD_PutString(156, 276, "LED 8", color[tag8], Blue);
+ 141   4              while (Penirq == 0 && lx >= 128 && lx <= 224 && ly >= 264 && ly <= 304);
+ 142   4            }
+ 143   3          }
+ 144   2        }
+ 145   1      }
+ 146          
+ 147          void AD7843(void)              //外部中断0 用来接受键盘发来的数据
+ 148          {
+ 149   1         CS=0;
+ 150   1        //delayms(1);                     //中断后延时以消除抖动，使得采样数据更准确
+ 151   1        //while(BUSY);                //如果BUSY信号不好使可以删除不用
+ 152   1        //delayms(1);
+ 153   1        WriteCharTo7843(0x90);        //送控制字 10010000 即用差分方式读X坐标 详细请见有关资料
+ 154   1        //while(BUSY);               //如果BUSY信号不好使可以删除不用
+ 155   1        //delayms(1);
+ 156   1        DCLK=1;
+ 157   1        _nop_();
+ 158   1        _nop_();
+ 159   1        _nop_();
+ 160   1        _nop_();
+ 161   1        DCLK=0; 
+ 162   1        _nop_();
+ 163   1        _nop_();
+ 164   1        _nop_();
+ 165   1        _nop_();
+ 166   1        TP_Y=ReadFromCharFrom7843();
+ 167   1        WriteCharTo7843(0xD0);       //送控制字 11010000 即用差分方式读Y坐标 详细请见有关资料
+ 168   1        DCLK=1; 
+ 169   1        _nop_();
+ 170   1        _nop_();
+ 171   1        _nop_();
+ 172   1        _nop_();
+ 173   1        DCLK=0;
+ 174   1        _nop_();
+ 175   1        _nop_();
+ 176   1        _nop_();
+ 177   1        _nop_();
+ 178   1        TP_X=ReadFromCharFrom7843();
+ 179   1        CS=1;
+C51 COMPILER V9.52.0.0   MAIN                                                              01/03/2014 16:41:56 PAGE 4   
+
+ 180   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1802    ----
+   CONSTANT SIZE    =     64    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     12       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

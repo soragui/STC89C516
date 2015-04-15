@@ -1,0 +1,5 @@
+"initLCD.obj",
+"main.obj",
+"PCF.obj" 
+TO "ch_light" Rtx51Tiny 
+RAMSIZE(256) 

@@ -1,0 +1,12 @@
+C51 COMPILER V8.05a   INIT                                                                 05/09/2013 15:16:25 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE INIT
+OBJECT MODULE PLACED IN init.OBJ
+COMPILER INVOKED BY: F:\Keil\C51\BIN\C51.EXE init.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+*** ERROR C318 OF init.c: can't open file 'init.c'
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  1 ERROR(S)

@@ -1,0 +1,15 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+G:\MCU\STC89C516·ÂÕæ\RTX51\Ex_1\rtx.uvproj
+Project File Date:  10/12/2013
+
+<h2>Output:</h2>
+Rebuild target 'RTX'
+compiling rtx51.c...
+linking...
+Program Size: data=25.1 xdata=0 code=746
+creating hex file from "rtx"...
+"rtx" - 0 Error(s), 0 Warning(s).

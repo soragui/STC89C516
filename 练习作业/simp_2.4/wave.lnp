@@ -1,0 +1,4 @@
+"initLCD.obj",
+"startup.obj" 
+TO "wave" 
+RAMSIZE(256) 

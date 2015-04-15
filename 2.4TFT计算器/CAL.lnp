@@ -1,0 +1,5 @@
+"STARTUP.obj",
+"init.obj",
+"main.obj" 
+TO "CAL" 
+RAMSIZE(256) 

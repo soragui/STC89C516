@@ -1,0 +1,578 @@
+C51 COMPILER V9.52.0.0   INITLCD                                                           10/31/2013 14:16:31 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE INITLCD
+OBJECT MODULE PLACED IN initLCD.OBJ
+COMPILER INVOKED BY: E:\C51Keil\C51\BIN\C51.EXE initLCD.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg51.h>
+   2          #include <math.h>
+   3          #include "initLCD.h"
+   4          
+   5          #define DataPort P0   // ˝æ›ø⁄ π”√DataPor
+   6          #define PI 3.141592
+   7          
+   8          sbit RS    =P2^5;               // ˝æ›√¸¡Ó—°‘Ò
+   9          sbit RW    =P2^4;       //–¥ ˝æ›/√¸¡Ó
+  10          sbit nRD   =P2^3;       //∂¡øÿ÷∆
+  11          sbit CS    =P2^2;               //∆¨—°
+  12          sbit RES   =P2^1;               //∏¥Œª
+  13          
+  14          sbit LE    =P2^0;       //74HC573À¯¥Êøÿ÷∆
+  15          
+  16          unsigned int Device_code=0x9328;
+  17          
+  18          void delayms(unsigned int count)
+  19          {
+  20   1          int i,j;                                                                                
+  21   1          for(i=0;i<count;i++)                                                                    
+  22   1             {
+  23   2                   for(j=0;j<255;j++);
+  24   2             }                                                                                     
+  25   1      }
+  26          
+  27          void Write_Cmd(unsigned char DH,unsigned char DL)
+  28          {
+  29   1              CS=0;
+  30   1              RS=0;
+  31   1          nRD=1;
+  32   1          RW=0;
+  33   1      
+  34   1          //◊¢“‚£∫µ± π”√8Œª ˝æ›ø⁄«˝∂Ø16Œª ˝æ›ƒ£ Ω ±£¨ π”√74HC573◊˜Œ™IO¿©’π£¨≥Ã–Ú»Áœ¬
+  35   1          DataPort=DL;            //ÀÕµÕ8Œª√¸¡Ó∏¯573¥˝À¯¥Ê
+  36   1          LE=1;                   //À¯¥ÊŒª
+  37   1          LE=0;                   //∂œø™À¯¥Ê,Œª—°573µƒQ7~Q0»‘±£≥÷ 
+  38   1      
+  39   1              DataPort=DH;            //ÀÕ∏ﬂ8Œª√¸¡Ó∏¯TFT
+  40   1      
+  41   1              /*
+  42   1          //»Áπ˚ π”√16Œª ˝æ›ø⁄«˝∂Ø16Œª ˝æ›ƒ£ Ω£¨‘ÚŒﬁ–ËIO¿©’π£¨÷±Ω”Ω´ ˝æ›ÀÕµΩ ˝æ›ø⁄º¥ø…
+  43   1          DataPort_L=DL; 
+  44   1          DataPort_H=DH;
+  45   1              */
+  46   1      
+  47   1              RW=1;
+  48   1              CS=1;
+  49   1      }
+  50          
+  51          void Write_Data(unsigned char DH,unsigned char DL)
+  52          {
+  53   1              
+  54   1              CS=0;
+  55   1              RS=1;
+C51 COMPILER V9.52.0.0   INITLCD                                                           10/31/2013 14:16:31 PAGE 2   
+
+  56   1      
+  57   1          //◊¢“‚£∫µ± π”√8Œª ˝æ›ø⁄«˝∂Ø16Œª ˝æ›ƒ£ Ω ±£¨ π”√74HC573◊˜Œ™IO¿©’π£¨≥Ã–Ú»Áœ¬
+  58   1              DataPort=DL;            //ÀÕµÕ8Œª ˝æ›∏¯573¥˝À¯¥Ê
+  59   1          LE=1;                   //À¯¥ÊŒª
+  60   1          LE=0;                   //∂œø™À¯¥Ê,Œª—°573µƒQ7~Q0»‘±£≥÷ 
+  61   1      
+  62   1              DataPort=DH;            //ÀÕ∏ﬂ8Œª ˝æ›∏¯TFT
+  63   1      
+  64   1              /*
+  65   1          //˝æ›ø⁄«˝∂Ø16Œª ˝æ›ƒ£ Ω£¨‘ÚŒﬁ–ËIO¿©’π£¨÷±Ω”Ω´ ˝æ›ÀÕµΩ ˝æ›ø⁄º¥ø…
+  66   1          DataPort_L=DL; 
+  67   1          DataPort_H=DH;
+  68   1              */
+  69   1      
+  70   1              RW=0;
+  71   1              RW=1;
+  72   1              CS=1;
+  73   1      }
+  74          
+  75          void  Write_Data_U16(unsigned int y)
+  76          {
+  77   1              unsigned char m,n; 
+  78   1              m=y>>8;
+  79   1              n=y;
+  80   1              Write_Data(m,n);
+  81   1      }
+  82          
+  83          void  Write_Cmd_Data (unsigned char x,unsigned int y)
+  84          {
+  85   1              unsigned char m,n;
+  86   1              m=y>>8;
+  87   1              n=y;
+  88   1              Write_Cmd(0x00,x);
+  89   1              Write_Data(m,n);
+  90   1      }
+  91          
+  92          void TFT_Initial(void)
+  93          {  
+  94   1      
+  95   1          RES = 1;    
+  96   1              delayms(1);                    // Delay 1ms 
+  97   1              RES = 0;  
+  98   1              delayms(10);                   // Delay 10ms            
+  99   1              RES = 1;  
+ 100   1              delayms(50);                   // Delay 50 ms  
+ 101   1        
+ 102   1              if(Device_code==0x9320)
+ 103   1           {
+ 104   2      
+ 105   2          //************* Start Initial Sequence **********//
+ 106   2              Write_Cmd_Data(0x00,0x0001);   //Set the OSC bit as °Æ1°Ø to start the internal oscillator
+ 107   2          Write_Cmd_Data(0x01,0x0100);   // set SS and SM bit
+ 108   2              Write_Cmd_Data(0x02,0x0700);   // set 1 line inversion
+ 109   2              Write_Cmd_Data(0x03,0x1030);   //set GRAM Write direction and BGR=1
+ 110   2          Write_Cmd_Data(0x04,0x0000);   // Resize register
+ 111   2              Write_Cmd_Data(0x08,0x0202);   // set the back porch and front porch
+ 112   2          Write_Cmd_Data(0x09,0x0000);   // set non-display area refresh cycle ISC[3:0]
+ 113   2          Write_Cmd_Data(0x0A,0x0000);   // FMARK function
+ 114   2          Write_Cmd_Data(0x0C,0x0000);   // RGB interface setting
+ 115   2              Write_Cmd_Data(0x0D,0x0000);   // Frame marker Position
+ 116   2          Write_Cmd_Data(0x0F,0x0000);   // RGB interface polarity
+ 117   2          delayms(30);
+C51 COMPILER V9.52.0.0   INITLCD                                                           10/31/2013 14:16:31 PAGE 3   
+
+ 118   2              //*************Power On sequence ****************//
+ 119   2              Write_Cmd_Data(0x10, 0x16b0);   // SAP, BT[3:0], AP, DSTB, SLP, STB
+ 120   2              delayms(30);
+ 121   2              Write_Cmd_Data(0x11, 0x0007);   //Write final user°Øs setting values to VC bit
+ 122   2              Write_Cmd_Data(0x12, 0x013a);   // set Internal reference voltage
+ 123   2              Write_Cmd_Data(0x13, 0x1a00);   // VDV[4:0] for VCOM amplitude
+ 124   2          delayms(30);
+ 125   2          Write_Cmd_Data(0x29, 0x000c);   // Set VCM[5:0] for VCOMH
+ 126   2              delayms(30); // Delay 50ms
+ 127   2      
+ 128   2              // ----------- Adjust the Gamma Curve ----------//
+ 129   2              Write_Cmd_Data(0x0030, 0x0000);
+ 130   2              Write_Cmd_Data(0x0031, 0x0505);
+ 131   2              Write_Cmd_Data(0x0032, 0x0304);
+ 132   2              Write_Cmd_Data(0x0035, 0x0006);
+ 133   2              Write_Cmd_Data(0x0036, 0x0707);
+ 134   2              Write_Cmd_Data(0x0037, 0x0105);
+ 135   2              Write_Cmd_Data(0x0038, 0x0002);
+ 136   2              Write_Cmd_Data(0x0039, 0x0707);
+ 137   2              Write_Cmd_Data(0x003C, 0x0704);
+ 138   2              Write_Cmd_Data(0x003D, 0x0807);
+ 139   2      
+ 140   2              //------------------ Set GRAM area ---------------//
+ 141   2              Write_Cmd_Data(0x0050, 0x0000); // Horizontal GRAM Start Address
+ 142   2              Write_Cmd_Data(0x0051, 0x00EF); // Horizontal GRAM End Address
+ 143   2              Write_Cmd_Data(0x0052, 0x0000); // Vertical GRAM Start Address
+ 144   2              Write_Cmd_Data(0x0053, 0x013F); // Vertical GRAM Start Address
+ 145   2              Write_Cmd_Data(0x0060, 0x2700); // Gate Scan Line
+ 146   2              Write_Cmd_Data(0x0061, 0x0001); // NDL,VLE, REV
+ 147   2              Write_Cmd_Data(0x006A, 0x0000); // set scrolling line
+ 148   2          Write_Cmd_Data(0x20, 0x0000);   // GRAM horizontal Address
+ 149   2              Write_Cmd_Data(0x21, 0x0000);   // GRAM Vertical Address
+ 150   2      
+ 151   2              //-------------- Partial Display Control ---------//
+ 152   2              Write_Cmd_Data(0x0080, 0x0000);
+ 153   2              Write_Cmd_Data(0x0081, 0x0000);
+ 154   2              Write_Cmd_Data(0x0082, 0x0000);
+ 155   2              Write_Cmd_Data(0x0083, 0x0000);
+ 156   2              Write_Cmd_Data(0x0084, 0x0000);
+ 157   2              Write_Cmd_Data(0x0085, 0x0000);
+ 158   2      
+ 159   2              //-------------- Panel Control ---------//
+ 160   2          Write_Cmd_Data(0x90,0x0010);   //Frame Cycle Contral
+ 161   2              Write_Cmd_Data(0x92,0x0000);   //Panel Interface Contral
+ 162   2              Write_Cmd_Data(0x93,0x0003);   //Panel Interface Contral 3. 
+ 163   2              Write_Cmd_Data(0x95,0x0110);   //Frame Cycle Contral
+ 164   2              Write_Cmd_Data(0x97,0x0000);   // 
+ 165   2              Write_Cmd_Data(0x98,0x0000);   //Frame Cycle Contral.     
+ 166   2      
+ 167   2              //-------------- Display on ---------//
+ 168   2          Write_Cmd_Data(0x07,0x0173); 
+ 169   2      
+ 170   2              }
+ 171   1      
+ 172   1              else if(Device_code==0x1505 )
+ 173   1           {
+ 174   2      
+ 175   2          //************* Start Initial Sequence **********//
+ 176   2              Write_Cmd_Data(0x00,0x0001);   //Set the OSC bit as °Æ1°Ø to start the internal oscillator
+ 177   2          Write_Cmd_Data(0x01,0x0100);   // set SS and SM bit
+ 178   2              Write_Cmd_Data(0x02,0x0700);   // set 1 line inversion
+ 179   2              Write_Cmd_Data(0x03,0x1030);   //set GRAM Write direction and BGR=1
+C51 COMPILER V9.52.0.0   INITLCD                                                           10/31/2013 14:16:31 PAGE 4   
+
+ 180   2          Write_Cmd_Data(0x04,0x0000);   // Resize register
+ 181   2              Write_Cmd_Data(0x08,0x0202);   // set the back porch and front porch
+ 182   2          Write_Cmd_Data(0x09,0x0000);   // set non-display area refresh cycle ISC[3:0]
+ 183   2          Write_Cmd_Data(0x0A,0x0000);   // FMARK function
+ 184   2          Write_Cmd_Data(0x0C,0x0000);   // RGB interface setting
+ 185   2              Write_Cmd_Data(0x0D,0x0000);   // Frame marker Position
+ 186   2          Write_Cmd_Data(0x0F,0x0000);   // RGB interface polarity
+ 187   2          delayms(30);
+ 188   2              //*************Power On sequence ****************//
+ 189   2              Write_Cmd_Data(0x10, 0x16b0);   // SAP, BT[3:0], AP, DSTB, SLP, STB
+ 190   2              delayms(30);
+ 191   2              Write_Cmd_Data(0x11, 0x0007);   //Write final user°Øs setting values to VC bit
+ 192   2              Write_Cmd_Data(0x12, 0x013a);   // set Internal reference voltage
+ 193   2              Write_Cmd_Data(0x13, 0x1a00);   // VDV[4:0] for VCOM amplitude
+ 194   2          delayms(30);
+ 195   2          Write_Cmd_Data(0x29, 0x000c);   // Set VCM[5:0] for VCOMH
+ 196   2              delayms(30); // Delay 50ms
+ 197   2      
+ 198   2              // ----------- Adjust the Gamma Curve ----------//
+ 199   2              Write_Cmd_Data(0x0030, 0x0000);
+ 200   2              Write_Cmd_Data(0x0031, 0x0505);
+ 201   2              Write_Cmd_Data(0x0032, 0x0304);
+ 202   2              Write_Cmd_Data(0x0035, 0x0006);
+ 203   2              Write_Cmd_Data(0x0036, 0x0707);
+ 204   2              Write_Cmd_Data(0x0037, 0x0105);
+ 205   2              Write_Cmd_Data(0x0038, 0x0002);
+ 206   2              Write_Cmd_Data(0x0039, 0x0707);
+ 207   2              Write_Cmd_Data(0x003C, 0x0704);
+ 208   2              Write_Cmd_Data(0x003D, 0x0807);
+ 209   2      
+ 210   2              //------------------ Set GRAM area ---------------//
+ 211   2              Write_Cmd_Data(0x0050, 0x0000); // Horizontal GRAM Start Address
+ 212   2              Write_Cmd_Data(0x0051, 0x00EF); // Horizontal GRAM End Address
+ 213   2              Write_Cmd_Data(0x0052, 0x0000); // Vertical GRAM Start Address
+ 214   2              Write_Cmd_Data(0x0053, 0x013F); // Vertical GRAM Start Address
+ 215   2              Write_Cmd_Data(0x0060, 0x2700); // Gate Scan Line
+ 216   2              Write_Cmd_Data(0x0061, 0x0001); // NDL,VLE, REV
+ 217   2              Write_Cmd_Data(0x006A, 0x2700); // set scrolling line
+ 218   2          Write_Cmd_Data(0x20, 0x0000);   // GRAM horizontal Address
+ 219   2              Write_Cmd_Data(0x21, 0x0000);   // GRAM Vertical Address
+ 220   2      
+ 221   2              //-------------- Partial Display Control ---------//
+ 222   2              Write_Cmd_Data(0x0080, 0x0000);
+ 223   2              Write_Cmd_Data(0x0081, 0x0000);
+ 224   2              Write_Cmd_Data(0x0082, 0x0000);
+ 225   2              Write_Cmd_Data(0x0083, 0x0000);
+ 226   2              Write_Cmd_Data(0x0084, 0x0000);
+ 227   2              Write_Cmd_Data(0x0085, 0x0000);
+ 228   2      
+ 229   2              //-------------- Panel Control ---------//
+ 230   2          Write_Cmd_Data(0x90,0x0010);   //Frame Cycle Contral
+ 231   2              Write_Cmd_Data(0x92,0x0000);   //Panel Interface Contral
+ 232   2              Write_Cmd_Data(0x93,0x0003);   //Panel Interface Contral 3. 
+ 233   2              Write_Cmd_Data(0x95,0x0110);   //Frame Cycle Contral
+ 234   2              Write_Cmd_Data(0x97,0x0000);   // 
+ 235   2              Write_Cmd_Data(0x98,0x0000);   //Frame Cycle Contral.     
+ 236   2      
+ 237   2              //-------------- Display on ---------//
+ 238   2          Write_Cmd_Data(0x07,0x0173); 
+ 239   2      
+ 240   2              }
+ 241   1      
+C51 COMPILER V9.52.0.0   INITLCD                                                           10/31/2013 14:16:31 PAGE 5   
+
+ 242   1          else if(Device_code==0x9328)
+ 243   1           {
+ 244   2      
+ 245   2          //************* Start Initial Sequence **********//
+ 246   2               Write_Cmd_Data(0x0001,0x0100);   //set SS and SM bit //…Ë÷√…®√Ë∑ΩœÚ
+ 247   2          Write_Cmd_Data(0x0002,0x0700);   //EOR=1 and B/C=1 to set the line inversion  //…Ë÷√––∑¥◊™
+ 248   2          Write_Cmd_Data(0x0003,0x1030);   //set Entry Mode  //…Ë÷√Ω¯»Îƒ£ Ω   
+ 249   2          Write_Cmd_Data(0x0004,0x0000);   //
+ 250   2          Write_Cmd_Data(0x00A4,0x0001);
+ 251   2          Write_Cmd_Data(0x0008,0x0202); // set the back porch and front porch
+ 252   2          Write_Cmd_Data(0x0009,0x0000); // set non-display area refresh cycle ISC[3:0]
+ 253   2          Write_Cmd_Data(0x000A,0x0000); // FMARK function
+ 254   2          Write_Cmd_Data(0x000C,0x0000); // RGB interface setting
+ 255   2          Write_Cmd_Data(0x000D, 0x0000); // Frame marker Position
+ 256   2          Write_Cmd_Data(0x000F, 0x0000); // RGB interface polarity
+ 257   2      
+ 258   2      
+ 259   2      
+ 260   2      //*************Power On sequence ****************//
+ 261   2          Write_Cmd_Data(0x0010, 0x0000); // SAP, BT[3:0], AP, DSTB, SLP, STB 
+ 262   2          Write_Cmd_Data(0x0011, 0x0007); // DC1[2:0], DC0[2:0], VC[2:0]
+ 263   2          Write_Cmd_Data(0x0012, 0x0000); // VREG1OUT voltage
+ 264   2          Write_Cmd_Data(0x0013, 0x0000); // VDV[4:0] for VCOM amplitude 
+ 265   2          delayms(30);
+ 266   2          Write_Cmd_Data(0x0010, 0x1690); // SAP, BT[3:0], AP, DSTB, SLP, STB 
+ 267   2          Write_Cmd_Data(0x0011, 0x0227); // R11h=0x0221 at VCI=3.3V, DC1[2:0], DC0[2:0], VC[2:0]
+ 268   2          delayms(30);
+ 269   2          Write_Cmd_Data(0x0012, 0x001C); // External reference voltage= Vci;
+ 270   2          delayms(30); 
+ 271   2          Write_Cmd_Data(0x0013, 0x1800); // R13=1200 when R12=009D;VDV[4:0] for VCOM amplitude
+ 272   2          Write_Cmd_Data(0x0029, 0x001C); // R29=000C when R12=009D;VCM[5:0] for VCOMH
+ 273   2          Write_Cmd_Data(0x002B, 0x000D); // Frame Rate = 91Hz
+ 274   2          delayms(30);    
+ 275   2          Write_Cmd_Data(0x0020, 0x0000); // GRAM horizontal Address
+ 276   2          Write_Cmd_Data(0x0021, 0x0000); // GRAM Vertical Address
+ 277   2      // ----------- Adjust the Gamma Curve ----------//               
+ 278   2              Write_Cmd_Data(0x0030, 0x0007);
+ 279   2              Write_Cmd_Data(0x0031, 0x0302);
+ 280   2          Write_Cmd_Data(0x0032, 0x0105);
+ 281   2              Write_Cmd_Data(0x0035, 0x0206);
+ 282   2          Write_Cmd_Data(0x0036, 0x0808);               
+ 283   2          Write_Cmd_Data(0x0037, 0x0206);
+ 284   2          Write_Cmd_Data(0x0038, 0x0504);
+ 285   2          Write_Cmd_Data(0x0039, 0x0007);
+ 286   2          Write_Cmd_Data(0x003C, 0x0105);
+ 287   2          Write_Cmd_Data(0x003D, 0x0808);
+ 288   2      //------------------ Set GRAM area ---------------//
+ 289   2          Write_Cmd_Data(0x0050, 0x0000); // Horizontal GRAM Start Address
+ 290   2          Write_Cmd_Data(0x0051, 0x00EF); // Horizontal GRAM End Address
+ 291   2          Write_Cmd_Data(0x0052, 0x0000); // Vertical GRAM Start Address
+ 292   2              delayms(30);
+ 293   2          Write_Cmd_Data(0x0053, 0x013F); // Vertical GRAM Start Address
+ 294   2              delayms(30);
+ 295   2          Write_Cmd_Data(0x0060, 0xA700); // Gate Scan Line
+ 296   2          Write_Cmd_Data(0x0061, 0x0001); // NDL,VLE, REV  
+ 297   2          Write_Cmd_Data(0x006A, 0x0000); // set scrolling line
+ 298   2      //-------------- Partial Display Control ---------//
+ 299   2          Write_Cmd_Data(0x0080, 0x0000);
+ 300   2          Write_Cmd_Data(0x0081, 0x0000);
+ 301   2          Write_Cmd_Data(0x0082,0x0000); 
+ 302   2          Write_Cmd_Data(0x0083,0x0000); 
+ 303   2          Write_Cmd_Data(0x0084,0x0000); 
+C51 COMPILER V9.52.0.0   INITLCD                                                           10/31/2013 14:16:31 PAGE 6   
+
+ 304   2          Write_Cmd_Data(0x0085,0x0000); 
+ 305   2      //-------------- Panel Control -------------------//        
+ 306   2          Write_Cmd_Data(0x0090, 0x0010);
+ 307   2          Write_Cmd_Data(0x0092, 0x0000);
+ 308   2          Write_Cmd_Data(0x0093, 0x0003);
+ 309   2          Write_Cmd_Data(0x0095, 0x0110);
+ 310   2          Write_Cmd_Data(0x0097, 0x0000);
+ 311   2          Write_Cmd_Data(0x0098, 0x0000);
+ 312   2          Write_Cmd_Data(0x0007, 0x0133); // 262K color and display ON
+ 313   2      
+ 314   2              }
+ 315   1      }
+ 316          
+ 317          void LCD_SetPos(unsigned int x0,unsigned int x1,unsigned int y0,unsigned int y1)
+ 318          {
+ 319   1      
+ 320   1        Write_Cmd_Data(0x50,x0);  // Horizontal GRAM Start Address
+ 321   1        Write_Cmd_Data(0x51,x1);  // Horizontal GRAM End Address
+ 322   1        Write_Cmd_Data(0x52,y0);  // Vertical GRAM Start Address
+ 323   1        Write_Cmd_Data(0x53,y1);  // Vertical GRAM Start Address
+ 324   1        Write_Cmd_Data(0x20,x0);  // GRAM horizontal Address
+ 325   1        Write_Cmd_Data(0x21,y0);  // GRAM Vertical Address
+ 326   1        Write_Cmd (0x00,0x22);    // 0x0022,Start to Write Data to GRAM 
+ 327   1      }
+ 328          
+ 329          void CLR_Screen(unsigned int bColor)
+ 330          {
+ 331   1       unsigned int i,j;
+ 332   1       LCD_SetPos(0,240,0,320);//320x240
+ 333   1       for (i=0;i<320;i++)
+ 334   1              {
+ 335   2                 for (j=0;j<240;j++)
+ 336   2                     Write_Data_U16(bColor);
+ 337   2              }
+ 338   1      }
+ 339          
+ 340          void Put_pixel(unsigned int x, unsigned int y, unsigned int color)
+ 341          {
+ 342   1              LCD_SetPos(x, x, y, y);
+ 343   1              Write_Data_U16(color);
+ 344   1      }
+ 345          
+ 346          void Set_Color(uchar x, uint y, uchar length, uint high, uchar color)
+ 347          {
+ 348   1               uchar i, xi;
+ 349   1               uint  j, xj;
+ 350   1               xi =  x+length-1;
+ 351   1               xj =  y+high-1;
+ 352   1               LCD_SetPos(x, xi, y, xj);
+ 353   1               for(i = x; i < xi; i ++)
+ 354   1               {
+ 355   2                      for(j = y; j < xj; j ++)
+ 356   2                      {
+ 357   3                              Write_Data_U16(color);
+ 358   3                      }
+ 359   2               }
+ 360   1      }
+ 361          
+ 362          void circle(unsigned int x, unsigned int y, unsigned int r, unsigned int color)
+ 363          {
+ 364   1              unsigned int i;
+ 365   1              for(i = 0; i <= 360; i ++)
+C51 COMPILER V9.52.0.0   INITLCD                                                           10/31/2013 14:16:31 PAGE 7   
+
+ 366   1              {
+ 367   2                      Put_pixel(x + cos(i*PI/180)*r, y + sin(i*PI/180)*r, color);
+ 368   2              }
+ 369   1      }
+ 370          
+ 371          void GUI_DisPicture(uchar x, uint y, uchar length, uint high ,const uchar *pic)
+ 372          //void GUI_DisPicture(uchar x, uint y, uchar length, uint high)
+ 373          {
+ 374   1          unsigned int temp=0,tmp=0,num=0;
+ 375   1              LCD_SetPos(x, x+length-1, y, y+high-1);
+ 376   1              num=length*high*2;
+ 377   1              do
+ 378   1              {  
+ 379   2                 //temp=pic[tmp]|( pic[tmp+1]<<8);
+ 380   2                 temp=pic[tmp+1];
+ 381   2                 temp=temp<<8;
+ 382   2                 temp=temp|pic[tmp];
+ 383   2                 Write_Data_U16(temp);//÷µ„œ‘ æ
+ 384   2                 tmp+=2;
+ 385   2              }while(tmp<num);
+ 386   1      }
+ 387          
+ 388          void GUI_HLine(uchar x, uint y, uchar length, uint color) 
+ 389          {  
+ 390   1      //LCD_SetPos(x,y,x+length-1,y);
+ 391   1              //do
+ 392   1      //      {  
+ 393   1      //              Write_Data_U16(color);//÷µ„œ‘ æ£¨√Ë≥ˆÀÆ∆Ωœﬂ
+ 394   1      //              length--;
+ 395   1      //      }while(length);
+ 396   1              uchar i;
+ 397   1              for(i = x; i < length; i ++)
+ 398   1              {
+ 399   2                      Put_pixel(i, y, color);
+ 400   2              }
+ 401   1      }
+ 402          
+ 403          void GUI_VLine(uint X, uint Y0, uint Y1, unsigned int color) 
+ 404          {  
+ 405   1              uint i;
+ 406   1              //Y0 = Y0 > Y1?Y1:Y0;
+ 407   1              for(i = Y0; i < Y1; i ++) {
+ 408   2                      Put_pixel(X, i, color);
+ 409   2              }
+ 410   1      }
+ 411          
+ 412          
+ 413          /*void line(unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int color)
+ 414          {
+ 415                  
+ 416          } */
+ 417          
+ 418          //void Put_mych(unsigned short x, unsigned short  y,unsigned int width, unsigned int height,  const char m
+             -ycode[], unsigned int fColor,unsigned int bColor)
+ 419          //{
+ 420          //      unsigned int i, j, k;
+ 421          //      unsigned short m;
+ 422          //      unsigned int num = 0;
+ 423          //      num = width*height/8;
+ 424          //      LCD_SetPos(x,  x+width-1,y, y+height-1);
+ 425          //      for(i = 0; i < num; i ++)
+ 426          //      {
+C51 COMPILER V9.52.0.0   INITLCD                                                           10/31/2013 14:16:31 PAGE 8   
+
+ 427          //              //num += i;
+ 428          //              //for(j = 0; j < width/8; j ++) {
+ 429          //                      //num += j;
+ 430          //                      m = mycode[i];
+ 431          //                      for(k = 0; k < 8; j ++)
+ 432          //                      {
+ 433          //                                 if((m&0x80) == 0x80)
+ 434          //                                 {
+ 435          //                                              Write_Data_U16(fColor);
+ 436          //                                 }
+ 437          //                                 else
+ 438          //                                 {
+ 439          //                                              Write_Data_U16(bColor);
+ 440          //                                 }
+ 441          //                                 m <<= 1;
+ 442          //                      }
+ 443          //              //}
+ 444          //      }
+ 445          //}
+ 446          
+ 447          void Put_mych(unsigned short x, unsigned short  y,unsigned int width, unsigned int height,  short from,con
+             -st char mycode[], unsigned int fColor,unsigned int bColor)
+ 448          {
+ 449   1              unsigned int i, j, k;
+ 450   1              unsigned int num;
+ 451   1              unsigned char m;
+ 452   1              unsigned short count;
+ 453   1              //num = width*height/8;
+ 454   1              num = 0;
+ 455   1              count = width/8;
+ 456   1          
+ 457   1              if(from > 0) {
+ 458   2              unsigned short bj = from/8;
+ 459   2              LCD_SetPos(x+from, x+width-1, y, y+height-1);
+ 460   2              for(i = 0; i < height; i ++) {
+ 461   3                  for(j = bj; j < count; j ++) {
+ 462   4                      num = count*i + j;
+ 463   4                      m = mycode[num];
+ 464   4                      
+ 465   4                      if(j == bj) {
+ 466   5                          m <<= (from%8);
+ 467   5                          for(k = (from%8); k < 8; k ++) {
+ 468   6                             if((m&0x80) == 0x80) {
+ 469   7                                  Write_Data_U16(fColor);
+ 470   7                             } else {
+ 471   7                                  Write_Data_U16(bColor);
+ 472   7                             }
+ 473   6                             m <<= 1;
+ 474   6                          }
+ 475   5                      } else {
+ 476   5                          for(k = 0; k < 8; k ++) {
+ 477   6                             if((m&0x80) == 0x80) {
+ 478   7                                  Write_Data_U16(fColor);
+ 479   7                             } else {
+ 480   7                                  Write_Data_U16(bColor);
+ 481   7                             }
+ 482   6                             m <<= 1;
+ 483   6                          }
+ 484   5                      }
+ 485   4                  }
+ 486   3              }
+ 487   2              } else if(from < 0) {
+C51 COMPILER V9.52.0.0   INITLCD                                                           10/31/2013 14:16:31 PAGE 9   
+
+ 488   2              unsigned short ej = (-from)/8;
+ 489   2              count -= ej;
+ 490   2              LCD_SetPos(x,  x+from+width-1,y, y+height-1);
+ 491   2              for(i = 0; i < height; i ++) {
+ 492   3                  for(j = 0; j < count; j ++) {
+ 493   4                      num = width/8*i + j;
+ 494   4                      m = mycode[num];
+ 495   4                      
+ 496   4                      if(j == count-1) {
+ 497   5                          ej = (8-(-from)%8);
+ 498   5                          for(k = 0; k < ej; k ++) {
+ 499   6                             if((m&0x80) == 0x80) {
+ 500   7                                  Write_Data_U16(fColor);
+ 501   7                             } else {
+ 502   7                                  Write_Data_U16(bColor);
+ 503   7                             }
+ 504   6                             m <<= 1;
+ 505   6                          }
+ 506   5                      } else {
+ 507   5                          for(k = 0; k < 8; k ++) {
+ 508   6                             if((m&0x80) == 0x80) {
+ 509   7                                  Write_Data_U16(fColor);
+ 510   7                             } else {
+ 511   7                                  Write_Data_U16(bColor);
+ 512   7                             }
+ 513   6                             m <<= 1;
+ 514   6                          }
+ 515   5                      }
+ 516   4                  }
+ 517   3              }
+ 518   2          }else {
+ 519   2              LCD_SetPos(x,  x+width-1,y, y+height-1);
+ 520   2              for(i = 0; i < height; i ++) { 
+ 521   3                  for(j = 0; j < count; j ++) {
+ 522   4                      num = count*i + j;
+ 523   4                      m = mycode[num];
+ 524   4                      for(k = 0; k < 8; k ++) {
+ 525   5                             if((m&0x80) == 0x80) {
+ 526   6                                  Write_Data_U16(fColor);
+ 527   6                             } else {
+ 528   6                                  Write_Data_U16(bColor);
+ 529   6                             }
+ 530   5                             m <<= 1;
+ 531   5                      }
+ 532   4                  }
+ 533   3              }
+ 534   2          }
+ 535   1      }
+ 536          
+ 537          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   2643    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2      93
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

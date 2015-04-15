@@ -1,0 +1,19 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+G:\MCU\STC89C516·ÂÕæ\2.4TFT¼ÆËãÆ÷\CAL.uvproj
+Project File Date:  12/26/2013
+
+<h2>Output:</h2>
+Rebuild target 'Target 1'
+assembling STARTUP.A51...
+compiling init.c...
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PUT_MYCH?INIT
+Program Size: data=82.0 xdata=0 code=4665
+creating hex file from "CAL"...
+"CAL" - 0 Error(s), 1 Warning(s).

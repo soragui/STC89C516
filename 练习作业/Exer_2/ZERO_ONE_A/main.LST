@@ -1,0 +1,90 @@
+C51 COMPILER V9.52.0.0   MAIN                                                              10/13/2013 16:35:34 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: E:\C51Keil\C51\BIN\C51.EXE main.c COMPACT BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <stc/stc12c5a60s2.h>
+   2          #include <rtx51tny.h>
+   3          #include <stdlib.h>
+   4          #include "initLCD.h"
+   5          #include "zoa.h"
+   6          
+   7          #define White          0xFFFF   //LCD color
+   8          #define Black          0x0000
+   9          #define Blue           0x001F
+  10          #define Blue2          0x051F
+  11          #define Red            0xF800
+  12          #define Magenta        0xF81F
+  13          #define Green          0x07E0
+  14          #define Cyan           0x7FFF
+  15          #define Yellow         0xFFE0
+  16          #define Yellow2            0x3E20
+  17          
+  18          void start_task() _task_ 0
+  19          {
+  20   1              TFT_Initial();
+  21   1              CLR_Screen(Black);
+  22   1          
+  23   1          os_create_task(1);
+  24   1          os_create_task(2);
+  25   1      
+  26   1          os_delete_task(0);
+  27   1      }
+  28          
+  29          void num_circle_task_1(void) _task_ 1
+  30          {
+  31   1          
+  32   1          unsigned short x, i; 
+  33   1          unsigned short beg = 0;
+  34   1          
+  35   1          while(1) {
+  36   2          
+  37   2              for(x=0, i=beg; x < 240; x += 8, i ++) {
+  38   3                  if(i > 29)
+  39   3                      i = 0;
+  40   3                  Put_mych(x, 120, 8, 16, 0, line_one[i], Green, Black); 
+  41   3              }
+  42   2              
+  43   2              if(++beg == 30)
+  44   2                      beg = 0;
+  45   2          }
+  46   1      }
+  47          
+  48          void num_circle_task_2(void) _task_ 2
+  49          {
+  50   1          
+  51   1          unsigned short x, i; 
+  52   1          unsigned short beg = 0;
+  53   1          
+  54   1          while(1) {
+  55   2          
+C51 COMPILER V9.52.0.0   MAIN                                                              10/13/2013 16:35:34 PAGE 2   
+
+  56   2              for(x=240, i=beg; x > 0; x -= 8, i ++) {
+  57   3                  if(i > 29)
+  58   3                      i = 0;
+  59   3                  Put_mych(x, 200, 8, 16, 0, line_one[i], Green, Black); 
+  60   3              }
+  61   2              
+  62   2              if(++beg == 30)
+  63   2                      beg = 0;
+  64   2          }
+  65   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    403    ----
+   CONSTANT SIZE    =    512    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----      12
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

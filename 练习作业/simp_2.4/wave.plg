@@ -1,0 +1,163 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+G:\MCU\Á·Ï°×÷Òµ\Exer_4\wave.uvproj
+Project File Date:  10/13/2013
+
+<h2>Output:</h2>
+Rebuild target 'WAVE'
+compiling initLCD.c...
+linking...
+*** WARNING L10: CANNOT DETERMINE ROOT SEGMENT
+Program Size: data=0.0 xdata=0 code=0
+"wave" - 0 Error(s), 1 Warning(s).
+Rebuild target 'WAVE'
+compiling initLCD.c...
+initLCD.h(6): error C202: 'P2': undefined identifier
+initLCD.h(7): error C202: 'P2': undefined identifier
+initLCD.h(8): error C202: 'P2': undefined identifier
+initLCD.h(9): error C202: 'P2': undefined identifier
+initLCD.h(10): error C202: 'P2': undefined identifier
+initLCD.h(11): error C202: 'P2': undefined identifier
+initLCD.c(10): error C141: syntax error near ''
+Target not created
+Rebuild target 'WAVE'
+compiling initLCD.c...
+initLCD.c(10): error C141: syntax error near ''
+Target not created
+Rebuild target 'WAVE'
+compiling initLCD.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYMS?INITLCD
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_WRITE_COM?INITLCD
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_WRITE_DATA_U16?INITLCD
+*** WARNING L10: CANNOT DETERMINE ROOT SEGMENT
+Program Size: data=8.0 xdata=0 code=77
+"wave" - 0 Error(s), 4 Warning(s).
+Rebuild target 'WAVE'
+compiling initLCD.c...
+initLCD.c(41): error C202: 'LCD_REST': undefined identifier
+initLCD.c(43): error C202: 'LCD_REST': undefined identifier
+initLCD.c(45): error C202: 'LCD_REST': undefined identifier
+Target not created
+Rebuild target 'WAVE'
+compiling initLCD.c...
+initLCD.c(45): error C202: 'LCD_REST': undefined identifier
+Target not created
+Rebuild target 'WAVE'
+compiling initLCD.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_WRITE_DATA_U16?INITLCD
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?TFT_INITIAL?INITLCD
+*** WARNING L10: CANNOT DETERMINE ROOT SEGMENT
+Program Size: data=8.0 xdata=0 code=554
+"wave" - 0 Error(s), 3 Warning(s).
+Rebuild target 'WAVE'
+compiling initLCD.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_WRITE_DATA_U16?INITLCD
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?TFT_INITIAL?INITLCD
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_SETPOS?INITLCD
+*** WARNING L10: CANNOT DETERMINE ROOT SEGMENT
+Program Size: data=16.0 xdata=0 code=655
+"wave" - 0 Error(s), 4 Warning(s).
+Rebuild target 'WAVE'
+compiling initLCD.c...
+initLCD.c(131): error C141: syntax error near '320'
+Target not created
+Rebuild target 'WAVE'
+compiling initLCD.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?TFT_INITIAL?INITLCD
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_CLR_SCREEN?INITLCD
+*** WARNING L10: CANNOT DETERMINE ROOT SEGMENT
+Program Size: data=18.0 xdata=0 code=707
+"wave" - 0 Error(s), 3 Warning(s).
+Rebuild target 'WAVE'
+compiling initLCD.c...
+compiling startup.c...
+startup.c(7): warning C209: '_CLR_Screen': too few actual parameters
+linking...
+Program Size: data=19.0 xdata=0 code=728
+"wave" - 0 Error(s), 1 Warning(s).
+Rebuild target 'WAVE'
+compiling initLCD.c...
+compiling startup.c...
+linking...
+Program Size: data=19.0 xdata=0 code=734
+"wave" - 0 Error(s), 0 Warning(s).
+Rebuild target 'WAVE'
+compiling initLCD.c...
+compiling startup.c...
+linking...
+Program Size: data=19.0 xdata=0 code=734
+creating hex file from "wave"...
+"wave" - 0 Error(s), 0 Warning(s).
+Rebuild target 'WAVE'
+compiling initLCD.c...
+compiling startup.c...
+linking...
+Program Size: data=19.0 xdata=0 code=734
+creating hex file from "wave"...
+"wave" - 0 Error(s), 0 Warning(s).
+Rebuild target 'WAVE'
+compiling initLCD.c...
+initLCD.c(119): error C202: 'x0': undefined identifier
+initLCD.c(121): error C202: 'y0': undefined identifier
+initLCD.c(123): error C202: 'x0': undefined identifier
+initLCD.c(124): error C202: 'y0': undefined identifier
+compiling startup.c...
+Target not created
+Rebuild target 'WAVE'
+compiling initLCD.c...
+compiling startup.c...
+linking...
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _LCD_WRITE_COM_DATA
+    MODULE:  initLCD.obj (INITLCD)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _LCD_WRITE_COM_DATA
+    MODULE:  initLCD.obj (INITLCD)
+    ADDRESS: 01E9H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _LCD_WRITE_COM_DATA
+    MODULE:  initLCD.obj (INITLCD)
+    ADDRESS: 01F2H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _LCD_WRITE_COM_DATA
+    MODULE:  initLCD.obj (INITLCD)
+    ADDRESS: 01FBH
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _LCD_WRITE_COM_DATA
+    MODULE:  initLCD.obj (INITLCD)
+    ADDRESS: 0204H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _LCD_WRITE_COM_DATA
+    MODULE:  initLCD.obj (INITLCD)
+    ADDRESS: 020DH
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _LCD_WRITE_COM_DATA
+    MODULE:  initLCD.obj (INITLCD)
+    ADDRESS: 0216H
+Program Size: data=19.0 xdata=0 code=709
+creating hex file from "wave"...
+"wave" - 0 Error(s), 7 Warning(s).
+Rebuild target 'WAVE'
+compiling initLCD.c...
+compiling startup.c...
+linking...
+Program Size: data=19.0 xdata=0 code=727
+creating hex file from "wave"...
+"wave" - 0 Error(s), 0 Warning(s).

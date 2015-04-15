@@ -1,0 +1,6 @@
+"STARTUP.obj",
+"initLCD.obj",
+"main.obj",
+"PCF.obj" 
+TO "voltage" 
+RAMSIZE(256) 

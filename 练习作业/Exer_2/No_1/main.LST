@@ -1,0 +1,140 @@
+C51 COMPILER V9.52.0.0   MAIN                                                              11/02/2013 08:15:59 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: E:\C51Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include <stdlib.h>
+   3          #include <math.h>
+   4          #include "ch_a.h"
+   5          #include "initLCD.h" 
+   6          
+   7          #define White          0xFFFF   //LCD color
+   8          #define Black          0x0000
+   9          #define Blue           0x001F
+  10          #define Blue2          0x051F
+  11          #define Red            0xF800
+  12          #define Magenta        0xF81F
+  13          #define Green          0x07E0
+  14          #define Cyan           0x7FFF
+  15          #define Yellow         0xFFE0
+  16          
+  17          #define PI 3.1415926
+  18          
+  19          //unsigned int Device_code;
+  20          
+  21          //unsigned int code color[7] = { 0x001F, 0x51F, 0xF800, 0xF81F, 0x07E0, 0xFFE0, 0x7FFF };
+  22          
+  23          unsigned int color = Red, extra = 0; 
+  24          unsigned int i, k, j;
+  25                                                                  
+  26          void main()
+  27          {
+  28   1              //Device_code = 0x9328;
+  29   1              TFT_Initial();
+  30   1              CLR_Screen(Black);
+  31   1              //srand(1);
+  32   1          for(k = 0; k < 6; k ++) {
+  33   2              for(i = 20, j = 40; i > 12; i --, j --) {
+  34   3                  Put_mych(i+k*32, j, 32, 35, AHUTC[k], color, Black);
+  35   3                  color += 40;
+  36   3              }
+  37   2              Put_mych(i+k*32, j, 32, 35, AHUTC[k], Green, Black);
+  38   2              color = Yellow+1200;
+  39   2          }
+  40   1          
+  41   1          
+  42   1      //        for(i = 20, j = 40; i > 12; i --, j --) {
+  43   1      //            for(k = 0; k < 6; k ++) {
+  44   1      //                Put_mych(i+k*32, j, 32, 35, AHUTC[k], color, Black);
+  45   1      //            }
+  46   1      //            color += 40;
+  47   1      //        }
+  48   1      //        for(k = 0; k < 6; k ++) {
+  49   1      //            Put_mych(i+k*32, j, 32, 35, AHUTC[k], Green, Black);
+  50   1      //        }
+  51   1      //        color = Yellow+1200;
+  52   1      //    }
+  53   1          
+  54   1      //    for(k = 0; k < 3; k ++) {
+  55   1      //        for(i = 20, j = 140; i > 12; i --, j --) {
+C51 COMPILER V9.52.0.0   MAIN                                                              11/02/2013 08:15:59 PAGE 2   
+
+  56   1      //            Put_mych(i+k*16, j, 16, 15, computer[k], color, Black);
+  57   1      //            color += 40;
+  58   1      //        }
+  59   1      //        Put_mych(i+k*16, j, 16, 15, computer[k], Green, Black);
+  60   1      //        color = Yellow+1200;
+  61   1      //    }
+  62   1          
+  63   1          //for(k = 0; k < 3; k ++) {
+  64   1      //        for(i = 20, j = 140; i > 12; i --, j --) {
+  65   1      //            
+  66   1      //            for(k = 0; k < 3; k ++) {
+  67   1      //                Put_mych(i+k*16, j, 16, 15, computer[k], color, Black);
+  68   1      //            }
+  69   1      //            color += 40;
+  70   1      //           // Put_mych(i+k*16, j, 16, 15, computer[k], Green, Black); 
+  71   1      //        }
+  72   1      
+  73   1      //       for(k = 0; k < 3; k ++) {
+  74   1      //            Put_mych(i+k*16, j, 16, 15, computer[k], Green, Black);
+  75   1      //       }
+  76   1      //        color = Yellow+1200;
+  77   1      //   // }
+  78   1         
+  79   1      //      for(i = 320; i > 0; i --) {
+  80   1      //        //Put_mych(j, 280, 32, 35, AHUTC[i], color, Blue);
+  81   1      //              //GUI_VLine(120, i, 10, White);
+  82   1      //        //if(color & 0xF) 
+  83   1      //        GUI_HLine(0, i, 240, color);
+  84   1      //        color |= (extra&0x001F);
+  85   1      //        color |= ((extra<<5)&0x07E0);
+  86   1      //        extra += 1;
+  87   1      //              //delayms(20);
+  88   1      //              //GUI_VLine(120, i, i+10, Blue);
+  89   1      //      }
+  90   1          
+  91   1          
+  92   1              
+  93   1      //      for(i = 250; i < 280; i += 2) {
+  94   1      //              GUI_VLine(100, i, i+6, Yellow);
+  95   1      //              delayms(20);
+  96   1      //              GUI_VLine(100, i, i+6, Blue);
+  97   1      //      }
+  98   1              
+  99   1              //srand(1);
+ 100   1              //while(1);
+ 101   1      //      while(1) {
+ 102   1      //              x = rand()%360;
+ 103   1      //              y = rand()%360;
+ 104   1      //              
+ 105   1      //              line_length = rand()%30;
+ 106   1      //              
+ 107   1      //              color_num = rand()%6;
+ 108   1      //              
+ 109   1      //              Put_pixel(120 + line_length*cos((x)*PI/180), 
+ 110   1      //                                              100 + line_length*sin((y)*PI/180), color[color_num]);
+ 111   1      //      }
+ 112   1          while(1);
+ 113   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    238    ----
+C51 COMPILER V9.52.0.0   MAIN                                                              11/02/2013 08:15:59 PAGE 3   
+
+   CONSTANT SIZE    =   1506    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     10    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

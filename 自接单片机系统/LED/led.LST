@@ -1,0 +1,41 @@
+C51 COMPILER V8.02   LED                                                                   04/14/2013 13:42:17 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE LED
+OBJECT MODULE PLACED IN led.OBJ
+COMPILER INVOKED BY: F:\Keil\C51\BIN\C51.EXE led.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg51.h>
+   2          
+   3          typedef unsigned int uint;
+   4          
+   5          void delay(uint time);
+   6          
+   7          void main()
+   8          {
+   9   1                      while (1)         
+  10   1                      {
+  11   2           
+  12   2               }      
+  13   1      }
+  14          
+  15          void delay(uint time)
+  16          {
+  17   1              while(time --);
+  18   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     13    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

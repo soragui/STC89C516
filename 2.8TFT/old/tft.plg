@@ -1,0 +1,23 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+F:\µ¥Æ¬»ú\STC89C516·ÂÕæ\2.8TFT\old\tft.uvproj
+Project File Date:  05/27/2013
+
+<h2>Output:</h2>
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling NBCTFT.C...
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PUT_MYCH?NBCTFT
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_PUTSTRING?NBCTFT
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOW_RGB?NBCTFT
+Program Size: data=91.1 xdata=0 code=7899
+creating hex file from "tft"...
+"tft" - 0 Error(s), 3 Warning(s).

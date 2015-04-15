@@ -1,0 +1,92 @@
+C51 COMPILER V8.02   MAIN                                                                  04/09/2013 12:15:26 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: F:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg51.h>
+   2          #include <intrins.h>
+   3          
+   4          typedef unsigned int  uint;
+   5          typedef unsigned char uchar;
+   6          
+   7          sbit DS1 = P2^0;
+   8          sbit DS2 = P2^1;
+   9          
+  10          uchar code dis[]={0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07, 0x7F,0x6F};
+  11          
+  12          long num = 9232120, disnum;
+  13          
+  14          void delay(uint time);
+  15          uint wei(long num);
+  16          
+  17          int main ()
+  18          {
+  19   1              uint j, k;
+  20   1              uchar disw = 0xFE;
+  21   1              while (1)
+  22   1              {
+  23   2                      disnum = num;
+  24   2                      disw = 0xFE;
+  25   2                      k = wei(num);
+  26   2                      //显示一个数 从个位到最高位
+  27   2                      for (j = 0; j < k; j ++)
+  28   2                      {       
+  29   3                              P0 = _cror_(disw, 1);
+  30   3                              DS1 = 1;
+  31   3                              DS1 = 0;
+  32   3                              
+  33   3                              P0 = 0x00; DS2 = 1; DS2 = 0;    //消影
+  34   3                              
+  35   3                              P0 = dis[disnum%10];
+  36   3                              DS2 = 1;
+  37   3                              DS2 = 0;
+  38   3                              delay(10);
+  39   3                              
+  40   3                              disw = _cror_(disw, 1);
+  41   3                              disnum /= 10;
+  42   3                      }
+  43   2                      num ++;
+  44   2              }
+  45   1      }
+  46          
+  47          void delay(uint time)
+  48          {
+  49   1              uint i = 110;
+  50   1              while(time --)
+  51   1              {
+  52   2                      while(i --);
+  53   2                      i = 110;
+  54   2              }
+  55   1      }
+C51 COMPILER V8.02   MAIN                                                                  04/09/2013 12:15:26 PAGE 2   
+
+  56          
+  57          uint wei(long num)
+  58          {
+  59   1              long temp = 9;
+  60   1              unsigned int numw = 1;
+  61   1              while (num > temp)
+  62   1              {
+  63   2                      numw ++;
+  64   2                      temp = temp * 10 + 9;                           
+  65   2              }
+  66   1              return numw;
+  67   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    306    ----
+   CONSTANT SIZE    =     10    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8      13
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

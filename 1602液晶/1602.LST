@@ -1,0 +1,115 @@
+C51 COMPILER V8.02   1602                                                                  03/26/2013 14:10:09 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE 1602
+OBJECT MODULE PLACED IN 1602.OBJ
+COMPILER INVOKED BY: F:\Keil\C51\BIN\C51.EXE 1602.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg51.h>
+   2          
+   3          typedef unsigned char uint8;
+   4          
+   5          unsigned char code wel[] =   {"<---Wel come--->"};
+   6          unsigned char code linux[] = {"This is LinuxCBT"};
+   7          
+   8          sbit RS = P2^5;
+   9          sbit RW = P2^4;
+  10          sbit EN = P2^3;
+  11          sbit Busy = P0^7;
+  12          
+  13          void init_1602();
+  14          void wait();
+  15          void w_data(uint8 dat);
+  16          void w_string(uint8 addr_start, uint8 *p);
+  17          void w_cmd(uint8 cmd);
+  18          void delay(uint8);
+  19          
+  20          void main()
+  21          {
+  22   1              init_1602();
+  23   1              w_string(0x80, wel);
+  24   1              //w_cmd(0x07);
+  25   1              w_string(0xC0, linux);
+  26   1              while(1);
+  27   1      }
+  28          
+  29          void init_1602()
+  30          {
+  31   1              w_cmd(0x38);
+  32   1              w_cmd(0x0C);
+  33   1              w_cmd(0x06);
+  34   1              w_cmd(0x01);
+  35   1      }
+  36          
+  37          void wait()
+  38          {
+  39   1              P0 = 0xFF;
+  40   1              do
+  41   1              {
+  42   2                      RS = 0;
+  43   2                      RW = 1;
+  44   2                      EN = 0;
+  45   2                      EN = 1;         
+  46   2              }while(Busy == 1);
+  47   1              EN = 0;
+  48   1      }
+  49          
+  50          void w_data(uint8 dat)
+  51          {
+  52   1              wait();
+  53   1              EN = 0;
+  54   1              P0 = dat;
+  55   1              RS = 1;
+C51 COMPILER V8.02   1602                                                                  03/26/2013 14:10:09 PAGE 2   
+
+  56   1              RW = 0;
+  57   1              EN = 1;
+  58   1              EN = 0;
+  59   1      }
+  60          
+  61          void w_string(uint8 addr_start, uint8 *p)
+  62          {
+  63   1              w_cmd(addr_start);
+  64   1              while( *p != '\0')
+  65   1              {
+  66   2                      w_data(*p++);
+  67   2                      delay(120);
+  68   2              }
+  69   1      }
+  70          
+  71          void w_cmd(uint8 cmd)
+  72          {
+  73   1              wait();
+  74   1              EN = 0;
+  75   1              P0 = cmd;
+  76   1              RS = 0;
+  77   1              RW = 0;
+  78   1              EN = 1;
+  79   1              EN = 0; 
+  80   1      }
+  81          
+  82          void delay(uint8 time)
+  83          {
+  84   1              unsigned int i;
+  85   1              while (time --)
+  86   1              {
+  87   2                      i = 110;
+  88   2                      while (i --);
+  89   2              }
+  90   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    164    ----
+   CONSTANT SIZE    =     34    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

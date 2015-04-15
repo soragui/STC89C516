@@ -1,0 +1,114 @@
+C51 COMPILER V9.52.0.0   MAIN                                                              11/08/2013 21:26:16 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: E:\C51Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include "initLCD.h"
+   2          #include "pen.h"
+   3          #include <math.h>
+   4          
+   5          void main()
+   6          {  
+   7   1          unsigned int x1, x2;
+   8   1          unsigned int y1, y2;
+   9   1          unsigned int color = White;
+  10   1          
+  11   1          TFT_Initial();
+  12   1          CLR_Screen(Black); 
+  13   1          
+  14   1          for(x1 = 0; x1 < 40; x1 ++)
+  15   1              for(y1 = 0; y1 < 40; y1 ++)
+  16   1                  Put_pixel(x1, y1, Blue);
+  17   1          
+  18   1          for(x1 = 0; x1 < 40; x1 ++)
+  19   1              for(y1 = 40; y1 < 80; y1 ++)
+  20   1                  Put_pixel(x1, y1, White);
+  21   1          
+  22   1          for(x1 = 0; x1 < 40; x1 ++)
+  23   1              for(y1 = 80; y1 < 120; y1 ++)
+  24   1                  Put_pixel(x1, y1, Red);
+  25   1          
+  26   1          for(x1 = 0; x1 < 40; x1 ++)
+  27   1              for(y1 = 120; y1 < 160; y1 ++)
+  28   1                  Put_pixel(x1, y1, Magenta);
+  29   1                  
+  30   1          for(x1 = 0; x1 < 40; x1 ++)
+  31   1              for(y1 = 160; y1 < 200; y1 ++)
+  32   1                  Put_pixel(x1, y1, Green);
+  33   1          
+  34   1          for(x1 = 0; x1 < 40; x1 ++)
+  35   1              for(y1 = 200; y1 < 240; y1 ++)
+  36   1                  Put_pixel(x1, y1, Cyan);
+  37   1          
+  38   1          for(x1 = 0; x1 < 40; x1 ++)
+  39   1              for(y1 = 240; y1 < 280; y1 ++)
+  40   1                  Put_pixel(x1, y1, Yellow);
+  41   1                  
+  42   1          for(y1 = 0; y1<320; y1 ++) {
+  43   2              Put_pixel(42, y1, 0x0FF2);
+  44   2              Put_pixel(43, y1, 0xD621);
+  45   2          }
+  46   1           
+  47   1          while(1) {
+  48   2              if(!Penirq) {
+  49   3                  x1 = get_X();
+  50   3                  x2 = get_X();
+  51   3                  
+  52   3                  y1 = get_Y();
+  53   3                  y2 = get_Y();
+  54   3                  
+  55   3                  if(abs(x1-x2)<2 && abs(y1-y2)<2) {
+C51 COMPILER V9.52.0.0   MAIN                                                              11/08/2013 21:26:16 PAGE 2   
+
+  56   4                      x1 = (x1+x2)/2;
+  57   4                      y1 = (y1+y2)/2;
+  58   4                      
+  59   4                      y1 = 320 - y1;
+  60   4                      
+  61   4                      if(x1 < 41) {
+  62   5                          if(y1<41)
+  63   5                              color = Blue;
+  64   5                          else if(y1<81)
+  65   5                              color = White;
+  66   5                          else if(y1<121)
+  67   5                              color = Red;
+  68   5                          else if(y1<161)
+  69   5                              color = Magenta;
+  70   5                          else if(y1<201)
+  71   5                              color = Green;
+  72   5                          else if(y1<241)
+  73   5                              color = Cyan;
+  74   5                          else if(y1<281)
+  75   5                              color = Yellow;
+  76   5                          else {
+  77   6                              LCD_SetPos(44, 240, 0, 320); 
+  78   6                              for (y1 = 0; y1 < 320; y1 ++) {
+  79   7                                  for (x1 = 44; x1 < 240; x1 ++)
+  80   7                                      Write_Data_U16(Black);
+  81   7                              }
+  82   6                          }  
+  83   5                      } else {
+  84   5                          Put_pixel(x1, y1, color);
+  85   5                      }
+  86   4                  }
+  87   3              }
+  88   2          }
+  89   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    854    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      10
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,4 @@
+"main.obj",
+"timer.obj" 
+TO "timer" 
+RAMSIZE(256) 

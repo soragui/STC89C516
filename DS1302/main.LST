@@ -1,0 +1,36 @@
+C51 COMPILER V8.05a   MAIN                                                                 06/06/2013 16:52:55 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: D:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include "gettime.h"
+   3          #include "1602.h"
+   4          
+   5          void main()
+*** ERROR C132 IN LINE 5 OF MAIN.C: '_wdata': not in formal parameter list
+*** ERROR C141 IN LINE 5 OF MAIN.C: syntax error near 'void'
+   6          {
+*** ERROR C132 IN LINE 6 OF MAIN.C: 'main': not in formal parameter list
+*** ERROR C141 IN LINE 6 OF MAIN.C: syntax error near '{'
+   7             InitLCD();
+*** ERROR C132 IN LINE 7 OF MAIN.C: 'InitLCD': not in formal parameter list
+   8             while(1)
+*** ERROR C141 IN LINE 8 OF MAIN.C: syntax error near 'while'
+*** ERROR C141 IN LINE 8 OF MAIN.C: syntax error near '1'
+   9             {
+  10                  GetTime();
+*** ERROR C231 IN LINE 10 OF MAIN.C: 'GetTime': redefinition
+  11                  xian1();
+*** ERROR C231 IN LINE 11 OF MAIN.C: 'xian1': redefinition
+  12                  xian2();
+*** ERROR C231 IN LINE 12 OF MAIN.C: 'xian2': redefinition
+  13             }
+*** ERROR C141 IN LINE 13 OF MAIN.C: syntax error near '}'
+  14          }
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  11 ERROR(S)

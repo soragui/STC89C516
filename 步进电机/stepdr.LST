@@ -1,0 +1,94 @@
+C51 COMPILER V8.02   STEPDR                                                                03/13/2013 14:31:57 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE STEPDR
+OBJECT MODULE PLACED IN stepdr.OBJ
+COMPILER INVOKED BY: F:\Keil\C51\BIN\C51.EXE stepdr.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg51.h>
+   2          
+   3          typedef unsigned char uchar;
+   4          
+   5          sbit A1 = P1^4;
+   6          sbit B1 = P1^3;
+   7          sbit C1 = P1^2;
+   8          sbit D1 = P1^1;   
+   9          
+  10          uchar speed;
+  11          
+  12          void delay_us (uchar t);
+  13          void delay_ms (uchar t);
+  14          //void drive ();
+  15          void CW ();
+  16          void ACW ();
+  17          
+  18          void main() {  
+  19   1              speed = 1;
+  20   1              while (1)
+  21   1              {       
+  22   2                              CW ();
+  23   2              }
+  24   1      }
+  25          
+  26          void delay_us (uchar t) 
+  27          {
+  28   1              while (t --);   
+  29   1      }
+  30          
+  31          void delay_ms (uchar t)
+  32          {
+  33   1               while (t --)
+  34   1               {
+  35   2                      delay_us (245);
+  36   2                      delay_us (245);
+  37   2               }
+  38   1      }
+  39          
+  40          void CW ()
+  41          {
+  42   1              P1 = 0x10; 
+  43   1              delay_ms(speed);
+  44   1              
+  45   1              P1 = 0x08;
+  46   1              delay_ms(speed);
+  47   1              
+  48   1              P1 = 0x04; 
+  49   1              delay_ms(speed);
+  50   1              
+  51   1              P1 = 0x02; 
+  52   1              delay_ms(speed);                
+  53   1      }
+  54          
+  55          void ACW ()
+C51 COMPILER V8.02   STEPDR                                                                03/13/2013 14:31:57 PAGE 2   
+
+  56          {
+  57   1              P1 = 0x02; 
+  58   1              delay_ms(speed);
+  59   1              
+  60   1              P1 = 0x04; 
+  61   1              delay_ms(speed);
+  62   1              
+  63   1              P1 = 0x08;
+  64   1              delay_ms(speed);
+  65   1              
+  66   1              P1 = 0x10; 
+  67   1              delay_ms(speed);        
+  68   1      }
+  69          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     90    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

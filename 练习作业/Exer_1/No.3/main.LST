@@ -1,0 +1,59 @@
+C51 COMPILER V9.52.0.0   MAIN                                                              09/21/2013 16:48:01 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: E:\C51Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include "timer.h"
+   3          
+   4          sbit button    = P1^0;
+   5          sbit delay_led = P1^1;
+   6          
+   7          uint time_count = 0;
+   8          
+   9          void main()
+  10          {       
+  11   1              init_timer();
+  12   1              
+  13   1              while(1) {
+  14   2                      while(!button) {
+  15   3                              delayms(8);
+  16   3                              if(!button) {
+  17   4                                      TR1 = 1;
+  18   4                                      delay_led = 1;
+  19   4                              }
+  20   3                      }
+  21   2              }
+  22   1              //return 0;
+  23   1      }
+  24          
+  25          
+  26          void led_light() interrupt 3
+  27          {
+  28   1              TH1  = 0xEC;
+  29   1              TL1  = 0x77;
+  30   1              
+  31   1              if(++ time_count == 1980) {
+  32   2                      time_count = 0;
+  33   2                      delay_led = 0;
+  34   2                  TR1 = 0;
+  35   2              }
+  36   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     75    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

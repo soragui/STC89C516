@@ -1,0 +1,86 @@
+C51 COMPILER V8.05a   MAIN                                                                 05/31/2013 15:49:40 PAGE 1   
+
+
+C51 COMPILER V8.05a, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: D:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include "init.h"
+   3          
+   4          #define White          0xFFFF   //LCD color
+   5          #define Black          0x0000
+   6          #define Blue           0x001F
+   7          #define Blue2          0x051F
+   8          #define Red            0xF800
+   9          #define Magenta        0xF81F
+  10          #define Green          0x07E0
+  11          #define Cyan           0x7FFF
+  12          #define Yellow         0xFFE0
+  13          
+  14          uint Device_code;
+  15          uint count = 0, num = 0;
+  16          uint color = 0x0000;
+  17          
+  18          void main()
+  19          {
+  20   1              Device_code = 0x9328;
+  21   1              init_LCD();
+  22   1              init_Timer();
+  23   1              CLR_Screen(color);
+  24   1              //for(num = 0; num < 10; num ++)
+  25   1              //{
+  26   1                      while(1)
+  27   1                      {
+  28   2                                      
+  29   2                      }
+  30   1                      //delayms(100);
+  31   1              //}     
+  32   1      }
+  33          
+  34          void set() interrupt 3
+  35          {
+  36   1              //TF0 = 0;
+  37   1              TH1 = 0xEC;
+  38   1              TL1 = 0x77;
+  39   1      
+  40   1              CLR_Screen(color);
+  41   1                      color += 50;
+  42   1                      if(color > 65536)
+  43   1                      {
+  44   2                              color = 0;
+  45   2                      }
+  46   1              
+  47   1              /*count ++;
+  48   1              if(count == 30)    //count «Â¡„ 
+  49   1              {
+  50   1                      count = 0;
+  51   1                      /*
+  52   1                      Put_num(40, 60, num, color, 0x00F2);
+  53   1                      num ++;
+  54   1                      if(num == 10)
+  55   1                      {
+C51 COMPILER V8.05a   MAIN                                                                 05/31/2013 15:49:40 PAGE 2   
+
+  56   1                              num = 0;
+  57   1                      }
+  58   1                      
+  59   1                      
+  60   1              }*/
+  61   1      } 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    124    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

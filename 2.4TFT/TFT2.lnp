@@ -1,0 +1,5 @@
+"STARTUP.obj",
+"init.obj",
+"main.obj" 
+TO "TFT2.4" 
+RAMSIZE(256) 

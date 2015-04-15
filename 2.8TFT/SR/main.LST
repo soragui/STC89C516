@@ -1,0 +1,61 @@
+C51 COMPILER V9.52.0.0   MAIN                                                              11/06/2013 12:00:04 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: E:\C51Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include "initLCD.h"
+   3          //#include "kkk.h"
+   4          #include "bmp.h"
+   5          
+   6          #define White          0xFFFF   //LCD color
+   7          #define Black          0x0000
+   8          #define Blue           0x001F
+   9          #define Blue2          0x051F
+  10          #define Red            0xF800
+  11          #define Magenta        0xF81F
+  12          #define Green          0x07E0
+  13          #define Cyan           0x7FFF
+  14          #define Yellow         0xFFE0
+  15          
+  16          
+  17          int main()
+  18          {
+  19   1              uint x1, y1;
+  20   1              TFT_Initial();
+  21   1              CLR_Screen(Blue);
+  22   1              
+  23   1              //GUI_HLine(12, 34, 200, 0x09F0);
+  24   1              //Put_pixel(12, 34, 0x09F0);
+  25   1              GUI_DisPicture(100, 180, 59, 60, pic);
+  26   1              while(1) ;
+  27   1      //      {
+  28   1      //              for(x1 = 10, y1 = 20; x1 < 120; x1 ++, y1++)
+  29   1      //              {
+  30   1      //                              GUI_DisPicture(x1, y1, 80, 31, pic);
+  31   1      //                              delayms(800);
+  32   1      //                              Set_Color(x1, y1, 80, 33, Black);
+  33   1      //                              //delayms(180);
+  34   1      //              }       
+  35   1      //      }
+  36   1      }
+*** WARNING C280 IN LINE 19 OF main.c: 'x1': unreferenced local variable
+*** WARNING C280 IN LINE 19 OF main.c: 'y1': unreferenced local variable
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     38    ----
+   CONSTANT SIZE    =   7088    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)
